@@ -1,0 +1,78 @@
+<?php
+class PedidoDAO{
+	private $idPedido;
+	private $fecha;
+	private $hora;
+	private $descripcion;
+	private $precio;
+	private $cocinando;
+	private $cajero;
+
+	function PedidoDAO($pIdPedido = "", $pFecha = "", $pHora = "", $pDescripcion = "", $pPrecio = "", $pCocinando = "", $pCajero = ""){
+		$this -> idPedido = $pIdPedido;
+		$this -> fecha = $pFecha;
+		$this -> hora = $pHora;
+		$this -> descripcion = $pDescripcion;
+		$this -> precio = $pPrecio;
+		$this -> cocinando = $pCocinando;
+		$this -> cajero = $pCajero;
+	}
+
+	function insert(){
+		return "insert into Pedido(fecha, hora, descripcion, precio, cocinando, cajero_idCajero)
+				values('" . $this -> fecha . "', '" . $this -> hora . "', '" . $this -> descripcion . "', '" . $this -> precio . "', '" . $this -> cocinando . "', '" . $this -> cajero . "')";
+	}
+
+	function update(){
+		return "update Pedido set 
+				fecha = '" . $this -> fecha . "',
+				hora = '" . $this -> hora . "',
+				descripcion = '" . $this -> descripcion . "',
+				precio = '" . $this -> precio . "',
+				cocinando = '" . $this -> cocinando . "',
+				cajero_idCajero = '" . $this -> cajero . "'	
+				where idPedido = '" . $this -> idPedido . "'";
+	}
+
+	function select() {
+		return "select idPedido, fecha, hora, descripcion, precio, cocinando, cajero_idCajero
+				from Pedido
+				where idPedido = '" . $this -> idPedido . "'";
+	}
+
+	function selectAll() {
+		return "select idPedido, fecha, hora, descripcion, precio, cocinando, cajero_idCajero
+				from Pedido";
+	}
+
+	function selectAllByCajero() {
+		return "select idPedido, fecha, hora, descripcion, precio, cocinando, cajero_idCajero
+				from Pedido
+				where cajero_idCajero = '" . $this -> cajero . "'";
+	}
+
+	function selectAllOrder($orden, $dir){
+		return "select idPedido, fecha, hora, descripcion, precio, cocinando, cajero_idCajero
+				from Pedido
+				order by " . $orden . " " . $dir;
+	}
+
+	function selectAllByCajeroOrder($orden, $dir) {
+		return "select idPedido, fecha, hora, descripcion, precio, cocinando, cajero_idCajero
+				from Pedido
+				where cajero_idCajero = '" . $this -> cajero . "'
+				order by " . $orden . " " . $dir;
+	}
+
+	function search($search) {
+		return "select idPedido, fecha, hora, descripcion, precio, cocinando, cajero_idCajero
+				from Pedido
+				where fecha like '%" . $search . "%' or hora like '%" . $search . "%' or descripcion like '%" . $search . "%' or precio like '%" . $search . "%' or cocinando like '%" . $search . "%'";
+	}
+
+	function delete(){
+		return "delete from Pedido
+				where idPedido = '" . $this -> idPedido . "'";
+	}
+}
+?>
