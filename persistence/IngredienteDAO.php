@@ -52,5 +52,9 @@ class IngredienteDAO{
 	function checkIngrediente(){
 		return "select count(*) from Ingrediente where nombre= '".$this->nombre."'";
 	}
+	function nombre(){
+		return "select idIngrediente, nombre, precio
+				from Ingrediente";
+	}
 }
 ?>

@@ -110,5 +110,17 @@ class Ingrediente {
 		$this -> connection -> close();
 		return $result[0];
 	}
+	function nombre(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> ingredienteDAO -> selectAll());
+		$ingredientes = array();
+		while ($result = $this -> connection -> fetchRow()){
+			array_push($ingredientes, new Ingrediente($result[0], $result[1], $result[2]));
+		}
+		$this -> connection -> close();
+		return $ingredientes;
+
+	}
+	
 }
 ?>
