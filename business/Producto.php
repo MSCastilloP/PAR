@@ -125,5 +125,14 @@ class Producto {
 		$this -> connection -> close();
 		return $success;
 	}
+	function encontrar(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> productoDAO -> encontrar());
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		$this -> idProducto = $result[0];
+		
+
+	}
 }
 ?>

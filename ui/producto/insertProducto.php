@@ -13,6 +13,10 @@ if (isset($_POST['descripcion'])) {
     $descripcion = $_POST['descripcion'];
 }
 
+
+
+
+
 $error = 0;
 $foto = "";
 if (isset($_POST['image'])) {
@@ -26,6 +30,7 @@ if (isset($_POST['insert'])) {
     if($type!="image/png" && $type!="image/jpg" && $type!="image/jpeg"){
         $error=1;
     } else {
+
         $serverPath = "image/" . time() . ".png";
 
         copy($localPath, $serverPath);
@@ -61,6 +66,17 @@ if (isset($_POST['insert'])) {
             $logCajero = new LogCajero("", "Crear Producto", "Nombre: " . $nombre . "; Precio: " . $precio . "; Descripcion: " . $descripcion . "; Foto: " . $foto, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
             $logCajero->insert();
         }
+
+         $newProducto->encontrar();
+			        if(!empty($_POST['ingredient'])){
+
+			// Ciclo para mostrar las casillas checked checkbox.
+			foreach($_POST['ingredient'] as $selected){
+				$newIngrePro= new IngrePro ("",$selected,$newProducto->getIdProducto());
+				$newIngrePro->insert();
+			//echo $selected."</br>";// Imprime resultados
+			}
+			}
         $processed = true;
     }
 }
@@ -111,8 +127,9 @@ if (isset($_POST['insert'])) {
         $ingredientes = $ingrediente->nombre();
 
         foreach ($ingredientes as $currentIngrediente) {
-            echo "<input type= checkbox name=cb-autos value=" . $currentIngrediente->getIdIngrediente() . ">  " . $currentIngrediente->getNombre() . "<br>";
+            echo "<input type= checkbox name= ingredient[] value=" . $currentIngrediente->getIdIngrediente() . ">  " . $currentIngrediente->getNombre() . "<br>";
         }
+
         ?>
 								<br>
 

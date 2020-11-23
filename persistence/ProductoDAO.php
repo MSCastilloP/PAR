@@ -55,5 +55,10 @@ class ProductoDAO{
 		return "delete from Producto
 				where idProducto = '" . $this -> idProducto . "'";
 	}
+	function encontrar() {
+		return "select idProducto
+				from Producto
+				where nombre = '" . $this -> nombre . "' and descripcion= '".$this -> descripcion."'";
+	}
 }
 ?>

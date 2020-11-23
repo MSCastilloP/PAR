@@ -113,12 +113,12 @@ if(isset($_POST['insert'])){
 						</div>
 						<div class="form-group">
 							<label>Rol*</label>
-							<input type="text" class="form-control" name="rol" value="<?php echo $rol ?>" required />
+							<input type="text" class="form-control" name="rol" value=1 required disabled />
 						</div>
 						<div class="form-group">
 							<label>State*</label>
 						<div class="form-check">
-							<input type="radio" class="form-check-input" name="state" value="1" checked />
+							<input type="radio" class="form-check-input" name="state" value="1" checked  />
 							<label class="form-check-label">Habilitado</label>
 						</div>
 						<div class="form-check form-check-inline">
