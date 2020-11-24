@@ -40,10 +40,7 @@
 						if($_GET['entity'] == 'Administrador') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/cajero/selectAllCajero.php") . "&idCajero=" . $currentCajero -> getIdCajero() . "&action=delete' onclick='return confirm(\"Confirm to delete Cajero: " . $currentCajero -> getNombre() . " " . $currentCajero -> getApellido() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Cajero' ></span></a> ";
 						}
-						echo "<a href='index.php?pid=" . base64_encode("ui/pedido/selectAllPedidoByCajero.php") . "&idCajero=" . $currentCajero -> getIdCajero() . "'><span class='fas fa-search-plus' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Consultar Pedido' ></span></a> ";
-						if($_GET['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/pedido/insertPedido.php") . "&idCajero=" . $currentCajero -> getIdCajero() . "'><span class='fas fa-pen' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Crear Pedido' ></span></a> ";
-						}
+						
 						echo "</td>";
 			echo "</tr>";
 			$counter++;

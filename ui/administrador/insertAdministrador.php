@@ -51,18 +51,7 @@ if(isset($_POST['insert'])){
 		$logAdministrador = new LogAdministrador("","Crear Administrador", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Clave: " . $clave . "; Telefono: " . $telefono . "; Celular: " . $celular . "; Estado: " . $estado, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 		$logAdministrador -> insert();
 	}
-	else if($_SESSION['entity'] == 'Domiciliario'){
-		$logDomiciliario = new LogDomiciliario("","Crear Administrador", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Clave: " . $clave . "; Telefono: " . $telefono . "; Celular: " . $celular . "; Estado: " . $estado, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logDomiciliario -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cliente'){
-		$logCliente = new LogCliente("","Crear Administrador", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Clave: " . $clave . "; Telefono: " . $telefono . "; Celular: " . $celular . "; Estado: " . $estado, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCliente -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cajero'){
-		$logCajero = new LogCajero("","Crear Administrador", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Clave: " . $clave . "; Telefono: " . $telefono . "; Celular: " . $celular . "; Estado: " . $estado, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCajero -> insert();
-	}
+	
 	$processed=true;
 }
 ?>

@@ -147,7 +147,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						echo "<td>" . $currentProducto -> getNombre() . "</td>";
 						echo "<td>" . $currentProducto -> getPrecio() . "</td>";
 						echo "<td>" . $currentProducto -> getDescripcion() . "</td>";
-						echo "<td>" . $currentProducto -> getFoto() . "</td>";
+						echo "<td> <img  src=".$currentProducto -> getFoto()." height='80px' /> </td>";
 						echo "<td class='text-right' nowrap>";
 						if($_SESSION['entity'] == 'Administrador') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/producto/updateProducto.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Producto' ></span></a> ";
@@ -155,18 +155,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						if($_SESSION['entity'] == 'Administrador') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/producto/selectAllProducto.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "&action=delete' onclick='return confirm(\"Confirma eliminar Producto: " . $currentProducto -> getNombre() . " " . $currentProducto -> getPrecio() . " " . $currentProducto -> getDescripcion() . " " . $currentProducto -> getFoto() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Producto' ></span></a> ";
 						}
-						echo "<a href='index.php?pid=" . base64_encode("ui/ingrePro/selectAllIngreProByProducto.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "'><span class='fas fa-search-plus' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Consultar Ingre Pro' ></span></a> ";
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/ingrePro/insertIngrePro.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "'><span class='fas fa-pen' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Crear Ingre Pro' ></span></a> ";
-						}
-						echo "<a href='index.php?pid=" . base64_encode("ui/proDom/selectAllProDomByProducto.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "'><span class='fas fa-search-plus' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Consultar Pro Dom' ></span></a> ";
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/proDom/insertProDom.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "'><span class='fas fa-pen' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Crear Pro Dom' ></span></a> ";
-						}
-						echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/selectAllPedidoProByProducto.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "'><span class='fas fa-search-plus' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Consultar Pedido Pro' ></span></a> ";
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/insertPedidoPro.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "'><span class='fas fa-pen' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Crear Pedido Pro' ></span></a> ";
-						}
+						
 						echo "</td>";
 						echo "</tr>";
 						$counter++;

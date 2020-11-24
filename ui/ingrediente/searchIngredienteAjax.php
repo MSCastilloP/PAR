@@ -28,14 +28,7 @@
 						if($_GET['entity'] == 'Administrador') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/ingrediente/selectAllIngrediente.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "&action=delete' onclick='return confirm(\"Confirm to delete Ingrediente: " . $currentIngrediente -> getNombre() . " " . $currentIngrediente -> getPrecio() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Ingrediente' ></span></a> ";
 						}
-						echo "<a href='index.php?pid=" . base64_encode("ui/ingrePro/selectAllIngreProByIngrediente.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "'><span class='fas fa-search-plus' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Consultar Ingre Pro' ></span></a> ";
-						if($_GET['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/ingrePro/insertIngrePro.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "'><span class='fas fa-pen' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Crear Ingre Pro' ></span></a> ";
-						}
-						echo "<a href='index.php?pid=" . base64_encode("ui/inventario/selectAllInventarioByIngrediente.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "'><span class='fas fa-search-plus' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Consultar Inventario' ></span></a> ";
-						if($_GET['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/inventario/insertInventario.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "'><span class='fas fa-pen' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Crear Inventario' ></span></a> ";
-						}
+						
 						echo "</td>";
 			echo "</tr>";
 			$counter++;

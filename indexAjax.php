@@ -16,6 +16,7 @@ require("business/Cajero.php");
 require("business/Pedido.php");
 require("business/PedidoPro.php");
 require("business/Cocinero.php");
+require("business/Proveedor.php");
 $pid=base64_decode($_GET['pid']);
 include($pid);
 ?>

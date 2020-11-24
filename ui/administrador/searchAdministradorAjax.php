@@ -31,10 +31,7 @@
 						echo "<td>" . ($currentAdministrador -> getEstado()==1?"Habilitado":"Deshabilitado") . "</td>";
 						echo "<td class='text-right' nowrap>";
 						echo "<a href='modalAdministrador.php?idAdministrador=" . $currentAdministrador -> getIdAdministrador() . "'  data-toggle='modal' data-target='#modalAdministrador' ><span class='fas fa-eye' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Ver mas información' ></span></a> ";
-						if($_GET['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/administrador/updateAdministrador.php") . "&idAdministrador=" . $currentAdministrador -> getIdAdministrador() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Administrador' ></span></a> ";
-							echo "<a href='index.php?pid=" . base64_encode("ui/administrador/updateFotoAdministrador.php") . "&idAdministrador=" . $currentAdministrador -> getIdAdministrador() . "&attribute=foto'><span class='fas fa-camera' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar foto'></span></a> ";
-						}
+					
 						echo "</td>";
 			echo "</tr>";
 			$counter++;

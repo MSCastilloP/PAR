@@ -40,10 +40,7 @@
 						if($_GET['entity'] == 'Administrador') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/domiciliario/selectAllDomiciliario.php") . "&idDomiciliario=" . $currentDomiciliario -> getIdDomiciliario() . "&action=delete' onclick='return confirm(\"Confirm to delete Domiciliario: " . $currentDomiciliario -> getNombre() . " " . $currentDomiciliario -> getApellido() . " " . $currentDomiciliario -> getTelefono() . " " . $currentDomiciliario -> getSalario() . " " . $currentDomiciliario -> getRol() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Domiciliario' ></span></a> ";
 						}
-						echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/selectAllDomicilioByDomiciliario.php") . "&idDomiciliario=" . $currentDomiciliario -> getIdDomiciliario() . "'><span class='fas fa-search-plus' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Consultar Domicilio' ></span></a> ";
-						if($_GET['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/insertDomicilio.php") . "&idDomiciliario=" . $currentDomiciliario -> getIdDomiciliario() . "'><span class='fas fa-pen' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Crear Domicilio' ></span></a> ";
-						}
+					
 						echo "</td>";
 			echo "</tr>";
 			$counter++;

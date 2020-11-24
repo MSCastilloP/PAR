@@ -17,6 +17,7 @@ require("business/Cajero.php");
 require("business/Pedido.php");
 require("business/PedidoPro.php");
 require("business/Cocinero.php");
+require("business/Proveedor.php");
 ini_set("display_errors","1");
 date_default_timezone_set("America/Bogota");
 $webPagesNoAuthentication = array(
@@ -109,6 +110,10 @@ $webPages = array(
 	'ui/cocinero/updateCocinero.php',
 	'ui/cocinero/selectAllCocinero.php',
 	'ui/cocinero/searchCocinero.php',
+	'ui/proveedor/insertProveedor.php',
+	'ui/proveedor/updateProveedor.php',
+	'ui/proveedor/selectAllProveedor.php',
+	'ui/proveedor/searchProveedor.php',
 );
 if(isset($_GET['logOut'])){
 	$_SESSION['id']="";

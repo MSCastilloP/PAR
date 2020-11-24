@@ -180,17 +180,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						echo "<td>" . ($currentCliente -> getState()==1?"Habilitado":"Deshabilitado") . "</td>";
 						echo "<td class='text-right' nowrap>";
 						echo "<a href='modalCliente.php?idCliente=" . $currentCliente -> getIdCliente() . "'  data-toggle='modal' data-target='#modalCliente' ><span class='fas fa-eye' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Ver mas información' ></span></a> ";
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/cliente/updateCliente.php") . "&idCliente=" . $currentCliente -> getIdCliente() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Cliente' ></span></a> ";
-							echo "<a href='index.php?pid=" . base64_encode("ui/cliente/updateFotoCliente.php") . "&idCliente=" . $currentCliente -> getIdCliente() . "&attribute=foto'><span class='fas fa-camera' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar foto'></span></a> ";
-						}
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/cliente/selectAllCliente.php") . "&idCliente=" . $currentCliente -> getIdCliente() . "&action=delete' onclick='return confirm(\"Confirma eliminar Cliente: " . $currentCliente -> getNombre() . " " . $currentCliente -> getApellido() . " " . $currentCliente -> getTelefono() . " " . $currentCliente -> getDireccion() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Cliente' ></span></a> ";
-						}
-						echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/selectAllDomicilioByCliente.php") . "&idCliente=" . $currentCliente -> getIdCliente() . "'><span class='fas fa-search-plus' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Consultar Domicilio' ></span></a> ";
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/insertDomicilio.php") . "&idCliente=" . $currentCliente -> getIdCliente() . "'><span class='fas fa-pen' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Crear Domicilio' ></span></a> ";
-						}
+						
 						echo "</td>";
 						echo "</tr>";
 						$counter++;

@@ -186,7 +186,13 @@ CREATE TABLE Cocinero (
 	salario varchar(50) NOT NULL,
 	PRIMARY KEY (idCocinero)
 );
-
+CREATE TABLE Proveedor (
+	idProveedor int(11) NOT NULL AUTO_INCREMENT,
+	nombreEmpresa varchar(45) NOT NULL,
+	telefono varchar(45) DEFAULT NULL,
+	descripcion varchar(600) DEFAULT NULL,
+	PRIMARY KEY (idProveedor)
+);
 ALTER TABLE LogAdministrador
  	ADD FOREIGN KEY (administrador_idAdministrador) REFERENCES Administrador (idAdministrador); 
 
