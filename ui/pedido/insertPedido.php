@@ -68,63 +68,49 @@ if(isset($_POST['insert'])){
 	$processed=true;
 }
 ?>
-<div class="container">
-	<div class="row">
-		<div class="col-md-2"></div>
-		<div class="col-md-8">
+
+<div>
+	<div class="row ">
+		<div class="col-md-8" name="Crear Pedido">
 			<div class="card">
-				<div class="card-header">
+				<div class="col-md-4 container">
 					<h4 class="card-title">Crear Pedido</h4>
 				</div>
 				<div class="card-body">
-					<?php if($processed){ ?>
-					<div class="alert alert-success" >Datos Ingresados
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-2"></div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" id="search" placeholder="Buscar Producto" autocomplete="off" />
 					</div>
-					<?php } ?>
-					<form id="form" method="post" action="index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>" class="bootstrap-form needs-validation"   >
-						<div class="form-group">
-							<label>Fecha*</label>
-							<input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $fecha ?>" autocomplete="off" />
-						</div>
-						<div class="form-group">
-							<label>Hora*</label>
-							<input type="date" class="form-control" name="hora" id="hora" value="<?php echo $hora ?>" autocomplete="off" />
-						</div>
-						<div class="form-group">
-							<label>Descripcion*</label>
-							<input type="text" class="form-control" name="descripcion" value="<?php echo $descripcion ?>" required />
-						</div>
-						<div class="form-group">
-							<label>Precio*</label>
-							<input type="text" class="form-control" name="precio" value="<?php echo $precio ?>" required />
-						</div>
-						<div class="form-group">
-							<label>Cocinando*</label>
-							<input type="text" class="form-control" name="cocinando" value="<?php echo $cocinando ?>" required />
-						</div>
-					<div class="form-group">
-						<label>Cajero*</label>
-						<select class="form-control" name="cajero">
-							<?php
-							$objCajero = new Cajero();
-							$cajeros = $objCajero -> selectAllOrder("nombre", "asc");
-							foreach($cajeros as $currentCajero){
-								echo "<option value='" . $currentCajero -> getIdCajero() . "'";
-								if($currentCajero -> getIdCajero() == $cajero){
-									echo " selected";
-								}
-								echo ">" . $currentCajero -> getNombre() . " " . $currentCajero -> getApellido() . "</option>";
-							}
-							?>
-						</select>
-					</div>
-						<button type="submit" class="btn btn-info" name="insert">Crear</button>
-					</form>
 				</div>
+			</div>
+			<div id="searchResult"></div>
+		</div>
+
+			</div>
+		</div>
+		<div class="col-md-4" name="Crear Factura">
+			<div class="card">
+				<div class="col-md-4 container ">
+					<h4 class="card-title">Crear Factura</h4>
+				</div>
+			<input size="1" class="quantity text-center border-1 border-dark" min="1" id="quantityDetail" name="quantityDetail" type="text" onkeypress="ValidNum(event);">
+				
 			</div>
 		</div>
 	</div>
+
 </div>
+<script>
+$(document).ready(function(){
+	$("#search").keyup(function(){
+		if($("#search").val().length > 2){
+			var search = $("#search").val().replace(" ", "%20");
+			var path = "indexAjax.php?pid=<?php echo base64_encode("ui/producto/searchProductoPedido.php"); ?>&search="+search+"&entity=<?php echo $_SESSION['entity'] ?>";
+			$("#searchResult").load(path);
+		}
+	});
+});
+</script>
+	
