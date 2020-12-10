@@ -179,5 +179,16 @@ class IngrePro {
 		$this -> connection -> close();
 		return $success;
 	}
+	function traerIngre($id){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> ingreProDAO -> traerIngre($id));
+		$ingredientes = array();
+		while ($result = $this -> connection -> fetchRow()){
+		
+			array_push($ingredientes,new Ingrediente($result[0],$result[1]));
+		}
+		$this -> connection -> close();
+		return $ingredientes;
+	}
 }
 ?>

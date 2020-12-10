@@ -127,7 +127,7 @@ if (isset($_POST['insert'])) {
         $ingredientes = $ingrediente->nombre();
 
         foreach ($ingredientes as $currentIngrediente) {
-            echo "<input type= checkbox name= ingredient[] value=" . $currentIngrediente->getIdIngrediente() . ">  " . $currentIngrediente->getNombre() . "<br>";
+            echo "<input type= checkbox name= ingredient[] value=" . $currentIngrediente->getIdIngrediente() . ">  " .$currentIngrediente->getNombre() . "<br>";
         }
 
         ?>

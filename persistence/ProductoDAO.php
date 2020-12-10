@@ -60,5 +60,11 @@ class ProductoDAO{
 				from Producto
 				where nombre = '" . $this -> nombre . "' and descripcion= '".$this -> descripcion."'";
 	}
+	function traer($id) {
+		return "select nombre
+				from Producto
+				where idProducto = '" . $id . "'";
+	}
+
 }
 ?>

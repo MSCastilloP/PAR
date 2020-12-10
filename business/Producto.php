@@ -134,5 +134,15 @@ class Producto {
 		
 
 	}
+	function traer($id){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> productoDAO -> traer($id));
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		$this -> nombre = $result[0];
+		
+
+	}
+
 }
 ?>

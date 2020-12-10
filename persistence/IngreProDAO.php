@@ -69,5 +69,9 @@ class IngreProDAO{
 		return "delete from IngrePro
 				where idIngrePro = '" . $this -> idIngrePro . "'";
 	}
+	function traerIngre($id){
+		return "select idIngrediente,nombre 
+		from ingrediente, ingrepro where producto_idProducto= '".$id."' and ingrediente_idIngrediente=idIngrediente";
+	}
 }
 ?>
