@@ -1,4 +1,27 @@
 <?php
+if( $_GET["idp"]!=0){
+$idp = $_GET["idp"];
+$idn = $_GET["idn"];
+$total = $_GET["total"];
+$cantidad = $_GET["cantidad"];
+	
+	$nuevoPedido= new pedido();
+	$nuevoPedido->insertTemporal($idp,$idn,$total,$cantidad);
+	$array=$nuevoPedido->imprimirTemporal();
+	echo $array[0][0];
+	echo $array[4][0];
+
+
+
+}else{
+	echo "hola";
+}
+
+
+
+
+
+
 $processed=false;
 $fecha=date("d/m/Y");
 if(isset($_POST['fecha'])){
@@ -95,6 +118,7 @@ if(isset($_POST['insert'])){
 				<div class="col-md-4 container ">
 					<h4 class="card-title">Crear Factura</h4>
 				</div>
+				<h6><?php echo $var_1 ?></h6>
 			<input size="1" class="quantity text-center border-1 border-dark" min="1" id="quantityDetail" name="quantityDetail" type="text" onkeypress="ValidNum(event);">
 				
 			</div>

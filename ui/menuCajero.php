@@ -10,7 +10,7 @@ $cajero -> select();
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Crear</a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>">Pedido</a>
+					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>&idp=0">Pedido</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">

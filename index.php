@@ -114,6 +114,7 @@ $webPages = array(
 	'ui/proveedor/updateProveedor.php',
 	'ui/proveedor/selectAllProveedor.php',
 	'ui/proveedor/searchProveedor.php',
+	'modalCrearProducto.php',
 );
 if(isset($_GET['logOut'])){
 	$_SESSION['id']="";

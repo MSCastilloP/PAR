@@ -181,5 +181,27 @@ class Pedido {
 		$this -> connection -> close();
 		return $success;
 	}
+
+
+
+
+	function insertTemporal($idp,$idn,$total,$cantidad){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> insertTemporal($idp,$idn,$total,$cantidad));
+		$this -> connection -> close();
+	}
+	function imprimirTemporal(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> imprimirTemporal());
+		$pedidos = array();
+		while ($result = $this -> connection -> fetchRow()){
+			$arrays = array($result[0],$result[1],$result[2],$result[3],$result[4]);
+			array_push($pedidos, $arrays);
+
+
+		}
+		$this -> connection -> close();
+		return $pedidos;
+	}
 }
 ?>

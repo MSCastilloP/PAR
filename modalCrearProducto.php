@@ -17,6 +17,8 @@ require("business/Pedido.php");
 require("business/PedidoPro.php");
 require("business/Cocinero.php");
 require_once("persistence/Connection.php");
+
+
 $id=$_GET['id'];
 $producto = new Producto();
 $ingrediente = new IngrePro();
@@ -25,7 +27,11 @@ $producto->traer($id);
 
 ?>
 <script type="text/javascript">
+	var contador=1;
 	var variableGlobal="";
+	var variableTotal=0;
+	var variableNumero=0;
+
 </script>
 <script charset="utf-8">
 	function cantidad( id_input, operacion){
@@ -45,14 +51,19 @@ $producto->traer($id);
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 </div>
 <div class="modal-body">
-
-	<h1><?php echo $id ?></h1>
+	<table  class="table">
+		
+	<tr>
+		<td>
+	<h1 id="idp"><?php echo $id ?></h1>
 
 	<?php
 			
-				echo "<h1>".$producto->getNombre()."</h1>";
+				echo "<h1 id='idn'>".$producto->getNombre()."</h1>";
+
 				echo "<div class='container'>";	
 					echo "<div class='row' >";
+
 						echo "<div class='col-sm-1'>";	
 							
 							
@@ -60,14 +71,15 @@ $producto->traer($id);
 							echo "</div>";
 
 							echo "<div class='col-sm-1'>";
-							echo "<input class='input-group-text'  name='hola' id='0' type='text' style='text-align: center; width: 40px;' value='0'>";
+							echo "<input class='input-group-text'  name='hola' id='0' type='text' style='text-align: center; width: 40px;' value='1'>";
 							echo "</div>";
 								echo "<div class='col-sm-1'>";
 
 							echo"<button style='text-align: center; width: 40px;' class='btn btn-success' onclick='cantidad(0,1)'>+</button>";
 							echo "</div>";
 
-           					echo "<div class='col-sm'>";	
+           					echo "<div class='col-sm'>";
+           				
 							echo "<button type='submit' onclick='traerN()'  class=' btn btn-primary'>Listo </button>";
 							//echo $id.getValue();
 							echo "</div>";
@@ -91,37 +103,154 @@ $producto->traer($id);
              		
 	?>
 
-			 <div class="form-group">
-    <form name="f1" id="f1">
-    	<textarea class="form-control input-lg" type="text" name="f1t1" id="f1t1">     </textarea>
-  
-  </form>
+			
+</td>	
+<td>	
+			
+				
+			
+			<div id="productos">
 
+    	</div>
+    		<input type="submit" onclick="enviarGET()" id="btn_save"  value="Submit"  class="btn btn-primary">
+    	
+    	
+		
 
-    
-			<button type="submit" class="btn btn-primary">Listo </button>
-</div>
+		
+    		
+    </td>
+			
 
+</tr>
+</table>
 
 <script type="text/javascript">
 		function traerN (){
 			var valor = document.getElementById(0).value;
-			
+			if(valor!=0){
+			var todo=0;
 			var divCont = document.getElementById('Ingre'); 
 			var checks  = divCont.getElementsByTagName('input');
-			//document.f1.f1t1.value=valor+" ";
-			variableGlobal+=valor+"x Sin (";
-for(i=0;i<checks.length; i++){
-    if(checks[i].checked == true){
-    	variableGlobal+=checks[i].name+", ";
-    	//document.f1.f1t1.value+=checks[i].name+" ";
-        //alert('este es'+checks[i].name);
-    }
+			variableGlobal=valor+" x /";
+			for(i=0;i<checks.length; i++){
+   				 if(checks[i].checked == true){
+   				 	todo=1;
+    				variableGlobal+="Sin "+checks[i].name+"   /";
+
+    			}
+			}
+			if(todo==0){
+				variableGlobal+="Todo/";
+			}
+		
+			var string ="habilitar("+variableNumero+")";
+			
+
+			if(variableNumero%2==0){
+				var h6 = document.createElement("button");
+  			var br = document.createElement("br");
+			h6.setAttribute("id",variableNumero);
+			h6.setAttribute("class","btn btn-danger");
+			h6.setAttribute("onclick",string);
+			h6.innerHTML = variableGlobal;
+			productos.appendChild(h6);
+			productos.appendChild(br);
+			productos.appendChild(br);
+			variableNumero++;
+			document.productos.appendChild(x);
+			}else{ 
+			var h6 = document.createElement("button");
+  			var br = document.createElement("br");
+			h6.setAttribute("id",variableNumero);
+			h6.setAttribute("class","btn btn-warning");
+			h6.setAttribute("onclick",string);
+			h6.innerHTML = variableGlobal;
+			productos.appendChild(h6);
+			productos.appendChild(br);
+			productos.appendChild(br);
+			variableNumero++;
+			document.productos.appendChild(x);
+		}
+  			
+
+			
 
 }
-variableGlobal+=" ) ";
-document.f1.f1t1.value=variableGlobal+"\n";
+if(valor!=0){
+	variableGlobal+=" ) ";
+}
+
+document.productos.value=variableGlobal+"\n";
+variableTotal+=valor;
+}
+
+		function habilitar(variableNumero){
+			var r=document.getElementById(variableNumero);
+			productos.removeChild(r);
 		}
+function enviarGET(){
+	var elementos = document.getElementById("productos");
+	var boton  = elementos.getElementsByTagName("button");
+	var idp = document.getElementById("idp");
+	var idn = document.getElementById("idn");
+
+			var total="";
+			for(i=0;i<boton.length;i++){
+				total+=boton[i].innerHTML+"\n";
+				
+			}
+
+function getNumbersInString(string) {
+  var tmp = string.split("");
+
+  var map = tmp.map(function(current) {
+    if (!isNaN(parseInt(current))) {
+      return current;
+    }
+  });
+
+  var numbers = map.filter(function(value) {
+    return value != undefined;
+  });
+
+  return numbers.join("");
+}
+var r=getNumbersInString(total);
 
 
+
+ var numero = parseInt(r);
+    while (numero >= 100) {
+        numero = numero.toString()
+            .split('')
+            .map(x => parseInt(x) )
+            .reduce( (x, y) => x + y);
+    }
+alert(numero);
+			window.location.replace("index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>&idp="+idp.innerHTML+"&idn="+idn.innerHTML+"&total="+total+"&cantidad="+numero);
+
+
+}
+	
+
+	/*$(function() {
+
+      $('#btn_save').on('click', function() {
+      	
+			var idp = document.getElementById("idp");
+			var idn = document.getElementById("idn");
+			
+			
+
+          $.post('index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>', {
+              "var_1": total,
+
+            },function(data) {
+              console.log('procesamiento finalizado', total);
+
+          });
+      })
+
+})*/
 </script>

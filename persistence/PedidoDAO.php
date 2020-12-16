@@ -74,5 +74,16 @@ class PedidoDAO{
 		return "delete from Pedido
 				where idPedido = '" . $this -> idPedido . "'";
 	}
+
+
+
+	function insertTemporal($idp,$idn,$total,$cantidad){
+		return "insert into Temporal(idp, idn, descripcion, cantidad)
+				values(" . $idp . ", '" . $idn . "', '" . $total . "', '" . $cantidad . "')";
+	}
+	function imprimirTemporal(){
+		return " select id, idp, idn, descripcion, cantidad
+				from temporal";
+	}
 }
 ?>
