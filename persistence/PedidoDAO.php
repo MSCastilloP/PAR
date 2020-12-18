@@ -82,8 +82,9 @@ class PedidoDAO{
 				values(" . $idp . ", '" . $idn . "', '" . $total . "', '" . $cantidad . "')";
 	}
 	function imprimirTemporal(){
-		return " select id, idp, idn, descripcion, cantidad
-				from temporal";
+		return " select t.id, t.idp, t.idn, t.descripcion, t.cantidad, p.precio
+				from temporal as t, producto as p 
+				where t.idp=p.idProducto";
 	}
 }
-?>
+?>	

@@ -132,7 +132,7 @@ $producto->traer($id);
 			var todo=0;
 			var divCont = document.getElementById('Ingre'); 
 			var checks  = divCont.getElementsByTagName('input');
-			variableGlobal=valor+" x /";
+			variableGlobal=valor+" x / ";
 			for(i=0;i<checks.length; i++){
    				 if(checks[i].checked == true){
    				 	todo=1;
@@ -141,7 +141,7 @@ $producto->traer($id);
     			}
 			}
 			if(todo==0){
-				variableGlobal+="Todo/";
+				variableGlobal+=" Todo / ";
 			}
 		
 			var string ="habilitar("+variableNumero+")";
@@ -223,7 +223,7 @@ var r=getNumbersInString(total);
  var numero = parseInt(r);
     while (numero >= 100) {
         numero = numero.toString()
-            .split('')
+            .split(' ')
             .map(x => parseInt(x) )
             .reduce( (x, y) => x + y);
     }
