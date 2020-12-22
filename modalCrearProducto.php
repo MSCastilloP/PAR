@@ -30,7 +30,7 @@ $producto->traer($id);
 	var contador=1;
 	var variableGlobal="";
 	var variableTotal=0;
-	var variableNumero=0;
+	var variableNumero=1;
 
 </script>
 <script charset="utf-8">
@@ -130,21 +130,27 @@ $producto->traer($id);
 			var valor = document.getElementById(0).value;
 			if(valor!=0){
 			var todo=0;
+			var aux="";
 			var divCont = document.getElementById('Ingre'); 
 			var checks  = divCont.getElementsByTagName('input');
 			variableGlobal=valor+" x / ";
 			for(i=0;i<checks.length; i++){
    				 if(checks[i].checked == true){
    				 	todo=1;
-    				variableGlobal+="Sin "+checks[i].name+"   /";
+   				 
+    				variableGlobal+="Sin "+checks[i].name+"   . ";
 
     			}
 			}
+
 			if(todo==0){
-				variableGlobal+=" Todo / ";
+				variableGlobal+=" Todo .";
 			}
-		
-			var string ="habilitar("+variableNumero+")";
+			
+			var r=variableGlobal.split("/");
+
+			if(evaluar(r[1])==0){
+				var string ="habilitar("+variableNumero+")";
 			
 
 			if(variableNumero%2==0){
@@ -173,6 +179,10 @@ $producto->traer($id);
 			document.productos.appendChild(x);
 		}
   			
+			}else{
+				alert("La especificación del porducto ya existe, si desea ingresar mas unidades con la misma especificación, elimine el anterior e ingreselo nuevamente con las unidades solicitadas");
+			}
+			
 
 			
 
@@ -185,10 +195,17 @@ document.productos.value=variableGlobal+"\n";
 variableTotal+=valor;
 }
 
-		function habilitar(variableNumero){
+
+
+
+
+function habilitar(variableNumero){
 			var r=document.getElementById(variableNumero);
 			productos.removeChild(r);
 		}
+
+
+
 function enviarGET(){
 	var elementos = document.getElementById("productos");
 	var boton  = elementos.getElementsByTagName("button");
@@ -202,6 +219,7 @@ function enviarGET(){
 			}
 
 function getNumbersInString(string) {
+
   var tmp = string.split("");
 
   var map = tmp.map(function(current) {
@@ -216,23 +234,49 @@ function getNumbersInString(string) {
 
   return numbers.join("");
 }
+
+
+
 var r=getNumbersInString(total);
+var aux=0;
 
+for(i=0;i<r.length;i++){
+aux+=parseInt(r[i]);
 
-
- var numero = parseInt(r);
-    while (numero >= 100) {
-        numero = numero.toString()
-            .split(' ')
-            .map(x => parseInt(x) )
-            .reduce( (x, y) => x + y);
-    }
-alert(numero);
-			window.location.replace("index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>&idp="+idp.innerHTML+"&idn="+idn.innerHTML+"&total="+total+"&cantidad="+numero);
+}
+			window.location.replace("index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>&idp="+idp.innerHTML+"&idn="+idn.innerHTML+"&total="+total+"&cantidad="+aux);
 
 
 }
-	
+
+
+
+
+function evaluar(aux){
+
+	var validar =0;
+	var traerDiv = document.getElementById('productos'); 
+	var traerBotones  = traerDiv.getElementsByTagName('button');
+
+	for(i=0;i<traerBotones.length;i++){
+		var r=traerBotones[i].innerHTML;
+		var tmp=r.split("/");
+
+		for(j=1;j<tmp.length;j++){
+			
+			
+			if(tmp[j]==aux){
+				validar=1;
+
+				return validar;
+
+			}
+		}
+		
+	}
+	return validar;
+
+}
 
 	/*$(function() {
 

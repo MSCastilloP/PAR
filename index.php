@@ -133,6 +133,7 @@ if(isset($_GET['logOut'])){
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
 
+		<link href="styles.css"  rel="stylesheet" >
 		
 
 

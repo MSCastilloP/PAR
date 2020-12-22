@@ -1,3 +1,5 @@
-:root{
-	--fontmain: 'Roboto' , sans-serif;
-} 
+scroll-container
+{
+    max-height: 150px;
+    overflow-y: scroll;
+}

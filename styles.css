@@ -1,0 +1,5 @@
+.scroll-container
+{
+    max-height: 750px;
+    overflow-y: scroll;
+}
