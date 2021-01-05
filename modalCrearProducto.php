@@ -60,70 +60,60 @@ $producto->traer($id);
 	<?php
 			
 				echo "<h1 id='idn'>".$producto->getNombre()."</h1>";
+			?>
+				<div class='container'>	
+					<div class='row' >
 
-				echo "<div class='container'>";	
-					echo "<div class='row' >";
 
-						echo "<div class='col-sm-1'>";	
+							<div class='col-sm-1'>	
+							<button class='btn btn-danger'style='text-align: center; width: 40px;' onclick= cantidad(0,0)>-</button>
+							</div>
+
+							<div class='col-sm-1'>
+							<input class='input-group-text'  name='hola' id='0' type='text' style='text-align: center; width: 40px;' value='1'>
+							</div>
 							
-							
-							echo"<button class='btn btn-danger'style='text-align: center; width: 40px;' onclick= cantidad(0,0)>-</button>";
-							echo "</div>";
+							<div class='col-sm-1'>
+							<button style='text-align: center; width: 40px;' class='btn btn-success' onclick='cantidad(0,1)'>+</button>
+							</div>
 
-							echo "<div class='col-sm-1'>";
-							echo "<input class='input-group-text'  name='hola' id='0' type='text' style='text-align: center; width: 40px;' value='1'>";
-							echo "</div>";
-								echo "<div class='col-sm-1'>";
+           					<div class='col-sm-1'>
+							<button type='submit' onclick='traerN()'  class=' btn btn-primary'>Listo </button>
+							</div>	
+						</div>
+				</div>
 
-							echo"<button style='text-align: center; width: 40px;' class='btn btn-success' onclick='cantidad(0,1)'>+</button>";
-							echo "</div>";
-
-           					echo "<div class='col-sm'>";
-           				
-							echo "<button type='submit' onclick='traerN()'  class=' btn btn-primary'>Listo </button>";
-							//echo $id.getValue();
-							echo "</div>";
-        
-							echo "</div>";
-							
-						
-						
-
-							
-					echo "</div>";
-				echo "</div>";
-				echo "<br>";
-				echo "<h2> Ingredientes </h2>";
-					echo "<div class='form-check' id='Ingre'>";
+				<br>
+				<h2> Ingredientes </h2>
+					<div class='form-check' id='Ingre'>
+						<?php  
 				 	foreach ($vector as $currentIngrediente) {
 				 
 	            		echo "<input type='checkbox'  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> Sin " . $currentIngrediente->getNombre() . " <br>";
 	            	
              }
-             		
-	?>
+	             	?>	
+	
 
 			
 </td>	
 <td>	
 			
-				
-			
-			<div id="productos">
-
-    	</div>
+			<div class='row'>	
+				<div class='col-sm-4'> 	
+					<div id="productos">
+    		
+    				</div>
     		<input type="submit" onclick="enviarGET()" id="btn_save"  value="Submit"  class="btn btn-primary">
     	
-    	
-		
-
-		
-    		
-    </td>
+    			</div>
+			</div>
+</td>
 			
 
 </tr>
 </table>
+</div>
 
 <script type="text/javascript">
 		function traerN (){
@@ -150,34 +140,22 @@ $producto->traer($id);
 			var r=variableGlobal.split("/");
 
 			if(evaluar(r[1])==0){
+		
 				var string ="habilitar("+variableNumero+")";
+				var h6 = document.createElement("button");
+	  			var br = document.createElement("br");
+	  			br.setAttribute("name",variableNumero);
+				h6.setAttribute("id",variableNumero);
+				h6.setAttribute("class","btn btn-outline-danger");
+				h6.setAttribute("onclick",string);
+				h6.innerHTML = variableGlobal;
+				
+				productos.appendChild(h6);
 			
 
-			if(variableNumero%2==0){
-				var h6 = document.createElement("button");
-  			var br = document.createElement("br");
-			h6.setAttribute("id",variableNumero);
-			h6.setAttribute("class","btn btn-danger");
-			h6.setAttribute("onclick",string);
-			h6.innerHTML = variableGlobal;
-			productos.appendChild(h6);
-			productos.appendChild(br);
-			productos.appendChild(br);
-			variableNumero++;
-			document.productos.appendChild(x);
-			}else{ 
-			var h6 = document.createElement("button");
-  			var br = document.createElement("br");
-			h6.setAttribute("id",variableNumero);
-			h6.setAttribute("class","btn btn-warning");
-			h6.setAttribute("onclick",string);
-			h6.innerHTML = variableGlobal;
-			productos.appendChild(h6);
-			productos.appendChild(br);
-			productos.appendChild(br);
-			variableNumero++;
-			document.productos.appendChild(x);
-		}
+				variableNumero++;
+				document.productos.appendChild(x);
+				
   			
 			}else{
 				alert("La especificación del porducto ya existe, si desea ingresar mas unidades con la misma especificación, elimine el anterior e ingreselo nuevamente con las unidades solicitadas");
@@ -201,7 +179,11 @@ variableTotal+=valor;
 
 function habilitar(variableNumero){
 			var r=document.getElementById(variableNumero);
-			productos.removeChild(r);
+		
+			productos.removeChild(r);	
+			
+
+
 		}
 
 

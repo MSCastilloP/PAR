@@ -1,18 +1,58 @@
 				<?php
 				$array = array();
 				$precioTotal=0;
+				$nuevoPedido= new pedido();
+				$variableGlobal=0;
 				if( $_GET["idp"]!=0){
 				$idp = $_GET["idp"];
 				$idn = $_GET["idn"];
 				$total = $_GET["total"];
 				$cantidad = $_GET["cantidad"];
+
 					
-					$nuevoPedido= new pedido();
-					$nuevoPedido->insertTemporal($idp,$idn,$total,$cantidad);
+					
+				
+							$nuevoPedido->insertTemporal($idp,$idn,$total,$cantidad);
+					
+					
+
+				}else{
+					
+					if(isset($_GET['eliminar'])){
+						
+						$eliminar=$_GET['eliminar'];
+						$nuevoPedido->eliminar($eliminar);
+
+					}
+					if(isset($_GET['limpiar'])){
+						$fecha= date("Y-m-d ");
+						$hora = date("H:i:s");
+						echo $hora;
+						$precio=$_GET['limpiar'];
+						$descripcion="";
+
+							
+						$array=$nuevoPedido->imprimirTemporal();
+								  		foreach ($array as $facturas) {
+								  			$descripcion= $descripcion." ".$facturas[3]." ".$facturas[1].".";
+								  			 }
+
+								  			 echo $descripcion;
+						$crearPedido= new pedido("",$fecha,$hora,$descripcion,$precio,1,$_SESSION['id']);
+
+						$crearPedido->insert();
+
+					
+						
+					}
+
+				}
+
+				if($nuevoPedido->imprimirTemporal()!=null){
 					$array=$nuevoPedido->imprimirTemporal();
 				}
 
-
+					
 
 
 
@@ -120,6 +160,7 @@
 								</div>
 
 								<div class="scroll-container">
+
 									<table class="table table-striped table-hover">
 										
 									  <tr>
@@ -132,21 +173,28 @@
 									    <td>Cantidad</td>
 
 									    <td>Precio</td>
+									    <td>Eliminar</td>
 									  </tr>
 									  <tr>	
+
 									  	<?php 
+									  	$ped= new pedido();
 								  		foreach ($array as $facturas) {		
+									  			echo "<td>" . $facturas[0] . "</td>";
 									  			echo "<td>" . $facturas[1] . "</td>";
 									  			echo "<td>" . $facturas[2] . "</td>";
 									  			echo "<td>" . $facturas[3] . "</td>";
-									  			echo "<td>" . $facturas[4] . "</td>";
-									  			echo "<td>" . $facturas[5]*$facturas[4] . "</td>";
-									  			$precioTotal+=$facturas[5]*$facturas[4];
+									  			echo "<td>" . $facturas[4]*$facturas[3] . "</td>";
+									  			$precioTotal+=$facturas[4]*$facturas[3];
+
+									  			
+									  			echo "<td> <a class='btn btn-outline-danger' href='index.php?pid=" . base64_encode("ui/pedido/insertPedido.php") . "&eliminar=" . $facturas[0] . "&idp=0' onclick='return confirm(\"Confirma eliminar Pedido: " . $facturas[2] . " " . $facturas[4]*$facturas[3] . "\")'> x</a> </td>";
+									  			echo "<br>";
 									  			echo "</tr>";
 									  			# code...
 									  		}
 									  	 ?>
-									 
+								
 									   
 									</table>
 									
@@ -160,8 +208,15 @@
 										<td>
 											<h6><?php echo $precioTotal; ?></h6>
 										</td>
+										<td>
+										<?php echo "<a  href='index.php?pid=" . base64_encode("ui/pedido/insertPedido.php") ."&limpiar=". $precioTotal."&idp=0' class='btn btn-outline-success'> Enviar pedido </a>" ?>	
+										</td>
+										
+
 									</table>	
+									
 								</div>
+
 							
 							
 						</div>
@@ -178,5 +233,7 @@
 						}
 					});
 				});
+
+			
 				</script>
 					

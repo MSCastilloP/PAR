@@ -81,10 +81,25 @@ class PedidoDAO{
 		return "insert into Temporal(idp, idn, descripcion, cantidad)
 				values(" . $idp . ", '" . $idn . "', '" . $total . "', '" . $cantidad . "')";
 	}
+
+
+
 	function imprimirTemporal(){
-		return " select t.id, t.idp, t.idn, t.descripcion, t.cantidad, p.precio
+		return " select t.idp, t.idn, t.descripcion, t.cantidad, p.precio
 				from temporal as t, producto as p 
 				where t.idp=p.idProducto";
 	}
+
+
+	function consultarOrdenes($id){
+		return "select count(idp) from temporal where idp=".$id;
+	}
+	function eliminar($id){
+		return "delete from temporal
+				where idp = '" . $id. "'";
+
+	}
+
+	
 }
 ?>	

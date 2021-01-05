@@ -195,7 +195,7 @@ class Pedido {
 		$this -> connection -> run($this -> pedidoDAO -> imprimirTemporal());
 		$pedidos = array();
 		while ($result = $this -> connection -> fetchRow()){
-			$arrays = array($result[0],$result[1],$result[2],$result[3],$result[4],$result[5]);
+			$arrays = array($result[0],$result[1],$result[2],$result[3],$result[4]);
 			array_push($pedidos, $arrays);
 
 
@@ -203,5 +203,31 @@ class Pedido {
 		$this -> connection -> close();
 		return $pedidos;
 	}
+
+	function consultarOrdenes($id){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> consultarOrdenes($id));
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		if($result[0]>0){
+			return 1;
+		}else{
+			return 0;
+		}
+
+		
+
 }
+function eliminar($id){
+	$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> eliminar($id));
+		$success = $this -> connection -> querySuccess();
+		$this -> connection -> close();
+		return $success;
+
+}
+
+
+}
+
 ?>
