@@ -1,8 +1,10 @@
 				<?php
 				$array = array();
+				$arrays = array();
 				$precioTotal=0;
 				$nuevoPedido= new pedido();
 				$variableGlobal=0;
+				$primerID=array();
 				if( $_GET["idp"]!=0){
 				$idp = $_GET["idp"];
 				$idn = $_GET["idn"];
@@ -13,9 +15,6 @@
 					
 				
 							$nuevoPedido->insertTemporal($idp,$idn,$total,$cantidad);
-					
-					
-
 				}else{
 					
 					if(isset($_GET['eliminar'])){
@@ -26,29 +25,35 @@
 					}
 					if(isset($_GET['limpiar'])){
 						$fecha= date("Y-m-d ");
-						$hora = date("H:i:s");
-						echo $hora;
-						$precio=$_GET['limpiar'];
-						$descripcion="";
-
-							
-						$array=$nuevoPedido->imprimirTemporal();
-								  		foreach ($array as $facturas) {
-								  			$descripcion= $descripcion." ".$facturas[3]." ".$facturas[1].".";
-								  			 }
-
-								  			 echo $descripcion;
-						$crearPedido= new pedido("",$fecha,$hora,$descripcion,$precio,1,$_SESSION['id']);
-
-						$crearPedido->insert();
-
-					
+						$hora = date("H:i:s");	
 						
+
+						$precio=$_GET['limpiar'];
+						$descripcion="";			
+						$arrays=$nuevoPedido->imprimirTemporal();
+						$nuevoPedido->eliminarTemporal();
+								  		foreach ($arrays as $facturas) {
+								  			$descripcion= $descripcion." ".$facturas[3]." ".$facturas[1].".";
+								  			 }			  			
+						$crearPedido= new pedido("",$fecha,$hora,$descripcion,$precio,1,$_SESSION['id']);
+						$crearPedido->insert();	
+
+
+						$primerID=$crearPedido->traerID($fecha,$hora);
+
+
+						foreach ($arrays as $facturas) {
+
+							$pedidoPro= new PedidoPro("",$primerID[0],$facturas[0],$facturas[3],$facturas[2]);
+							$pedidoPro->insert();
+
+
+							# code...
+						}
 					}
 
 				}
-
-				if($nuevoPedido->imprimirTemporal()!=null){
+				if($nuevoPedido->imprimirTemporal()!=null ){
 					$array=$nuevoPedido->imprimirTemporal();
 				}
 
@@ -178,7 +183,7 @@
 									  <tr>	
 
 									  	<?php 
-									  	$ped= new pedido();
+									  
 								  		foreach ($array as $facturas) {		
 									  			echo "<td>" . $facturas[0] . "</td>";
 									  			echo "<td>" . $facturas[1] . "</td>";
@@ -209,7 +214,16 @@
 											<h6><?php echo $precioTotal; ?></h6>
 										</td>
 										<td>
-										<?php echo "<a  href='index.php?pid=" . base64_encode("ui/pedido/insertPedido.php") ."&limpiar=". $precioTotal."&idp=0' class='btn btn-outline-success'> Enviar pedido </a>" ?>	
+										<?php 
+										if($nuevoPedido->verificar()==1){
+											
+											echo "<a  href='index.php?pid=" . base64_encode("ui/pedido/insertPedido.php") ."&limpiar=". $precioTotal."&idp=0' class='btn btn-outline-success' onclick='alert(\"Tu pedido fue enviado\")' > Enviar pedido </a>"; 
+
+										}
+
+										
+?>
+<button>hola</button>
 										</td>
 										
 
@@ -233,6 +247,9 @@
 						}
 					});
 				});
+
+
+
 
 			
 				</script>

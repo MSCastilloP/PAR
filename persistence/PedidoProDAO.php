@@ -3,16 +3,23 @@ class PedidoProDAO{
 	private $idPedidoPro;
 	private $pedido;
 	private $producto;
+	private $descripcion;
+	private $cantidad;
 
-	function PedidoProDAO($pIdPedidoPro = "", $pPedido = "", $pProducto = ""){
+	function PedidoProDAO($pIdPedidoPro = "", $pPedido = "", $pProducto = "",$pCantidad="", $pDescripcion=" "){
 		$this -> idPedidoPro = $pIdPedidoPro;
 		$this -> pedido = $pPedido;
 		$this -> producto = $pProducto;
+		$this -> cantidad = $pCantidad;
+		$this -> descripcion = $pDescripcion;
 	}
 
 	function insert(){
-		return "insert into PedidoPro(pedido_idPedido, producto_idProducto)
-				values('" . $this -> pedido . "', '" . $this -> producto . "')";
+		return "insert into PedidoPro(pedido_idPedido, producto_idProducto,cantidad, descripcion)
+
+
+
+				values('" . $this -> pedido . "', '" . $this -> producto . "', '" . $this -> cantidad . "', '" . $this -> descripcion . "')";
 	}
 
 	function update(){

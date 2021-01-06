@@ -226,7 +226,36 @@ function eliminar($id){
 		return $success;
 
 }
+function verificar(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> verificar());
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		if($result[0]>0){
+			return 1;
+		}else{
+			return 0;
+		}
 
+		
+
+}
+function traerID ($fecha, $hora){
+	$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> traerID($fecha, $hora));
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+
+		return $result;
+
+}
+function eliminarTemporal(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> eliminarTemporal());
+		$success = $this -> connection -> querySuccess();
+		$this -> connection -> close();
+		return $success;
+}
 
 }
 

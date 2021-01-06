@@ -94,12 +94,25 @@ class PedidoDAO{
 	function consultarOrdenes($id){
 		return "select count(idp) from temporal where idp=".$id;
 	}
+
+
 	function eliminar($id){
 		return "delete from temporal
 				where idp = '" . $id. "'";
 
 	}
 
+	function verificar(){
+		return " select count(idp) from temporal";
+	}
+
+	function eliminarTemporal(){
+		return "delete from temporal";
+	}
+
+	function traerID($fecha, $hora ){
+		return "select idPedido from pedido where fecha= '". $fecha. "'  and hora= '".$hora."'  ";
+	}
 	
 }
 ?>	

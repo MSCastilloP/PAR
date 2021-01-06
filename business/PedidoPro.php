@@ -7,6 +7,8 @@ class PedidoPro {
 	private $pedido;
 	private $producto;
 	private $pedidoProDAO;
+	private $descripcion;
+	private $cantidad;
 	private $connection;
 
 	function getIdPedidoPro() {
@@ -28,16 +30,34 @@ class PedidoPro {
 	function getProducto() {
 		return $this -> producto;
 	}
+	
 
 	function setProducto($pProducto) {
 		$this -> producto = $pProducto;
 	}
+	function getCantidad() {
+		return $this -> cantidad;
+	}
+	
 
-	function PedidoPro($pIdPedidoPro = "", $pPedido = "", $pProducto = ""){
+	function setCantidad($pCantidad) {
+		$this -> cantidad = $pCantidad;
+	}
+
+	function getDescripcion() {
+		return $this -> descripcion;
+	}
+	function setDescripcion($pDescripcion) {
+		$this -> descripcion = $pDescripcion;
+	}
+
+	function PedidoPro($pIdPedidoPro = "", $pPedido = "", $pProducto = "",$pCantidad="", $pDescripcion=""){
 		$this -> idPedidoPro = $pIdPedidoPro;
 		$this -> pedido = $pPedido;
 		$this -> producto = $pProducto;
-		$this -> pedidoProDAO = new PedidoProDAO($this -> idPedidoPro, $this -> pedido, $this -> producto);
+		$this -> cantidad = $pCantidad;
+		$this -> descripcion = $pDescripcion;
+		$this -> pedidoProDAO = new PedidoProDAO($this -> idPedidoPro, $this -> pedido, $this -> producto,$this -> cantidad, $this -> descripcion);
 		$this -> connection = new Connection();
 	}
 
