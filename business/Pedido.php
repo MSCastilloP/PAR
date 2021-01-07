@@ -257,6 +257,24 @@ function eliminarTemporal(){
 		return $success;
 }
 
+function verificarTemporal($id){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> verificarTemporal($id));
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		if($result[0]==1){
+			return $result[1];
+		}else{
+			return 0;
+		}
+	
+}
+function updateTemporal($idp,$total,$cantidad){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> updateTemporal($idp,$total,$cantidad));
+		$this -> connection -> close();
+	}
+
 }
 
 ?>

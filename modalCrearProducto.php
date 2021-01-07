@@ -1,3 +1,6 @@
+<script type="text/javascript">
+	
+</script>
 <?php
 require("business/Administrador.php");
 require("business/LogAdministrador.php");
@@ -21,16 +24,25 @@ require_once("persistence/Connection.php");
 
 $id=$_GET['id'];
 $producto = new Producto();
+$pedido= new Pedido();
 $ingrediente = new IngrePro();
 $vector=$ingrediente->traerIngre($id);
 $producto->traer($id);
+$listo=$pedido->verificarTemporal($id);
+$global="";
+
+
+
 
 ?>
+
 <script type="text/javascript">
-	var contador=1;
+	var contador=0;
 	var variableGlobal="";
 	var variableTotal=0;
 	var variableNumero=1;
+
+
 
 </script>
 <script charset="utf-8">
@@ -114,8 +126,68 @@ $producto->traer($id);
 </tr>
 </table>
 </div>
+<?php 
+if($listo!=0){
+	
+$nombres = explode(".", $listo);
 
+$pedidoEx=array();
+$j=0;
+
+///	1 x / Sin Cebolla Cruda   Sin Carne Sin Salsa Rosada    1 x / Todo    1 x / Sin Cebolla Cruda.Sin Carne.
+for( $i=0;$i<sizeof($nombres);$i++){
+	if($i<sizeof($nombres)-1){
+		if(strpos($nombres[$i], '/')==true){
+		$pedidoEx[$j]=$nombres[$i].".";
+		$j++;
+		}else{
+			$pedidoEx[$j-1]=$pedidoEx[$j-1].$nombres[$i].".";
+		}
+
+	}else{
+		if(strpos($nombres[$i], '/')==true){
+		$pedidoEx[$j]=$nombres[$i];
+		$j++;
+		}else{
+			$pedidoEx[$j-1]=$pedidoEx[$j-1].$nombres[$i];
+		}
+	}
+	
+}
+for( $i=0;$i<sizeof($pedidoEx);$i++){
+
+	echo '<script type="text/javascript">
+				var string ="habilitar("+variableNumero+")";
+				var h6 = document.createElement("button");
+	  			var br = document.createElement("br");
+	  			br.setAttribute("name",variableNumero);
+				h6.setAttribute("id",variableNumero);
+				h6.setAttribute("class","btn btn-outline-danger");
+				h6.setAttribute("onclick",string);
+				h6.innerHTML ="'.$pedidoEx[$i]. '" ;
+				
+				productos.appendChild(h6);
+			
+
+				variableNumero++;
+				contador++;
+				document.productos.appendChild(x);</script>' 
+
+
+				;
+
+		
+	 } 
+
+
+
+}
+
+
+ ?>
 <script type="text/javascript">
+	
+	
 		function traerN (){
 			var valor = document.getElementById(0).value;
 			if(valor!=0){
@@ -128,15 +200,21 @@ $producto->traer($id);
    				 if(checks[i].checked == true){
    				 	todo=1;
    				 
-    				variableGlobal+="Sin "+checks[i].name+"   . ";
+    				variableGlobal+="Sin "+checks[i].name+".";
 
+				
     			}
+    			
 			}
+			
+			
+
 
 			if(todo==0){
 				variableGlobal+=" Todo .";
 			}
 			
+		
 			var r=variableGlobal.split("/");
 
 			if(evaluar(r[1])==0){
@@ -154,6 +232,8 @@ $producto->traer($id);
 			
 
 				variableNumero++;
+				contador++;
+				
 				document.productos.appendChild(x);
 				
   			
@@ -171,6 +251,7 @@ if(valor!=0){
 
 document.productos.value=variableGlobal+"\n";
 variableTotal+=valor;
+
 }
 
 
@@ -180,7 +261,9 @@ variableTotal+=valor;
 function habilitar(variableNumero){
 			var r=document.getElementById(variableNumero);
 		
-			productos.removeChild(r);	
+			productos.removeChild(r);
+			contador--;	
+			
 			
 
 
@@ -189,10 +272,13 @@ function habilitar(variableNumero){
 
 
 function enviarGET(){
-	var elementos = document.getElementById("productos");
+	if(contador>0){
+		var elementos = document.getElementById("productos");
+
 	var boton  = elementos.getElementsByTagName("button");
 	var idp = document.getElementById("idp");
 	var idn = document.getElementById("idn");
+
 
 			var total="";
 			for(i=0;i<boton.length;i++){
@@ -228,6 +314,10 @@ aux+=parseInt(r[i]);
 }
 			window.location.replace("index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>&idp="+idp.innerHTML+"&idn="+idn.innerHTML+"&total="+total+"&cantidad="+aux);
 
+		}else{
+			alert("No ha ingresado ningun producto");
+		}
+	
 
 }
 

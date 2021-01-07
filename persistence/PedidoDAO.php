@@ -113,6 +113,16 @@ class PedidoDAO{
 	function traerID($fecha, $hora ){
 		return "select idPedido from pedido where fecha= '". $fecha. "'  and hora= '".$hora."'  ";
 	}
+
+	function verificarTemporal($id ){
+		return "select count(idp), descripcion  from temporal where idp=". $id;
+	}
+	function updateTemporal($idp,$total,$cantidad){
+		return "update temporal set 
+				descripcion = '" . $total . "',
+				cantidad = " . $cantidad . "
+				where idp = " . $idp . "";
+	}
 	
 }
 ?>	
