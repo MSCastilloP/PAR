@@ -90,7 +90,15 @@ $global="";
 							</div>
 
            					<div class='col-sm-1'>
-							<button type='submit' onclick='traerN()'  class=' btn btn-primary'>Listo </button>
+							<button type='submit' 
+
+							onclick=<?php 
+							//solamente porcion de pizza
+							if($id!=21){
+								echo "traerN()";
+							}else{
+								echo "porcionPizza()";
+							} ?>  class=' btn btn-primary'>Listo </button>
 							</div>	
 						</div>
 				</div>
@@ -99,11 +107,44 @@ $global="";
 				<h2> Ingredientes </h2>
 					<div class='form-check' id='Ingre'>
 						<?php  
+						if($id!=21 ){
+
 				 	foreach ($vector as $currentIngrediente) {
+
+				 			if($id!=22){
+				 				echo "<input type='checkbox'  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> Sin " . $currentIngrediente->getNombre() . " <br>";
+
+				 			}else{
+				 				echo "<input type='checkbox'  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> Con " . $currentIngrediente->getNombre() . " <br>";
+
+				 			}
+
+				 			
+				 		}
+				 		if($id==22){
+				 			echo "<h4>Sin algo mi rey</h4>";
+echo "<textarea id='descripcionAdicional' name='w3review' rows='4' cols='50'>
+
+</textarea>";
+				 		}
+				 		
+				 		}else{
+				 			echo "<select id='pizza' class='form-select' aria-label='Default select example'>";
+				 			foreach ($vector as $currentIngrediente) {
+				 		
+				 		
+				 				echo "<option   name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> Con " . $currentIngrediente->getNombre() . " </option> <br>";
+				 		}
+				 		echo "</select>";
+				 		}
+
+				 		
+				 	
+				 	
 				 
-	            		echo "<input type='checkbox'  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> Sin " . $currentIngrediente->getNombre() . " <br>";
+	            		
 	            	
-             }
+             
 	             	?>	
 	
 
@@ -178,7 +219,7 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 
 		
 	 } 
-
+	 
 
 
 }
@@ -186,6 +227,38 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 
  ?>
 <script type="text/javascript">
+	function porcionPizza(){
+		var valor = document.getElementById(0).value;
+			if(valor!=0){
+		var select= document.getElementById('pizza'); 
+		var escogidoNombre = select.options[select.selectedIndex].text;
+		var escogidoID = select.options[select.selectedIndex].value;
+			
+				variableGlobal=valor+" x / "+escogidoNombre;
+				var r=variableGlobal.split("/");
+				if(evaluar(r[1])==0){
+					var string ="habilitar("+variableNumero+")";
+				var h6 = document.createElement("button");
+	  			var br = document.createElement("br");
+	  			br.setAttribute("name",variableNumero);
+				h6.setAttribute("id",variableNumero);
+				h6.setAttribute("class","btn btn-outline-danger");
+				h6.setAttribute("onclick",string);
+				h6.innerHTML = variableGlobal;
+				
+				productos.appendChild(h6);
+			
+
+				variableNumero++;
+				contador++;
+				
+				document.productos.appendChild(x);
+				}else{
+				alert("La especificación del porducto ya existe, si desea ingresar mas unidades con la misma especificación, elimine el anterior e ingreselo nuevamente con las unidades solicitadas");
+			}
+				
+	}
+}
 	
 	
 		function traerN (){
@@ -193,16 +266,37 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 			if(valor!=0){
 			var todo=0;
 			var aux="";
+			var x=document.getElementById('idp').innerHTML;
+			alert(x);
 			var divCont = document.getElementById('Ingre'); 
+
 			var checks  = divCont.getElementsByTagName('input');
+			var cantidadp=0;
+			if(x==22){
+				//Cantidadp es la cantidad de sabores de una pizza
+				
+				for(i=0;i<checks.length; i++){
+					 if(checks[i].checked == true ){
+					 	cantidadp++;
+					 }
+				}
+
+			}
+			if(cantidadp<=4){
 			variableGlobal=valor+" x / ";
 			for(i=0;i<checks.length; i++){
-   				 if(checks[i].checked == true){
+				//Cambiar id por el nombre
+   				 if(checks[i].checked == true && x!=22 ){
+
    				 	todo=1;
    				 
     				variableGlobal+="Sin "+checks[i].name+".";
 
 				
+    			}else if(checks[i].checked == true){
+    				todo=1;
+   				 
+    				variableGlobal+="Con "+checks[i].name+".";
     			}
     			
 			}
@@ -210,13 +304,13 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 			
 
 
-			if(todo==0){
+			if(todo==0 && (x!=21 && x!=22 )){
 				variableGlobal+=" Todo .";
 			}
 			
 		
 			var r=variableGlobal.split("/");
-
+			
 			if(evaluar(r[1])==0){
 		
 				var string ="habilitar("+variableNumero+")";
@@ -240,14 +334,16 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 			}else{
 				alert("La especificación del porducto ya existe, si desea ingresar mas unidades con la misma especificación, elimine el anterior e ingreselo nuevamente con las unidades solicitadas");
 			}
+			}else{
+				alert("Sobrepaso el número de sabores posibles. Porfavor Ingrese 4 o menos sabores")
+			}
+			
 			
 
 			
 
 }
-if(valor!=0){
-	variableGlobal+=" ) ";
-}
+
 
 document.productos.value=variableGlobal+"\n";
 variableTotal+=valor;
@@ -278,13 +374,15 @@ function enviarGET(){
 	var boton  = elementos.getElementsByTagName("button");
 	var idp = document.getElementById("idp");
 	var idn = document.getElementById("idn");
-
-
+	if(idp==22){
+		var descripcion=document.getElementById("descripcionAdicional").value;
+	}
 			var total="";
 			for(i=0;i<boton.length;i++){
 				total+=boton[i].innerHTML+"\n";
 				
 			}
+			//total+=" / "+descripcion;
 
 function getNumbersInString(string) {
 

@@ -1,5 +1,5 @@
 <?php
-echo $_POST['var_1'];
+
 $processed = false;
 $nombre = "";
 if (isset($_POST['nombre'])) {
