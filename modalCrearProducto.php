@@ -123,9 +123,8 @@ $global="";
 				 		}
 				 		if($id==22){
 				 			echo "<h4>Sin algo mi rey</h4>";
-echo "<textarea id='descripcionAdicional' name='w3review' rows='4' cols='50'>
-
-</textarea>";
+				 			echo " <input type='button' value='Clear' onclick='javascript:eraseText();' > ";
+echo "<textarea id='descripcionAdicional' name='w3review' rows='4' cols='50'></textarea>";
 				 		}
 				 		
 				 		}else{
@@ -197,7 +196,16 @@ for( $i=0;$i<sizeof($nombres);$i++){
 }
 for( $i=0;$i<sizeof($pedidoEx);$i++){
 
-	echo '<script type="text/javascript">
+	$string=$pedidoEx[$i];
+
+	if(strpos($string, '(')!==false){
+		
+		echo '<script type="text/javascript">
+			var textArea = document.getElementById("descripcionAdicional");
+			textArea.innerHTML="'.substr($string , 4,-2).'";
+		 </script>';
+	}else{
+		echo '<script type="text/javascript">
 				var string ="habilitar("+variableNumero+")";
 				var h6 = document.createElement("button");
 	  			var br = document.createElement("br");
@@ -217,6 +225,10 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 
 				;
 
+	}
+
+	
+
 		
 	 } 
 	 
@@ -227,6 +239,11 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 
  ?>
 <script type="text/javascript">
+	
+	function eraseText() {
+    document.getElementById("descripcionAdicional").value = "";
+}
+
 	function porcionPizza(){
 		var valor = document.getElementById(0).value;
 			if(valor!=0){
@@ -267,7 +284,7 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 			var todo=0;
 			var aux="";
 			var x=document.getElementById('idp').innerHTML;
-			alert(x);
+		
 			var divCont = document.getElementById('Ingre'); 
 
 			var checks  = divCont.getElementsByTagName('input');
@@ -282,7 +299,7 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 				}
 
 			}
-			if(cantidadp<=4){
+			if(cantidadp<=4 && cantidadp>0){
 			variableGlobal=valor+" x / ";
 			for(i=0;i<checks.length; i++){
 				//Cambiar id por el nombre
@@ -304,7 +321,7 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 			
 
 
-			if(todo==0 && (x!=21 && x!=22 )){
+			if(todo==0  && x!=22 ){
 				variableGlobal+=" Todo .";
 			}
 			
@@ -335,7 +352,7 @@ for( $i=0;$i<sizeof($pedidoEx);$i++){
 				alert("La especificación del porducto ya existe, si desea ingresar mas unidades con la misma especificación, elimine el anterior e ingreselo nuevamente con las unidades solicitadas");
 			}
 			}else{
-				alert("Sobrepaso el número de sabores posibles. Porfavor Ingrese 4 o menos sabores")
+				alert("No ha escogido o sobrepasado el número de sabores posibles. Porfavor Ingrese almenos un sabor o menos de cinco sabores");
 			}
 			
 			
@@ -374,15 +391,22 @@ function enviarGET(){
 	var boton  = elementos.getElementsByTagName("button");
 	var idp = document.getElementById("idp");
 	var idn = document.getElementById("idn");
-	if(idp==22){
+	alert(idp.innerHTML);
+	if(idp.innerHTML==22){
 		var descripcion=document.getElementById("descripcionAdicional").value;
+
+
+		
 	}
 			var total="";
 			for(i=0;i<boton.length;i++){
 				total+=boton[i].innerHTML+"\n";
 				
 			}
-			//total+=" / "+descripcion;
+	if(descripcion!=""){
+		total+=" / ( "+descripcion+" ) ";
+	}
+			//
 
 function getNumbersInString(string) {
 
