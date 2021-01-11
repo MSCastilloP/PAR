@@ -40,14 +40,27 @@ class PedidoProDAO{
 				from PedidoPro";
 	}
 
+
+
+
 	function selectAllByPedido() {
-		return "select idPedidoPro, pedido_idPedido, producto_idProducto
+		return "select idPedidoPro, pedido_idPedido, producto_idProducto, cantidad, descripcion
 				from PedidoPro
-				where pedido_idPedido = '" . $this -> pedido . "'";
+				where pedido_idPedido = " . $this -> pedido ;
+	}
+	function selectAllByPedidoOrder($orden, $dir) {
+		return "select idPedidoPro, pedido_idPedido, producto_idProducto, cantidad, descripcion
+				from PedidoPro
+				where pedido_idPedido = " . $this -> pedido . "
+				order by " . $orden . " " . $dir;
 	}
 
+
+
+
+
 	function selectAllByProducto() {
-		return "select idPedidoPro, pedido_idPedido, producto_idProducto
+		return "select idPedidoPro, pedido_idPedido, producto_idProducto, cantidad, descripcion
 				from PedidoPro
 				where producto_idProducto = '" . $this -> producto . "'";
 	}
@@ -58,13 +71,7 @@ class PedidoProDAO{
 				order by " . $orden . " " . $dir;
 	}
 
-	function selectAllByPedidoOrder($orden, $dir) {
-		return "select idPedidoPro, pedido_idPedido, producto_idProducto
-				from PedidoPro
-				where pedido_idPedido = '" . $this -> pedido . "'
-				order by " . $orden . " " . $dir;
-	}
-
+	
 	function selectAllByProductoOrder($orden, $dir) {
 		return "select idPedidoPro, pedido_idPedido, producto_idProducto
 				from PedidoPro

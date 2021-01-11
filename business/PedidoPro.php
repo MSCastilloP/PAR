@@ -102,21 +102,7 @@ class PedidoPro {
 		return $pedidoPros;
 	}
 
-	function selectAllByPedido(){
-		$this -> connection -> open();
-		$this -> connection -> run($this -> pedidoProDAO -> selectAllByPedido());
-		$pedidoPros = array();
-		while ($result = $this -> connection -> fetchRow()){
-			$pedido = new Pedido($result[1]);
-			$pedido -> select();
-			$producto = new Producto($result[2]);
-			$producto -> select();
-			array_push($pedidoPros, new PedidoPro($result[0], $pedido, $producto));
-		}
-		$this -> connection -> close();
-		return $pedidoPros;
-	}
-
+	
 	function selectAllByProducto(){
 		$this -> connection -> open();
 		$this -> connection -> run($this -> pedidoProDAO -> selectAllByProducto());
@@ -147,6 +133,30 @@ class PedidoPro {
 		return $pedidoPros;
 	}
 
+
+/*
+private $idPedidoPro;
+	private $pedido;
+	private $producto;
+	private $pedidoProDAO;
+	private $descripcion;
+	private $cantidad;
+	private $connection;*/
+	function selectAllByPedido(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoProDAO -> selectAllByPedido());
+		$pedidoPros = array();
+		while ($result = $this -> connection -> fetchRow()){
+			$pedido = new Pedido($result[1]);
+			$pedido -> select();			
+			$producto = new Producto($result[2]);
+			$producto -> select();
+			array_push($pedidoPros, new PedidoPro($result[0], $pedido, $producto,$result[3],$result[4]));
+		}
+		$this -> connection -> close();
+		return $pedidoPros;
+	}
+
 	function selectAllByPedidoOrder($order, $dir){
 		$this -> connection -> open();
 		$this -> connection -> run($this -> pedidoProDAO -> selectAllByPedidoOrder($order, $dir));
@@ -156,7 +166,7 @@ class PedidoPro {
 			$pedido -> select();
 			$producto = new Producto($result[2]);
 			$producto -> select();
-			array_push($pedidoPros, new PedidoPro($result[0], $pedido, $producto));
+			array_push($pedidoPros, new PedidoPro($result[0], $pedido, $producto,$result[3],$result[4]));
 		}
 		$this -> connection -> close();
 		return $pedidoPros;

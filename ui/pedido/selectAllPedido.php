@@ -145,8 +145,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 							<span class='fas fa-sort-amount-down' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Descendente' ></span></a>
 						<?php } ?>
 						</th>
-						<th>Cajero</th>
-						<th nowrap></th>
+						
 					</tr>
 				</thead>
 				</tbody>
@@ -165,9 +164,10 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						echo "<td>" . $currentPedido -> getDescripcion() . "</td>";
 						echo "<td>" . $currentPedido -> getPrecio() . "</td>";
 						echo "<td>" . $currentPedido -> getCocinando() . "</td>";
-						echo "<td><a href='modalCajero.php?idCajero=" . $currentPedido -> getCajero() -> getIdCajero() . "' data-toggle='modal' data-target='#modalPedido' >" . $currentPedido -> getCajero() -> getNombre() . " " . $currentPedido -> getCajero() -> getApellido() . "</a></td>";
+						
 						echo "<td class='text-right' nowrap>";
-						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cajero') {
+						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cajero' 
+							&& $currentPedido -> getCocinando()==1) {
 							echo "<a href='index.php?pid=" . base64_encode("ui/pedido/updatePedido.php") . "&idPedido=" . $currentPedido -> getIdPedido() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Pedido' ></span></a> ";
 						}
 						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cajero') {

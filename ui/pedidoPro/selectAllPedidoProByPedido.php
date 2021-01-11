@@ -80,6 +80,8 @@ if(!empty($_GET['action']) && $_GET['action']=="delete"){
 					<tr><th></th>
 						<th>Pedido</th>
 						<th>Producto</th>
+						<th>Servicios</th>
+
 						<th nowrap></th>
 					</tr>
 				</thead>
@@ -94,14 +96,15 @@ if(!empty($_GET['action']) && $_GET['action']=="delete"){
 					$counter = 1;
 					foreach ($pedidoPros as $currentPedidoPro) {
 						echo "<tr><td>" . $counter . "</td>";
-						echo "<td><a href='modalPedido.php?idPedido=" . $currentPedidoPro -> getPedido() -> getIdPedido() . "' data-toggle='modal' data-target='#modalPedidoPro' >" . $currentPedidoPro -> getPedido() -> getDescripcion() . " " . $currentPedidoPro -> getPedido() -> getPrecio() . " " . $currentPedidoPro -> getPedido() -> getCocinando() . "</a></td>";
+						echo "<td>".$currentPedidoPro->getProducto()->getNombre()."</td>";
+						echo "<td>".$currentPedidoPro->getDescripcion()."</td>";
+						/*echo "<td><a href='modalPedido.php?idPedido=" . $currentPedidoPro -> getPedido() -> getIdPedido() . "' data-toggle='modal' data-target='#modalPedidoPro' >" . $currentPedidoPro -> getPedido() -> getDescripcion() . " " . $currentPedidoPro -> getPedido() -> getPrecio() . " " . $currentPedidoPro -> getPedido() -> getCocinando() . "</a></td>";
 						echo "<td><a href='modalProducto.php?idProducto=" . $currentPedidoPro -> getProducto() -> getIdProducto() . "' data-toggle='modal' data-target='#modalPedidoPro' >" . $currentPedidoPro -> getProducto() -> getNombre() . " " . $currentPedidoPro -> getProducto() -> getPrecio() . " " . $currentPedidoPro -> getProducto() -> getDescripcion() . " " . $currentPedidoPro -> getProducto() -> getFoto() . "</a></td>";
-						echo "<td class='text-right' nowrap>";
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/updatePedidoPro.php") . "&idPedidoPro=" . $currentPedidoPro -> getIdPedidoPro() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Pedido Pro' ></span></a> ";
-						}
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/selectAllPedidoProByPedido.php") . "&idPedido=" . $_GET['idPedido'] . "&idPedidoPro=" . $currentPedidoPro -> getIdPedidoPro() . "&action=delete' onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Pedido Pro' ></span></a> ";
+						echo "<td class='text-right' nowrap>";*/
+						
+						if($_SESSION['entity'] == 'Cajero') {
+							echo "<td><a href='index.php?pid=" . base64_encode("ui/pedidoPro/updatePedidoPro.php") . "&idPedidoPro=" . $currentPedidoPro -> getIdPedidoPro() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Pedido Pro' ></span></a> ";
+							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/selectAllPedidoProByPedido.php") . "&idPedido=" . $_GET['idPedido'] . "&idPedidoPro=" . $currentPedidoPro -> getIdPedidoPro() . "&action=delete' onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Pedido Pro' ></span></a> </td>";
 						}
 						echo "</td>";
 						echo "</tr>";
