@@ -29,10 +29,36 @@ class PedidoProDAO{
 				where idPedidoPro = '" . $this -> idPedidoPro . "'";
 	}
 
+	function updatePEPO($idp,$idPro,$total,$cantidad){
+		return "update PedidoPro set 
+				cantidad  = " . $cantidad . ",
+				descripcion = '" . $total . "'	
+				where producto_idProducto = " . $idPro ." and 
+				pedido_idPedido =".$idp
+				;
+	}
+
+
+
+
+
 	function select() {
 		return "select idPedidoPro, pedido_idPedido, producto_idProducto
 				from PedidoPro
 				where idPedidoPro = '" . $this -> idPedidoPro . "'";
+	}
+
+	function traerCantidades($idp) {
+		return "select cantidad
+				from PedidoPro
+				where pedido_idPedido = " .$idp. "
+				order by producto_idProducto";
+	}
+
+	function traer() {
+		return "select descripcion  
+				from PedidoPro
+				where pedido_idPedido = '" . $this -> pedido . "' and producto_idProducto= '".$this->producto ."'";
 	}
 
 	function selectAll() {
@@ -46,8 +72,10 @@ class PedidoProDAO{
 	function selectAllByPedido() {
 		return "select idPedidoPro, pedido_idPedido, producto_idProducto, cantidad, descripcion
 				from PedidoPro
-				where pedido_idPedido = " . $this -> pedido ;
+				where pedido_idPedido = " . $this -> pedido ."
+				order by producto_idProducto" ;
 	}
+
 	function selectAllByPedidoOrder($orden, $dir) {
 		return "select idPedidoPro, pedido_idPedido, producto_idProducto, cantidad, descripcion
 				from PedidoPro

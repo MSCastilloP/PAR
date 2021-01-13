@@ -107,7 +107,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						<?php if($order=="descripcion" && $dir=="asc") { ?>
 							<span class='fas fa-sort-up'></span>
 						<?php } else { ?>
-							<a href='index.php?pid=<?php echo base64_encode("ui/pedido/selectAllPedido.php") ?>&order=descripcion&dir=asc'>
+							<a href='index.php?pid=<?php echo base64_encode("ui/pedido/selectAllPedido.php") ?>&order=descripcion&dir=asc'>	
 							<span class='fas fa-sort-amount-up' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Ascendente' ></span></a>
 						<?php } ?>
 						<?php if($order=="descripcion" && $dir=="desc") { ?>
@@ -168,15 +168,12 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						echo "<td class='text-right' nowrap>";
 						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cajero' 
 							&& $currentPedido -> getCocinando()==1) {
-							echo "<a href='index.php?pid=" . base64_encode("ui/pedido/updatePedido.php") . "&idPedido=" . $currentPedido -> getIdPedido() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Pedido' ></span></a> ";
+							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/selectAllPedidoProByPedido.php") . "&idPedido=" . $currentPedido -> getIdPedido() . "&idp=0'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Pedido' ></span></a> ";
 						}
 						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cajero') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/pedido/selectAllPedido.php") . "&idPedido=" . $currentPedido -> getIdPedido() . "&action=delete' onclick='return confirm(\"Confirma eliminar Pedido: " . $currentPedido -> getDescripcion() . " " . $currentPedido -> getPrecio() . " " . $currentPedido -> getCocinando() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Pedido' ></span></a> ";
 						}
-						echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/selectAllPedidoProByPedido.php") . "&idPedido=" . $currentPedido -> getIdPedido() . "'><span class='fas fa-search-plus' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Consultar Pedido Pro' ></span></a> ";
-						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cajero') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/insertPedidoPro.php") . "&idPedido=" . $currentPedido -> getIdPedido() . "'><span class='fas fa-pen' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Crear Pedido Pro' ></span></a> ";
-						}
+						
 						echo "</td>";
 						echo "</tr>";
 						$counter++;

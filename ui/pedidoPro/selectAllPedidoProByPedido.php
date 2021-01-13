@@ -1,5 +1,45 @@
 <?php
+
+
+
+
 $order = "";
+if($_GET['idp']!=0){
+
+
+$idp=$_GET['idp'];
+$idn=$_GET['idn'];
+$total =$_GET['total'];
+$cantidad=$_GET['cantidad'];
+$prod=new Producto($idp);
+$prod->select();
+$pepo=new PedidoPro('',$_GET['idPedido']);
+$variable=$pepo->selectAllByPedido();
+$desc="";
+
+$precioP=0;
+$pepo->updatePEPO($_GET['idPedido'],$idp,$total,$cantidad);
+$aux=$pepo->traerCantidades($_GET['idPedido']);
+$count=0;
+foreach ($variable as $v) {
+	if($idp!=$v->getProducto()->getIdProducto()){
+		$desc=$desc." ".$v->getCantidad()." ".$v->getProducto()->getNombre();
+	}else{
+		$desc=$desc." ".$cantidad." ".$idn;
+	}
+
+	$precioP+=$v->getProducto()->getPrecio()*$aux[$count]	;
+	$count++;
+}
+echo "\n".$desc;
+
+
+$ped= new Pedido($_GET['idPedido'],"","",$desc,$precioP);
+$ped->updateP();
+
+
+
+}
 if(isset($_GET['order'])){
 	$order = $_GET['order'];
 }
@@ -9,6 +49,8 @@ if(isset($_GET['dir'])){
 }
 $pedido = new Pedido($_GET['idPedido']); 
 $pedido -> select();
+
+
 $error = 0;
 if(!empty($_GET['action']) && $_GET['action']=="delete"){
 	$deletePedidoPro = new PedidoPro($_GET['idPedidoPro']);
@@ -98,12 +140,15 @@ if(!empty($_GET['action']) && $_GET['action']=="delete"){
 						echo "<tr><td>" . $counter . "</td>";
 						echo "<td>".$currentPedidoPro->getProducto()->getNombre()."</td>";
 						echo "<td>".$currentPedidoPro->getDescripcion()."</td>";
-						/*echo "<td><a href='modalPedido.php?idPedido=" . $currentPedidoPro -> getPedido() -> getIdPedido() . "' data-toggle='modal' data-target='#modalPedidoPro' >" . $currentPedidoPro -> getPedido() -> getDescripcion() . " " . $currentPedidoPro -> getPedido() -> getPrecio() . " " . $currentPedidoPro -> getPedido() -> getCocinando() . "</a></td>";
-						echo "<td><a href='modalProducto.php?idProducto=" . $currentPedidoPro -> getProducto() -> getIdProducto() . "' data-toggle='modal' data-target='#modalPedidoPro' >" . $currentPedidoPro -> getProducto() -> getNombre() . " " . $currentPedidoPro -> getProducto() -> getPrecio() . " " . $currentPedidoPro -> getProducto() -> getDescripcion() . " " . $currentPedidoPro -> getProducto() -> getFoto() . "</a></td>";
-						echo "<td class='text-right' nowrap>";*/
 						
 						if($_SESSION['entity'] == 'Cajero') {
-							echo "<td><a href='index.php?pid=" . base64_encode("ui/pedidoPro/updatePedidoPro.php") . "&idPedidoPro=" . $currentPedidoPro -> getIdPedidoPro() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Pedido Pro' ></span></a> ";
+							echo "<td><a href='modalEditarPedido.php?id=".$currentPedidoPro->getProducto()->getIdProducto()."&idp=".$_GET['idPedido']. "'
+								data-toggle='modal'
+								data-target='#modalEditarPedido' ><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Pedido ' ></span></a> ";
+
+
+
+
 							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/selectAllPedidoProByPedido.php") . "&idPedido=" . $_GET['idPedido'] . "&idPedidoPro=" . $currentPedidoPro -> getIdPedidoPro() . "&action=delete' onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Pedido Pro' ></span></a> </td>";
 						}
 						echo "</td>";
@@ -117,15 +162,19 @@ if(!empty($_GET['action']) && $_GET['action']=="delete"){
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="modalPedidoPro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalEditarPedido" data-keyboard="false" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" >
 		<div class="modal-content" id="modalContent">
 		</div>
 	</div>
 </div>
+
 <script>
 	$('body').on('show.bs.modal', '.modal', function (e) {
 		var link = $(e.relatedTarget);
 		$(this).find(".modal-content").load(link.attr("href"));
 	});
 </script>
+
+
+

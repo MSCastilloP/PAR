@@ -72,6 +72,11 @@ class PedidoPro {
 		$this -> connection -> run($this -> pedidoProDAO -> update());
 		$this -> connection -> close();
 	}
+	function updatePEPO($idp,$idPro,$total,$cantidad){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoProDAO -> updatePEPO($idp,$idPro,$total,$cantidad));
+		$this -> connection -> close();
+	}
 
 	function select(){
 		$this -> connection -> open();
@@ -86,6 +91,26 @@ class PedidoPro {
 		$producto -> select();
 		$this -> producto = $producto;
 	}
+	function traer(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoProDAO -> traer());
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		$this -> descripcion = $result[0];
+		
+	}
+	function traerCantidades($idp){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoProDAO -> traerCantidades($idp));
+		$pedidoPros = array();
+		while ($result = $this -> connection -> fetchRow()){
+			
+			array_push($pedidoPros, $result[0]);
+		}
+		$this -> connection -> close();
+		return $pedidoPros;
+	}
+
 
 	function selectAll(){
 		$this -> connection -> open();

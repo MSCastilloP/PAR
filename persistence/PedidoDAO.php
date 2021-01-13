@@ -33,6 +33,12 @@ class PedidoDAO{
 				cajero_idCajero = '" . $this -> cajero . "'	
 				where idPedido = '" . $this -> idPedido . "'";
 	}
+	function updateP(){
+		return "update Pedido set 
+				descripcion = '" . $this -> descripcion . "',
+				precio = " . $this -> precio . "
+				where idPedido = " . $this -> idPedido  ;
+	}
 
 	function select() {
 		return "select idPedido, fecha, hora, descripcion, precio, cocinando, cajero_idCajero
