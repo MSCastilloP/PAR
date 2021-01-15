@@ -93,11 +93,11 @@ class Pedido {
 		$this -> connection -> close();
 	}
 	function updateP(){
-		echo "Entra";
+		
 		$this -> connection -> open();
 		$this -> connection -> run($this -> pedidoDAO -> updateP());
 		$this -> connection -> close();
-		echo "sale";
+		
 	}
 
 

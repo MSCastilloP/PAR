@@ -76,6 +76,12 @@ class PedidoProDAO{
 				order by producto_idProducto" ;
 	}
 
+	function selectEliminar() {
+		return "select idPedidoPro, pedido_idPedido, producto_idProducto, cantidad, descripcion
+				from PedidoPro
+				where idPedidoPro = " . $this -> idPedidoPro ;
+	}
+
 	function selectAllByPedidoOrder($orden, $dir) {
 		return "select idPedidoPro, pedido_idPedido, producto_idProducto, cantidad, descripcion
 				from PedidoPro
@@ -110,6 +116,9 @@ class PedidoProDAO{
 	function delete(){
 		return "delete from PedidoPro
 				where idPedidoPro = '" . $this -> idPedidoPro . "'";
+	}
+	function validar(){
+		return "select count(pedido_idPedido) from PedidoPro where pedido_idPedido=". $this-> pedido;
 	}
 }
 ?>

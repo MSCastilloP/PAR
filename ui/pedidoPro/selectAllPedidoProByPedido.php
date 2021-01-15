@@ -1,12 +1,6 @@
 <?php
-
-
-
-
 $order = "";
 if($_GET['idp']!=0){
-
-
 $idp=$_GET['idp'];
 $idn=$_GET['idn'];
 $total =$_GET['total'];
@@ -16,7 +10,6 @@ $prod->select();
 $pepo=new PedidoPro('',$_GET['idPedido']);
 $variable=$pepo->selectAllByPedido();
 $desc="";
-
 $precioP=0;
 $pepo->updatePEPO($_GET['idPedido'],$idp,$total,$cantidad);
 $aux=$pepo->traerCantidades($_GET['idPedido']);
@@ -40,6 +33,8 @@ $ped->updateP();
 
 
 }
+
+
 if(isset($_GET['order'])){
 	$order = $_GET['order'];
 }
@@ -47,17 +42,47 @@ $dir = "";
 if(isset($_GET['dir'])){
 	$dir = $_GET['dir'];
 }
-$pedido = new Pedido($_GET['idPedido']); 
-$pedido -> select();
+
 
 
 $error = 0;
-if(!empty($_GET['action']) && $_GET['action']=="delete"){
+if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
+	echo "Entra a eliminar";
 	$deletePedidoPro = new PedidoPro($_GET['idPedidoPro']);
 	$deletePedidoPro -> select();
+	$pedidoPro=new PedidoPro("",$deletePedidoPro->getPedido()->getidPedido());
+
+	
+
 	if($deletePedidoPro -> delete()){
+		if($pedidoPro ->validar()==0){
+			$ped= new Pedido($deletePedidoPro->getPedido()->getidPedido());
+			$ped->delete();
+			header("Location: index.php?pid=".base64_encode('ui/pedido/selectAllPedido.php'));
+		}else{
+		$array=$pedidoPro->selectAllByPedido();
+		$descripcion="";
+		$precio=0;
+		
+
+		foreach($array as $a){
+			$descripcion=$descripcion." ".$a->getCantidad()." ".$a->getProducto()->getNombre();
+			$precio+=$a->getCantidad()*$a->getProducto()->getPrecio();		
+		}
+		$ped= new Pedido($pedidoPro->getPedido(),"","",$descripcion,$precio);
+		$ped->updateP();
+		echo $descripcion." precio".$precio;
+
+
+
+		}
 		$namePedido = $deletePedidoPro -> getPedido() -> getDescripcion() . " " . $deletePedidoPro -> getPedido() -> getPrecio() . " " . $deletePedidoPro -> getPedido() -> getCocinando();
+
+
 		$nameProducto = $deletePedidoPro -> getProducto() -> getNombre() . " " . $deletePedidoPro -> getProducto() -> getPrecio() . " " . $deletePedidoPro -> getProducto() -> getDescripcion() . " " . $deletePedidoPro -> getProducto() -> getFoto();
+
+
+
 		$user_ip = getenv('REMOTE_ADDR');
 		$agent = $_SERVER["HTTP_USER_AGENT"];
 		$browser = "-";
@@ -93,7 +118,10 @@ if(!empty($_GET['action']) && $_GET['action']=="delete"){
 	}else{
 		$error = 1;
 	}
+	
 }
+$pedido = new Pedido($_GET['idPedido']); 
+$pedido -> select();
 ?>
 <div class="container-fluid">
 	<div class="card">
@@ -149,7 +177,7 @@ if(!empty($_GET['action']) && $_GET['action']=="delete"){
 
 
 
-							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/selectAllPedidoProByPedido.php") . "&idPedido=" . $_GET['idPedido'] . "&idPedidoPro=" . $currentPedidoPro -> getIdPedidoPro() . "&action=delete' onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Pedido Pro' ></span></a> </td>";
+							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/selectAllPedidoProByPedido.php") . "&idPedido=" . $_GET['idPedido'] . "&idPedidoPro=" . $currentPedidoPro -> getIdPedidoPro() . "&action=delete&idp=0' onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Pedido Pro' ></span></a> </td>";
 						}
 						echo "</td>";
 						echo "</tr>";
