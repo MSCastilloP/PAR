@@ -78,13 +78,13 @@ class DomiciliarioDAO{
 	}
 
 	function selectAll() {
-		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, rol, state
-				from Domiciliario";
+		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, rol, state 
+				from Domiciliario where state = 1 ";
 	}
 
 	function selectAllOrder($orden, $dir){
 		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, rol, state
-				from Domiciliario
+				from Domiciliario where state = 1
 				order by " . $orden . " " . $dir;
 	}
 

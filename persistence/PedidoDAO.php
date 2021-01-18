@@ -78,7 +78,7 @@ class PedidoDAO{
 
 	function delete(){
 		return "delete from Pedido
-				where idPedido = '" . $this -> idPedido . "'";
+				where idPedido = " . $this -> idPedido;
 	}
 
 

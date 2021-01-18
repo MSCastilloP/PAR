@@ -117,6 +117,13 @@ class PedidoProDAO{
 		return "delete from PedidoPro
 				where idPedidoPro = '" . $this -> idPedidoPro . "'";
 	}
+
+	function deletePedido(){
+		return "delete from PedidoPro
+				where pedido_idPedido = " . $this -> pedido;
+	}
+
+
 	function validar(){
 		return "select count(pedido_idPedido) from PedidoPro where pedido_idPedido=". $this-> pedido;
 	}

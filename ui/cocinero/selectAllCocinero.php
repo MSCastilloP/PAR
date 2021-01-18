@@ -1,4 +1,6 @@
 <?php
+$caje= new Cajero();
+
 $order = "";
 if(isset($_GET['order'])){
 	$order = $_GET['order'];
@@ -8,7 +10,8 @@ if(isset($_GET['dir'])){
 	$dir = $_GET['dir'];
 }
 $error = 0;
-if(isset($_GET['action']) && $_GET['action']=="delete"){
+if(isset($_GET['action']) && $_GET['action']=="delete" ){
+	
 	$deleteCocinero = new Cocinero($_GET['idCocinero']);
 	$deleteCocinero -> select();
 	if($deleteCocinero -> delete()){
@@ -44,10 +47,18 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 			$logCajero = new LogCajero("","Delete Cocinero", "Nombre: " . $deleteCocinero -> getNombre() . ";; Apellido: " . $deleteCocinero -> getApellido() . ";; Telefono: " . $deleteCocinero -> getTelefono() . ";; Salario: " . $deleteCocinero -> getSalario(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 			$logCajero -> insert();
 		}
-	}else{
+	}
+}else if(isset($_GET['action']) && $_GET['action']=="check"){
+	$id=$_GET['id'];
+	$nombre=$_GET['nombre'];
+	$apellido=$_GET['apellido'];
+	$fecha =  date("Y-m-d");
+	$caj= new Cajero();
+	$caj->asistencia($id,$nombre." ".$apellido,$fecha);
+
+}else{
 		$error = 1;
 	}
-}
 ?>
 <div class="container-fluid">
 	<div class="card">
@@ -70,6 +81,9 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 				</div>
 				<?php }
 			} ?>
+
+
+			<?php if($_SESSION['entity'] == 'Administrador') { ?>
 		<div class="table-responsive">
 			<table class="table table-striped table-hover">
 				<thead>
@@ -134,14 +148,35 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 					</tr>
 				</thead>
 				</tbody>
+			<?php } else if($_SESSION['entity'] == 'Cajero')  {?>
+			<div class="table-responsive">
+			<table class="table table-striped table-hover">
+			<thead>
+				<th> </th>
+				<th>Nombre</th>
+				<th>Rol</th>
+				<th>Servicio</th>
+
+			</thead>
+			</tbody>	
+			</div>	
+
+
+
+			<?php } ?>	
 					<?php
 					$cocinero = new Cocinero();
+					$domiciliario= new Domiciliario();
+
 					if($order != "" && $dir != "") {
 						$cocineros = $cocinero -> selectAllOrder($order, $dir);
+						$domiciliario = $domiciliario ->selectAllOrder($order, $dir);
 					} else {
 						$cocineros = $cocinero -> selectAll();
-					}
+						$domiciliario = $domiciliario ->selectAll();
+			}
 					$counter = 1;
+					if($_SESSION['entity'] == 'Administrador') {
 					foreach ($cocineros as $currentCocinero) {
 						echo "<tr><td>" . $counter . "</td>";
 						echo "<td>" . $currentCocinero -> getNombre() . "</td>";
@@ -149,22 +184,66 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						echo "<td>" . $currentCocinero -> getTelefono() . "</td>";
 						echo "<td>" . $currentCocinero -> getSalario() . "</td>";
 						echo "<td class='text-right' nowrap>";
-						if($_SESSION['entity'] == 'Administrador') {
+
 							echo "<a href='index.php?pid=" . base64_encode("ui/cocinero/updateCocinero.php") . "&idCocinero=" . $currentCocinero -> getIdCocinero() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Cocinero' ></span></a> ";
-						}
-						if($_SESSION['entity'] == 'Administrador') {
+						
+					
 							echo "<a href='index.php?pid=" . base64_encode("ui/cocinero/selectAllCocinero.php") . "&idCocinero=" . $currentCocinero -> getIdCocinero() . "&action=delete' onclick='return confirm(\"Confirma eliminar Cocinero: " . $currentCocinero -> getNombre() . " " . $currentCocinero -> getApellido() . " " . $currentCocinero -> getTelefono() . " " . $currentCocinero -> getSalario() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Cocinero' ></span></a> ";
-						}
+						
 						echo "</td>";
 						echo "</tr>";
 						$counter++;
+
+						 }
+
+						
+					}else if($_SESSION['entity'] == 'Cajero'){
+						foreach ($cocineros as $currentCocinero) {
+						echo "<tr><td>" . $counter . "</td>";
+						echo "<td>" . $currentCocinero -> getNombre()." ". $currentCocinero -> getApellido() . "</td>";
+						echo "<td>Cocinero</td>";
+						if($caje->verificarAsist($currentCocinero->getIdCocinero(),date("Y-m-d"))==0){
+							echo "<td ><a href='index.php?pid=" . base64_encode("ui/cocinero/selectAllCocinero.php") . "&id=" . $currentCocinero -> getIdCocinero() . "&action=check&nombre=".$currentCocinero -> getNombre().$currentCocinero -> getApellido()."' onclick='return confirm(\"Confirma que esta Trabajando " . $currentCocinero -> getNombre() . " " . $currentCocinero -> getApellido() . "\")'><span class='fas fa-check' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='check'></span></a> </td>";
+						}else{
+							echo "<td ><a ><span  class='fas fa-times'></span></a> </td>";
+						}
+						
+						
+						echo "<td class='text-right' nowrap>";
+
+							echo "</td>";
+							echo "</tr>";
+							$counter++;
+						 }
+						 foreach ($domiciliario as $currentDomiciliario) {
+						echo "<tr><td>" . $counter . "</td>";
+						echo "<td>" . $currentDomiciliario -> getNombre() ." ". $currentDomiciliario -> getApellido(). "</td>";
+						echo "<td> Domiciliario </td>";
+
+						$fecha=date("Y-m-d");
+						if($caje->verificarAsist($currentDomiciliario->getIdDomiciliario(),$fecha)==0){
+						echo "<td ><a href='index.php?pid=" . base64_encode("ui/cocinero/selectAllCocinero.php") . "&id=" . $currentDomiciliario -> getIdDomiciliario() . "&action=check&nombre=".$currentDomiciliario -> getNombre()."&apellido=".$currentDomiciliario -> getApellido()."' onclick='return confirm(\"Confirma que esta Trabajando " . $currentDomiciliario -> getNombre() . " " . $currentDomiciliario -> getApellido() . "\")'><span class='fas fa-check' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='check'></span></a> </td>";
+						 }else{
+						 	echo "<td ><a ><span  class='fas fa-times'></span></a> </td>";
+						 }
+					
+						echo "<td class='text-right' nowrap>";
+
+							echo "</td>";
+							echo "</tr>";
+							$counter++;
+						 }
+
+
 					}
 					?>
+
 				</tbody>
 			</table>
 			</div>
 		</div>
 	</div>
+
 </div>
 <div class="modal fade" id="modalCocinero" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" >
@@ -177,4 +256,9 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 		var link = $(e.relatedTarget);
 		$(this).find(".modal-content").load(link.attr("href"));
 	});
+
+	function verificar(){
+
+
+	}
 </script>

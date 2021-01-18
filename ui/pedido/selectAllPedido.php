@@ -7,10 +7,20 @@ $dir = "";
 if(isset($_GET['dir'])){
 	$dir = $_GET['dir'];
 }
+
+
+
+
 $error = 0;
 if(isset($_GET['action']) && $_GET['action']=="delete"){
 	$deletePedido = new Pedido($_GET['idPedido']);
 	$deletePedido -> select();
+	$pepo= new PedidoPro("",$_GET['idPedido']);
+
+	$pepo->deletePedido();
+
+
+
 	if($deletePedido -> delete()){
 		$nameCajero = $deletePedido -> getCajero() -> getNombre() . " " . $deletePedido -> getCajero() -> getApellido();
 		$user_ip = getenv('REMOTE_ADDR');

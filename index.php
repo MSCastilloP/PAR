@@ -22,6 +22,7 @@ ini_set("display_errors","1");
 date_default_timezone_set("America/Bogota");
 $webPagesNoAuthentication = array(
 	'ui/recoverPassword.php',
+	'ui/cliente/insertCliente.php',
 );
 $webPages = array(
 	'ui/sessionAdministrador.php',
@@ -72,7 +73,7 @@ $webPages = array(
 	'ui/domiciliario/updateFotoDomiciliario.php',
 	'ui/logCliente/searchLogCliente.php',
 	'ui/sessionCliente.php',
-	'ui/cliente/insertCliente.php',
+	
 	'ui/cliente/updateCliente.php',
 	'ui/cliente/selectAllCliente.php',
 	'ui/cliente/searchCliente.php',

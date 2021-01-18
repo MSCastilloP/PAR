@@ -8,9 +8,9 @@ class ClienteDAO{
 	private $foto;
 	private $telefono;
 	private $direccion;
-	private $state;
 
-	function ClienteDAO($pIdCliente = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pTelefono = "", $pDireccion = "", $pState = ""){
+
+	function ClienteDAO($pIdCliente = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pTelefono = "", $pDireccion = ""){
 		$this -> idCliente = $pIdCliente;
 		$this -> nombre = $pNombre;
 		$this -> apellido = $pApellido;
@@ -19,18 +19,18 @@ class ClienteDAO{
 		$this -> foto = $pFoto;
 		$this -> telefono = $pTelefono;
 		$this -> direccion = $pDireccion;
-		$this -> state = $pState;
+		
 	}
 
 	function logIn($correo, $clave){
-		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion, state
+		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion
 				from Cliente
 				where correo = '" . $correo . "' and clave = '" . md5($clave) . "'";
 	}
 
 	function insert(){
-		return "insert into Cliente(nombre, apellido, correo, clave, foto, telefono, direccion, state)
-				values('" . $this -> nombre . "', '" . $this -> apellido . "', '" . $this -> correo . "', md5('" . $this -> clave . "'), '" . $this -> foto . "', '" . $this -> telefono . "', '" . $this -> direccion . "', '" . $this -> state . "')";
+		return "insert into Cliente(nombre, apellido, correo, clave, foto, telefono, direccion)
+				values('" . $this -> nombre . "', '" . $this -> apellido . "', '" . $this -> correo . "', md5('" . $this -> clave . "'), '" . $this -> foto . "', '" . $this -> telefono . "', '" . $this -> direccion . "')";
 	}
 
 	function update(){
@@ -39,8 +39,8 @@ class ClienteDAO{
 				apellido = '" . $this -> apellido . "',
 				correo = '" . $this -> correo . "',
 				telefono = '" . $this -> telefono . "',
-				direccion = '" . $this -> direccion . "',
-				state = '" . $this -> state . "'	
+				direccion = '" . $this -> direccion . "'
+					
 				where idCliente = '" . $this -> idCliente . "'";
 	}
 
@@ -51,7 +51,7 @@ class ClienteDAO{
 	}
 
 	function existEmail($email){
-		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion, state
+		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion
 				from Cliente
 				where email = '" . $email . "'";
 	}
@@ -69,26 +69,26 @@ class ClienteDAO{
 	}
 
 	function select() {
-		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion, state
+		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion
 				from Cliente
 				where idCliente = '" . $this -> idCliente . "'";
 	}
 
 	function selectAll() {
-		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion, state
+		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion
 				from Cliente";
 	}
 
 	function selectAllOrder($orden, $dir){
-		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion, state
+		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion
 				from Cliente
 				order by " . $orden . " " . $dir;
 	}
 
 	function search($search) {
-		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion, state
+		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion
 				from Cliente
-				where nombre like '%" . $search . "%' or apellido like '%" . $search . "%' or correo like '%" . $search . "%' or telefono like '%" . $search . "%' or direccion like '%" . $search . "%' or state like '%" . $search . "%'";
+				where nombre like '%" . $search . "%' or apellido like '%" . $search . "%' or correo like '%" . $search . "%' or telefono like '%" . $search . "%' or direccion like '%" . $search . "%' ";
 	}
 
 	function delete(){

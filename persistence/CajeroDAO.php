@@ -98,5 +98,13 @@ class CajeroDAO{
 		return "delete from Cajero
 				where idCajero = '" . $this -> idCajero . "'";
 	}
+	function asistencia ($id,$nombre,$fecha){
+		return " insert into asistencia(idEmpleado,nombre,fecha)  
+		values(".$id.",'".$nombre."','".$fecha."' ) ";
+	}
+	function verificarAsist ($id, $fecha){
+		return "select count(idEmpleado) from asistencia where idEmpleado = ".$id." and 
+		fecha = '".$fecha."'";
+	}
 }
 ?>

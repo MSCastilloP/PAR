@@ -139,6 +139,11 @@ class Cajero {
 		$this -> connection -> run($this -> cajeroDAO -> insert());
 		$this -> connection -> close();
 	}
+	function asistencia($id,$nombre,$fecha){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> cajeroDAO -> asistencia($id,$nombre,$fecha));
+		$this -> connection -> close();
+	}
 
 	function update(){
 		$this -> connection -> open();
@@ -233,5 +238,18 @@ class Cajero {
 		$this -> connection -> close();
 		return $success;
 	}
+	function verificarAsist($id,$fecha){
+		echo $fecha;
+		$this -> connection -> open();
+		$this -> connection -> run($this -> cajeroDAO -> verificarAsist($id,$fecha));
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		if($result[0]==0){
+			return 0;
+		}else{
+			return 1;
+		}
+	
+}
 }
 ?>

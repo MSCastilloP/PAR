@@ -110,9 +110,13 @@ if(isset($_POST['logIn'])){
 						} ?>
 						<div class="form-group">
 							<a href="index.php?pid=<?php echo base64_encode("ui/recoverPassword.php") ?>">Recuperar Clave</a>
+							<br>
+							<a href="index.php?pid=<?php echo base64_encode("ui/cliente/insertCliente.php") ?>">CREAR USUARIO</a>
+
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-info" name="logIn">Autenticar</button>
+							
 						</div>
 					</form>
 				</div>
