@@ -23,8 +23,9 @@ class DomicilioDAO{
 	}
 
 	function insert(){
-		return "insert into Domicilio(direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente)
-				values('" . $this -> direccion . "', '" . $this -> fecha . "', '" . $this -> hora . "', '" . $this -> precio . "', '" . $this -> descripcion . "', '" . $this -> cocinando . "', '" . $this -> domiciliario . "', '" . $this -> cliente . "')";
+		echo $this -> fecha." ".$this -> hora." ".$this -> precio." ".$this -> descripcion." ".$this -> cocinando." ".$this -> cliente;
+		return "insert into domicilio(fecha, hora, precio, descripcion, cocinando,  cliente_idCliente, domiciliario_idDomiciliario)
+				values('" . $this -> fecha . "', '" . $this -> hora . "', " . $this -> precio . ", '" . $this -> descripcion . "', " . $this -> cocinando . ", " . $this -> cliente . ", 1)";
 	}
 
 	function update(){
@@ -93,5 +94,56 @@ class DomicilioDAO{
 		return "delete from Domicilio
 				where idDomicilio = '" . $this -> idDomicilio . "'";
 	}
+
+
+
+
+
+
+
+	function verificarTemporal($id,$idc ){
+		return "select count(idp), descripcion  
+		from temporaldomicilio 
+		where idp=". $id." and idc=".$idc;
+	}
+
+
+	function insertTemporal($idp,$idn,$total,$cantidad,$idc){
+		return "insert into temporaldomicilio(idp, idn, descripcion, cantidad,idc)
+				values(" . $idp . ", '" . $idn . "', '" . $total . "', '" . $cantidad . "',".$idc.")";
+	}
+
+	function updateTemporal($idp,$total,$cantidad,$idc){
+		return "update temporaldomicilio set 
+				descripcion = '" . $total . "',
+				cantidad = " . $cantidad . "
+				where idp = " . $idp . "
+				 and idc =".$idc;
+	}
+
+	function imprimirTemporal($idc){
+		return " select t.idp, t.idn, t.descripcion, t.cantidad, p.precio
+				from temporaldomicilio as t, producto as p 
+				where t.idp=p.idProducto and t.idc=".$idc;
+	}
+
+	function eliminar($id,$idc){
+		return "delete from temporaldomicilio
+				where idp = '" . $id. "' and idc=".$idc;
+
+	}
+	function eliminarTemporal($idc){
+		return "delete from temporaldomicilio where idc=".$idc;
+	}
+
+	function traerID($fecha, $hora ){
+		return "select idPedido from pedido where fecha= '". $fecha. "'  and hora= '".$hora."'  ";
+	}
+	function verificar($idc){
+		return " select count(idp) from temporaldomicilio where idc=".$idc;
+	}
+
+
+
 }
 ?>

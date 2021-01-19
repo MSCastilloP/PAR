@@ -10,7 +10,7 @@ $cliente -> select();
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Crear</a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domicilio/insertDomicilio.php") ?>">Domicilio</a>
+					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domicilio/insertDomicilio.php")?>&idp=0">Domicilio</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">

@@ -283,6 +283,8 @@ function updateTemporal($idp,$total,$cantidad){
 		$this -> connection -> close();
 	}
 
+	
+
 }
 
 ?>

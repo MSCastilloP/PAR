@@ -144,20 +144,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 							<span class='fas fa-sort-amount-down' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Descendente' ></span></a>
 						<?php } ?>
 						</th>
-						<th nowrap>State 
-						<?php if($order=="state" && $dir=="asc") { ?>
-							<span class='fas fa-sort-up'></span>
-						<?php } else { ?>
-							<a href='index.php?pid=<?php echo base64_encode("ui/cliente/selectAllCliente.php") ?>&order=state&dir=asc'>
-							<span class='fas fa-sort-amount-up' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Ascendente' ></span></a>
-						<?php } ?>
-						<?php if($order=="state" && $dir=="desc") { ?>
-							<span class='fas fa-sort-down'></span>
-						<?php } else { ?>
-							<a href='index.php?pid=<?php echo base64_encode("ui/cliente/selectAllCliente.php") ?>&order=state&dir=desc'>
-							<span class='fas fa-sort-amount-down' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Descendente' ></span></a>
-						<?php } ?>
-						</th>
+						
 						<th nowrap></th>
 					</tr>
 				</thead>
@@ -177,7 +164,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						echo "<td>" . $currentCliente -> getCorreo() . "</td>";
 						echo "<td>" . $currentCliente -> getTelefono() . "</td>";
 						echo "<td>" . $currentCliente -> getDireccion() . "</td>";
-						echo "<td>" . ($currentCliente -> getState()==1?"Habilitado":"Deshabilitado") . "</td>";
+						
 						echo "<td class='text-right' nowrap>";
 						echo "<a href='modalCliente.php?idCliente=" . $currentCliente -> getIdCliente() . "'  data-toggle='modal' data-target='#modalCliente' ><span class='fas fa-eye' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Ver mas información' ></span></a> ";
 						

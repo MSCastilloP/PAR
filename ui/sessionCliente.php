@@ -35,10 +35,7 @@ $cliente -> select();
 								<th>Direccion</th>
 								<td><?php echo $cliente -> getDireccion() ?></td>
 							</tr>
-							<tr>
-								<th>State</th>
-								<td><?php echo ($cliente -> getState()==1)?"Habilitado":"Deshabilitado"; ?></td>
-							</tr>
+							
 						</table>
 					</div>
 				</div>

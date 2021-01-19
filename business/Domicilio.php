@@ -102,6 +102,7 @@ class Domicilio {
 	}
 
 	function insert(){
+		echo "entra a insert";
 		$this -> connection -> open();
 		$this -> connection -> run($this -> domicilioDAO -> insert());
 		$this -> connection -> close();
@@ -245,5 +246,92 @@ class Domicilio {
 		$this -> connection -> close();
 		return $success;
 	}
+
+
+
+
+	function verificarTemporal($id,$idc){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> verificarTemporal($id,$idc));
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		if($result[0]==1){
+			return $result[1];
+		}else{
+			return 0;
+		}
+	
+}
+
+function insertTemporal($idp,$idn,$total,$cantidad,$idc){
+	echo "Entra a Domicilio";
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> insertTemporal($idp,$idn,$total,$cantidad,$idc));
+		$this -> connection -> close();
+	}
+
+
+
+	function updateTemporal($idp,$total,$cantidad,$idc){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> updateTemporal($idp,$total,$cantidad,$idc));
+		$this -> connection -> close();
+	}
+
+	function imprimirTemporal($idc){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> imprimirTemporal($idc));
+		$pedidos = array();
+		while ($result = $this -> connection -> fetchRow()){
+			$arrays = array($result[0],$result[1],$result[2],$result[3],$result[4]);
+			array_push($pedidos, $arrays);
+
+
+		}
+		$this -> connection -> close();
+		return $pedidos;
+	}
+
+
+	function eliminar($id,$idc){
+	$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> eliminar($id,$idc));
+		$success = $this -> connection -> querySuccess();
+		$this -> connection -> close();
+		return $success;
+
+}
+function eliminarTemporal($idc){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> eliminarTemporal($idc));
+		$success = $this -> connection -> querySuccess();
+		$this -> connection -> close();
+		return $success;
+}
+function traerID ($fecha, $hora){
+	$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> traerID($fecha, $hora));
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+
+		return $result;
+
+}
+function verificar($idc){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> verificar($idc));
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		if($result[0]>0){
+			return 1;
+		}else{
+			return 0;
+		}
+
+		
+
+}
+
+
 }
 ?>
