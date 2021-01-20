@@ -1,4 +1,7 @@
 	<?php
+
+	$cliente = new Cliente($_SESSION['id']);
+	$cliente -> select();
 	$array = array();
 	$arrays = array();
 	$precioTotal=0;
@@ -12,9 +15,8 @@
 		$idn = $_GET["idn"];
 		$total = $_GET["total"];
 		$cantidad = $_GET["cantidad"];
-
-
-		if($nuevoDomicilio->verificarTemporal($idp,$_SESSION['id'])==0){
+		if($cantidad>0){
+			if($nuevoDomicilio->verificarTemporal($idp,$_SESSION['id'])==0){
 
 			$nuevoDomicilio->insertTemporal($idp,$idn,$total,$cantidad,$_SESSION['id']);
 		}else{
@@ -22,6 +24,9 @@
 			$nuevoDomicilio->updateTemporal($idp,$total,$cantidad,$_SESSION['id']);
 
 		}
+		}
+
+		
 
 
 
@@ -35,33 +40,36 @@
 
 		}
 		if(isset($_GET['limpiar'])){
+			$direccion = $_GET["direccion"];
 			$fecha= date("Y-m-d ");
 			$hora = date("H:i:s");	
-
-
 			$precio=$_GET['limpiar'];
 			$descripcion="";			
 			$arrays=$nuevoDomicilio->imprimirTemporal($_SESSION['id']);
 			$nuevoDomicilio->eliminarTemporal($_SESSION['id']);
 			foreach ($arrays as $facturas) {
 				$descripcion= $descripcion." ".$facturas[3]." ".$facturas[1].".";
-			}			  			
-			$crearDomicilio = new domicilio("","",$fecha,$hora,$precio,$descripcion,1,"",$_SESSION['id']);
+			}	
+			if($descripcion!=""){
+			$crearDomicilio = new domicilio("",$direccion,$fecha,$hora,$precio,$descripcion,1,"",$_SESSION['id']);
 			$crearDomicilio->insert();	
-			/*
-
-			$primerID=$crearPedido->traerID($fecha,$hora);
+			$crearDomicilio->buscarDomicilio();
 
 
 			foreach ($arrays as $facturas) {
 
-				$pedidoPro= new PedidoPro("",$primerID[0],$facturas[0],$facturas[3],$facturas[2]);
-				$pedidoPro->insert();
+				$ProDom = new ProDom("",$crearDomicilio->getIdDomicilio(),$facturas[0],$facturas[3],$facturas[2]);
+				$ProDom->insert();
 
 
 									# code...
 			}
-			*/
+
+			//echo $crearDomicilio->getIdDomicilio();
+			}		  			
+
+			
+			
 		}
 
 	}
@@ -228,18 +236,26 @@
 					<table class="table"> 
 
 						<td>
+							<h4>Direccion</h4><br>
+
 							<h6> Precio Total</h6>
 						</td>
 						<td>
-							<h6><?php echo $precioTotal; ?></h6>
+							<input id="direccion" class="form-control" value="<?php echo $cliente -> getDireccion()?>"><br>
+
+							<h6 id="precio"><?php echo $precioTotal; ?></h6>
 						</td>
 						<td>
+
 							<?php 
 							if($nuevoDomicilio->verificar($_SESSION['id'])==1){
+								
 
-								echo "<a  href='index.php?pid=" . base64_encode("ui/domicilio/insertDomicilio.php") ."&limpiar=". $precioTotal."&idp=0' class='btn btn-outline-success' onclick='alert(\"Tu pedido fue enviado\")' > Enviar pedido </a>"; 
+								echo "<a   class='btn btn-outline-success' onclick=enviar(); >Enviar pedido </a> <br>"; 
+								
 
 							}
+							
 
 
 							?>
@@ -281,6 +297,16 @@
 				}
 			});
 		});
+
+		function enviar(){
+//href='index.php?pid=" . base64_encode("ui/domicilio/insertDomicilio.php") ."&limpiar=". $precioTotal."&idp=0'
+			var precio = <?php echo $precioTotal; ?>;
+			var direccion= document.getElementById("direccion").value;
+			alert(direccion);
+			alert(precio);
+			window.location.replace("index.php?pid=<?php echo base64_encode("ui/domicilio/insertDomicilio.php")?>&limpiar="+precio+"&idp=0&direccion="+direccion);
+			alert("Tu pedido fue enviado");
+		}
 
 
 

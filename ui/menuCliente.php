@@ -1,4 +1,4 @@
-<?php
+ <?php
 $cliente = new Cliente($_SESSION['id']);
 $cliente -> select();
 ?>

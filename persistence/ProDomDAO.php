@@ -3,16 +3,21 @@ class ProDomDAO{
 	private $idProDom;
 	private $domicilio;
 	private $producto;
+	private $cantidad;
+	private $descripcion;
 
-	function ProDomDAO($pIdProDom = "", $pDomicilio = "", $pProducto = ""){
+	function ProDomDAO($pIdProDom = "", $pDomicilio = "", $pProducto = "",$pCantidad = "", $pDescripcion = ""){
 		$this -> idProDom = $pIdProDom;
 		$this -> domicilio = $pDomicilio;
 		$this -> producto = $pProducto;
+		$this -> cantidad = $pCantidad;
+		$this -> descripcion = $pDescripcion;
+
 	}
 
 	function insert(){
-		return "insert into ProDom(domicilio_idDomicilio, producto_idProducto)
-				values('" . $this -> domicilio . "', '" . $this -> producto . "')";
+		return "insert into ProDom(domicilio_idDomicilio, producto_idProducto, cantidad , descripcion)
+				values('" . $this -> domicilio . "', '" . $this -> producto . "', " . $this -> cantidad . ", '" . $this -> descripcion . "')";
 	}
 
 	function update(){

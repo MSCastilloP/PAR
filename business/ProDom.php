@@ -6,6 +6,8 @@ class ProDom {
 	private $idProDom;
 	private $domicilio;
 	private $producto;
+	private $descripcion;
+	private $cantidad;
 	private $proDomDAO;
 	private $connection;
 
@@ -25,6 +27,23 @@ class ProDom {
 		$this -> domicilio = $pDomicilio;
 	}
 
+	function getDescripcion() {
+		return $this -> descripcion;
+	}
+
+	function setDescripcion($pDescripcion) {
+		$this -> descripcion = $pDescripcion;
+	}
+
+	function getCantidad() {
+		return $this -> cantidad;
+	}
+
+	function setCantidad($pCantidad) {
+		$this -> cantidad = $pCantidad;
+	}
+
+
 	function getProducto() {
 		return $this -> producto;
 	}
@@ -33,11 +52,13 @@ class ProDom {
 		$this -> producto = $pProducto;
 	}
 
-	function ProDom($pIdProDom = "", $pDomicilio = "", $pProducto = ""){
+	function ProDom($pIdProDom = "", $pDomicilio = "", $pProducto = "",$pCantidad = "", $pDescripcion = ""){
 		$this -> idProDom = $pIdProDom;
 		$this -> domicilio = $pDomicilio;
 		$this -> producto = $pProducto;
-		$this -> proDomDAO = new ProDomDAO($this -> idProDom, $this -> domicilio, $this -> producto);
+		$this -> cantidad = $pCantidad;
+		$this -> descripcion = $pDescripcion;
+		$this -> proDomDAO = new ProDomDAO($this -> idProDom, $this -> domicilio, $this -> producto,$this-> cantidad , $this -> descripcion);
 		$this -> connection = new Connection();
 	}
 

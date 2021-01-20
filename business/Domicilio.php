@@ -264,7 +264,7 @@ class Domicilio {
 }
 
 function insertTemporal($idp,$idn,$total,$cantidad,$idc){
-	echo "Entra a Domicilio";
+	
 		$this -> connection -> open();
 		$this -> connection -> run($this -> domicilioDAO -> insertTemporal($idp,$idn,$total,$cantidad,$idc));
 		$this -> connection -> close();
@@ -331,6 +331,14 @@ function verificar($idc){
 		
 
 }
+	function buscarDomicilio(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> buscarDomicilio());
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		$this -> idDomicilio = $result[0];
+		
+	}
 
 
 }

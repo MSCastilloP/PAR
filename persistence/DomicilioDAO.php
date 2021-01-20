@@ -23,9 +23,9 @@ class DomicilioDAO{
 	}
 
 	function insert(){
-		echo $this -> fecha." ".$this -> hora." ".$this -> precio." ".$this -> descripcion." ".$this -> cocinando." ".$this -> cliente;
-		return "insert into domicilio(fecha, hora, precio, descripcion, cocinando,  cliente_idCliente, domiciliario_idDomiciliario)
-				values('" . $this -> fecha . "', '" . $this -> hora . "', " . $this -> precio . ", '" . $this -> descripcion . "', " . $this -> cocinando . ", " . $this -> cliente . ", 1)";
+		
+		return "insert into domicilio(direccion,fecha, hora, precio, descripcion, cocinando,  cliente_idCliente, domiciliario_idDomiciliario)
+				values('" . $this -> direccion . "','" . $this -> fecha . "', '" . $this -> hora . "', " . $this -> precio . ", '" . $this -> descripcion . "', " . $this -> cocinando . ", " . $this -> cliente . ", 0)";
 	}
 
 	function update(){
@@ -141,6 +141,14 @@ class DomicilioDAO{
 	}
 	function verificar($idc){
 		return " select count(idp) from temporaldomicilio where idc=".$idc;
+	}
+
+	function buscarDomicilio() {
+		return "select idDomicilio
+				from Domicilio
+				where fecha ='" . $this -> fecha . "' and 
+				hora ='".$this-> hora. "' and
+				cliente_idCliente =".$this-> cliente;
 	}
 
 
