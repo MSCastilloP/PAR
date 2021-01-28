@@ -215,5 +215,19 @@ class Cliente {
 		$this -> connection -> close();
 		return $success;
 	}
+	function consultarCorreo(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> clienteDAO -> consultarCorreo());
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		if($result[0]>0){
+			return 1;
+		}else{
+			return 0;
+		}
+
+}
+
+
 }
 ?>

@@ -28,9 +28,9 @@ class ProDomDAO{
 	}
 
 	function select() {
-		return "select idProDom, domicilio_idDomicilio, producto_idProducto
+		return "select idProDom, domicilio_idDomicilio, producto_idProducto, cantidad , descripcion
 				from ProDom
-				where idProDom = '" . $this -> idProDom . "'";
+				where idProDom =" . $this -> idProDom ;
 	}
 
 	function selectAll() {
@@ -39,13 +39,13 @@ class ProDomDAO{
 	}
 
 	function selectAllByDomicilio() {
-		return "select idProDom, domicilio_idDomicilio, producto_idProducto
+		return "select idProDom, domicilio_idDomicilio, producto_idProducto,cantidad, descripcion
 				from ProDom
 				where domicilio_idDomicilio = '" . $this -> domicilio . "'";
 	}
 
 	function selectAllByProducto() {
-		return "select idProDom, domicilio_idDomicilio, producto_idProducto
+		return "select idProDom, domicilio_idDomicilio, producto_idProducto,
 				from ProDom
 				where producto_idProducto = '" . $this -> producto . "'";
 	}
@@ -57,7 +57,7 @@ class ProDomDAO{
 	}
 
 	function selectAllByDomicilioOrder($orden, $dir) {
-		return "select idProDom, domicilio_idDomicilio, producto_idProducto
+		return "select idProDom, domicilio_idDomicilio, producto_idProducto,cantidad,descripcion
 				from ProDom
 				where domicilio_idDomicilio = '" . $this -> domicilio . "'
 				order by " . $orden . " " . $dir;
@@ -72,7 +72,35 @@ class ProDomDAO{
 
 	function delete(){
 		return "delete from ProDom
-				where idProDom = '" . $this -> idProDom . "'";
+				where idProDom =" . $this -> idProDom;
+	}
+	function deletePedo(){
+		return "delete from ProDom
+				where domicilio_idDomicilio =" . $this -> domicilio;
+	}
+	
+	function traer() {
+		return "select descripcion  
+				from ProDom
+				where domicilio_idDomicilio = '" . $this -> domicilio . "' and producto_idProducto= '".$this-> producto ."'";
+	}
+
+	function updatePEDO($idp,$idPro,$total,$cantidad){
+		return "update ProDom set 
+				cantidad  = " . $cantidad . ",
+				descripcion = '" . $total . "'	
+				where producto_idProducto = " . $idPro ." and 
+				domicilio_idDomicilio =".$idp
+				;
+	}
+	function traerCantidades($idp) {
+		return "select cantidad
+				from ProDom
+				where domicilio_idDomicilio = " .$idp. "
+				order by producto_idProducto";
+	}
+	function validar(){
+		return "select count(domicilio_idDomicilio) from ProDom where domicilio_idDomicilio=". $this-> domicilio;
 	}
 }
 ?>

@@ -264,7 +264,7 @@ class PedidoPro {
 		return $success;
 	}
 	function deletePedido(){
-		echo "Entra";
+		
 		$this -> connection -> open();
 		$this -> connection -> run($this -> pedidoProDAO -> deletePedido());
 		$success = $this -> connection -> querySuccess();

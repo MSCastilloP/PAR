@@ -40,6 +40,12 @@ class DomicilioDAO{
 				cliente_idCliente = '" . $this -> cliente . "'	
 				where idDomicilio = '" . $this -> idDomicilio . "'";
 	}
+	function updateP(){
+		return "update Domicilio set 
+				descripcion = '" . $this -> descripcion . "',
+				precio = " . $this -> precio . "
+				where idDomicilio = " . $this -> idDomicilio  ;
+	}
 
 	function select() {
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
@@ -48,8 +54,12 @@ class DomicilioDAO{
 	}
 
 	function selectAll() {
+		$id = $_SESSION['id'];
+		
+
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
-				from Domicilio";
+				from Domicilio where cliente_idCliente = ".$id;
+
 	}
 
 	function selectAllByDomiciliario() {
@@ -65,8 +75,10 @@ class DomicilioDAO{
 	}
 
 	function selectAllOrder($orden, $dir){
+		$id = $_SESSION['id'];
+		
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
-				from Domicilio
+				from Domicilio where cliente_idCliente= ".$id. "
 				order by " . $orden . " " . $dir;
 	}
 

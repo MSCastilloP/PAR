@@ -17,14 +17,15 @@
 		require("business/PedidoPro.php");
 		require("business/Cocinero.php");
 		require_once("persistence/Connection.php");
+		//id es de productos
 		$id=$_GET['id'];
+		//idp es de domicilio
 		$idp=$_GET['idp'];
-		
-		$producto = new Producto();
-		$pedido= new Pedido();
-		$pedidoPro= new PedidoPro("",$idp,$id);
-		$pedidoPro->traer();
 
+		$producto = new Producto();
+		$domicilio= new Domicilio();
+		$proDom= new proDom("",$idp,$id);
+		$proDom->traer();
 		$ingrediente = new IngrePro();
 		$vector=$ingrediente->traerIngre($id);
 		$producto->traer($id);
@@ -326,7 +327,7 @@
 
 		}
 
-					window.location.replace("index.php?pid=<?php echo base64_encode("ui/pedidoPro/selectAllPedidoProByPedido.php")?>&idPedido=<?php echo $idp  ?>&idp="+idp.innerHTML+"&idn="+idn.innerHTML+"&total="+total+"&cantidad="+aux);
+					window.location.replace("index.php?pid=<?php echo base64_encode("ui/domicilio/updateDomicilio.php")?>&idDomicilio=<?php echo $idp  ?>&idp="+idp.innerHTML+"&idn="+idn.innerHTML+"&total="+total+"&cantidad="+aux);
 
 				}else{
 					alert("No ha ingresado ningun producto");
@@ -379,7 +380,7 @@
 		<?php 
 		
 		//hacemos explote para separar el texto 	
-		$nombres = explode(".", $pedidoPro->getDescripcion());
+		$nombres = explode(".", $proDom->getDescripcion());
 
 
 		$pedidoEx=array();

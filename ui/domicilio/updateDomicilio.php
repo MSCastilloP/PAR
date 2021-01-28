@@ -1,162 +1,219 @@
 <?php
-$processed=false;
-$idDomicilio = $_GET['idDomicilio'];
-$updateDomicilio = new Domicilio($idDomicilio);
-$updateDomicilio -> select();
-$direccion="";
-if(isset($_POST['direccion'])){
-	$direccion=$_POST['direccion'];
-}
-$fecha=date("d/m/Y");
-if(isset($_POST['fecha'])){
-	$fecha=$_POST['fecha'];
-}
-$hora=date("d/m/Y");
-if(isset($_POST['hora'])){
-	$hora=$_POST['hora'];
-}
-$precio="";
-if(isset($_POST['precio'])){
-	$precio=$_POST['precio'];
-}
-$descripcion="";
-if(isset($_POST['descripcion'])){
-	$descripcion=$_POST['descripcion'];
-}
-$cocinando="";
-if(isset($_POST['cocinando'])){
-	$cocinando=$_POST['cocinando'];
-}
-$domiciliario="";
-if(isset($_POST['domiciliario'])){
-	$domiciliario=$_POST['domiciliario'];
-}
-$cliente="";
-if(isset($_POST['cliente'])){
-	$cliente=$_POST['cliente'];
-}
-if(isset($_POST['update'])){
-	$updateDomicilio = new Domicilio($idDomicilio, $direccion, $fecha, $hora, $precio, $descripcion, $cocinando, $domiciliario, $cliente);
-	$updateDomicilio -> update();
-	$updateDomicilio -> select();
-	$objDomiciliario = new Domiciliario($domiciliario);
-	$objDomiciliario -> select();
-	$nameDomiciliario = $objDomiciliario -> getNombre() . " " . $objDomiciliario -> getApellido() . " " . $objDomiciliario -> getTelefono() . " " . $objDomiciliario -> getSalario() . " " . $objDomiciliario -> getRol() ;
-	$objCliente = new Cliente($cliente);
-	$objCliente -> select();
-	$nameCliente = $objCliente -> getNombre() . " " . $objCliente -> getApellido() . " " . $objCliente -> getTelefono() . " " . $objCliente -> getDireccion() ;
-	$user_ip = getenv('REMOTE_ADDR');
-	$agent = $_SERVER["HTTP_USER_AGENT"];
-	$browser = "-";
-	if( preg_match('/MSIE (\d+\.\d+);/', $agent) ) {
-		$browser = "Internet Explorer";
-	} else if (preg_match('/Chrome[\/\s](\d+\.\d+)/', $agent) ) {
-		$browser = "Chrome";
-	} else if (preg_match('/Edge\/\d+/', $agent) ) {
-		$browser = "Edge";
-	} else if ( preg_match('/Firefox[\/\s](\d+\.\d+)/', $agent) ) {
-		$browser = "Firefox";
-	} else if ( preg_match('/OPR[\/\s](\d+\.\d+)/', $agent) ) {
-		$browser = "Opera";
-	} else if (preg_match('/Safari[\/\s](\d+\.\d+)/', $agent) ) {
-		$browser = "Safari";
+$order = "";
+if($_GET['idp']!=0){
+//Es la id de producto
+$idp=$_GET['idp'];
+//idn es el nombre del producto
+$idn=$_GET['idn'];
+//total la descripcion de la orden del producto
+$total =$_GET['total'];
+//cantidad ª
+$cantidad=$_GET['cantidad'];
+
+$prod=new Producto($idp);
+$prod->select();
+$pedo=new ProDom('',$_GET['idDomicilio']);
+$variable=$pedo->selectAllByDomicilio();
+$desc="";
+$precioP=0;
+$pedo->updatePEDO($_GET['idDomicilio'],$idp,$total,$cantidad);
+$aux=$pedo->traerCantidades($_GET['idDomicilio']);
+$count=0;
+
+foreach ($variable as $v) {
+	if($idp!=$v->getProducto()->getIdProducto()){
+		$desc=$desc." ".$v->getCantidad()." ".$v->getProducto()->getNombre();
+	
+	}else{
+		
+		$desc=$desc." ".$cantidad." ".$idn;
+		
 	}
-	if($_SESSION['entity'] == 'Administrador'){
-		$logAdministrador = new LogAdministrador("","Editar Domicilio", "Direccion: " . $direccion . "; Fecha: " . $fecha . "; Hora: " . $hora . "; Precio: " . $precio . "; Descripcion: " . $descripcion . "; Cocinando: " . $cocinando . "; Domiciliario: " . $nameDomiciliario . ";; Cliente: " . $nameCliente , date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logAdministrador -> insert();
-	}
-	else if($_SESSION['entity'] == 'Domiciliario'){
-		$logDomiciliario = new LogDomiciliario("","Editar Domicilio", "Direccion: " . $direccion . "; Fecha: " . $fecha . "; Hora: " . $hora . "; Precio: " . $precio . "; Descripcion: " . $descripcion . "; Cocinando: " . $cocinando . "; Domiciliario: " . $nameDomiciliario . ";; Cliente: " . $nameCliente , date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logDomiciliario -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cliente'){
-		$logCliente = new LogCliente("","Editar Domicilio", "Direccion: " . $direccion . "; Fecha: " . $fecha . "; Hora: " . $hora . "; Precio: " . $precio . "; Descripcion: " . $descripcion . "; Cocinando: " . $cocinando . "; Domiciliario: " . $nameDomiciliario . ";; Cliente: " . $nameCliente , date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCliente -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cajero'){
-		$logCajero = new LogCajero("","Editar Domicilio", "Direccion: " . $direccion . "; Fecha: " . $fecha . "; Hora: " . $hora . "; Precio: " . $precio . "; Descripcion: " . $descripcion . "; Cocinando: " . $cocinando . "; Domiciliario: " . $nameDomiciliario . ";; Cliente: " . $nameCliente , date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCajero -> insert();
-	}
-	$processed=true;
+
+	$precioP+=$v->getProducto()->getPrecio()*$aux[$count]	;
+	$count++;
 }
+echo "\n".$desc;
+
+
+$dom= new Domicilio($_GET['idDomicilio'],"","","",$precioP,$desc);
+$dom->updateP();
+
+
+
+}
+
+
+if(isset($_GET['order'])){
+	$order = $_GET['order'];
+}
+$dir = "";
+if(isset($_GET['dir'])){
+	$dir = $_GET['dir'];
+}
+
+
+
+$error = 0;
+if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
+	
+	$deletePedo = new ProDom($_GET['idProDom']);
+	$deletePedo -> select();
+	$pedo=new ProDom("",$deletePedo->getDomicilio()->getidDomicilio());
+
+	
+
+	if($deletePedo -> delete()){
+		if($pedo ->validar()==0){
+			$dom= new Domicilio($deletePedo->getDomicilio()->getidDomicilio());
+			$dom->delete();
+			header("Location: index.php?pid=".base64_encode('ui/domicilio/selectAllDomicilio.php'));
+		}else{
+		$array=$pedo->selectAllByDomicilio();
+		$descripcion="";
+		$precio=0;
+		
+
+		foreach($array as $a){
+			$descripcion=$descripcion." ".$a->getCantidad()." ".$a->getProducto()->getNombre();
+			$precio+=$a->getCantidad()*$a->getProducto()->getPrecio();		
+		}
+		$dom= new Domicilio($deletePedo->getDomicilio()->getidDomicilio(),"","","",$precio,$descripcion);
+		$dom->updateP();
+		
+		}
+		$namePedido = $deletePedo -> getDomicilio() -> getDescripcion() . " " . $deletePedo -> getDomicilio() -> getPrecio() . " " . $deletePedo -> getDomicilio() -> getCocinando();
+
+
+		$nameProducto = $deletePedo -> getProducto() -> getNombre() . " " . $deletePedo -> getProducto() -> getPrecio() . " " . $deletePedo -> getProducto() -> getDescripcion() . " " . $deletePedo -> getProducto() -> getFoto();
+
+
+
+		$user_ip = getenv('REMOTE_ADDR');
+		$agent = $_SERVER["HTTP_USER_AGENT"];
+		$browser = "-";
+		if( preg_match('/MSIE (\d+\.\d+);/', $agent) ) {
+			$browser = "Internet Explorer";
+		} else if (preg_match('/Chrome[\/\s](\d+\.\d+)/', $agent) ) {
+			$browser = "Chrome";
+		} else if (preg_match('/Edge\/\d+/', $agent) ) {
+			$browser = "Edge";
+		} else if ( preg_match('/Firefox[\/\s](\d+\.\d+)/', $agent) ) {
+			$browser = "Firefox";
+		} else if ( preg_match('/OPR[\/\s](\d+\.\d+)/', $agent) ) {
+			$browser = "Opera";
+		} else if (preg_match('/Safari[\/\s](\d+\.\d+)/', $agent) ) {
+			$browser = "Safari";
+		}
+		if($_SESSION['entity'] == 'Administrador'){
+			$logAdministrador = new LogAdministrador("","Delete Pedido Pro", "Pedido: " . $namePedido . ";; Producto: " . $nameProducto, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+			$logAdministrador -> insert();
+		}
+		else if($_SESSION['entity'] == 'Domiciliario'){
+			$logDomiciliario = new LogDomiciliario("","Delete Pedido Pro", "Pedido: " . $namePedido . ";; Producto: " . $nameProducto, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+			$logDomiciliario -> insert();
+		}
+		else if($_SESSION['entity'] == 'Cliente'){
+			$logCliente = new LogCliente("","Delete Pedido Pro", "Pedido: " . $namePedido . ";; Producto: " . $nameProducto, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+			$logCliente -> insert();
+		}
+		else if($_SESSION['entity'] == 'Cajero'){
+			$logCajero = new LogCajero("","Delete Pedido Pro", "Pedido: " . $namePedido . ";; Producto: " . $nameProducto, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+			$logCajero -> insert();
+		}
+	}else{
+		$error = 1;
+	}
+	
+}
+
+$domicilio = new Domicilio($_GET['idDomicilio']); 
+$domicilio -> select();
+echo $domicilio->getDescripcion();
+
 ?>
-<div class="container">
-	<div class="row">
-		<div class="col-md-2"></div>
-		<div class="col-md-8">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">Editar Domicilio</h4>
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title">Consultar Domicilio </h4>
+		</div>
+		<div class="card-body">
+		<?php if(isset($_GET['action']) && $_GET['action']=="delete"){ ?>
+			<?php if($error == 0){ ?>
+				<div class="alert alert-success" >The registry was succesfully deleted.
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-				<div class="card-body">
-					<?php if($processed){ ?>
-					<div class="alert alert-success" >Datos Editados
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<?php } ?>
-					<form id="form" method="post" action="index.php?pid=<?php echo base64_encode("ui/domicilio/updateDomicilio.php") . "&idDomicilio=" . $idDomicilio ?>" class="bootstrap-form needs-validation"   >
-						<div class="form-group">
-							<label>Direccion*</label>
-							<input type="text" class="form-control" name="direccion" value="<?php echo $updateDomicilio -> getDireccion() ?>" required />
-						</div>
-						<div class="form-group">
-							<label>Fecha*</label>
-							<input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $updateDomicilio -> getFecha() ?>" autocomplete="off" />
-						</div>
-						<div class="form-group">
-							<label>Hora*</label>
-							<input type="date" class="form-control" name="hora" id="hora" value="<?php echo $updateDomicilio -> getHora() ?>" autocomplete="off" />
-						</div>
-						<div class="form-group">
-							<label>Precio*</label>
-							<input type="text" class="form-control" name="precio" value="<?php echo $updateDomicilio -> getPrecio() ?>" required />
-						</div>
-						<div class="form-group">
-							<label>Descripcion*</label>
-							<input type="text" class="form-control" name="descripcion" value="<?php echo $updateDomicilio -> getDescripcion() ?>" required />
-						</div>
-						<div class="form-group">
-							<label>Cocinando*</label>
-							<input type="text" class="form-control" name="cocinando" value="<?php echo $updateDomicilio -> getCocinando() ?>" required />
-						</div>
-					<div class="form-group">
-						<label>Domiciliario*</label>
-						<select class="form-control" name="domiciliario">
-							<?php
-							$objDomiciliario = new Domiciliario();
-							$domiciliarios = $objDomiciliario -> selectAllOrder("nombre", "asc");
-							foreach($domiciliarios as $currentDomiciliario){
-								echo "<option value='" . $currentDomiciliario -> getIdDomiciliario() . "'";
-								if($currentDomiciliario -> getIdDomiciliario() == $updateDomicilio -> getDomiciliario() -> getIdDomiciliario()){
-									echo " selected";
-								}
-								echo ">" . $currentDomiciliario -> getNombre() . " " . $currentDomiciliario -> getApellido() . " " . $currentDomiciliario -> getTelefono() . " " . $currentDomiciliario -> getSalario() . " " . $currentDomiciliario -> getRol() . "</option>";
-							}
-							?>
-						</select>
-					</div>
-					<div class="form-group">
-						<label>Cliente*</label>
-						<select class="form-control" name="cliente">
-							<?php
-							$objCliente = new Cliente();
-							$clientes = $objCliente -> selectAllOrder("nombre", "asc");
-							foreach($clientes as $currentCliente){
-								echo "<option value='" . $currentCliente -> getIdCliente() . "'";
-								if($currentCliente -> getIdCliente() == $updateDomicilio -> getCliente() -> getIdCliente()){
-									echo " selected";
-								}
-								echo ">" . $currentCliente -> getNombre() . " " . $currentCliente -> getApellido() . " " . $currentCliente -> getTelefono() . " " . $currentCliente -> getDireccion() . "</option>";
-							}
-							?>
-						</select>
-					</div>
-						<button type="submit" class="btn btn-info" name="update">Editar</button>
-					</form>
+				<?php } else { ?>
+				<div class="alert alert-danger" >The registry was not deleted. Check it does not have related information
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
+				<?php }
+			} ?>
+			<div class="table-responsive">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr><th></th>
+						<th>Pedido</th>
+						<th>Cantidad</th>
+						<th>Descripcion</th>
+						<th>Servicios</th>
+
+						<th nowrap></th>
+					</tr>
+				</thead>
+				</tbody>
+					<?php
+					$prodom = new proDom("", $_GET['idDomicilio'], "");
+					if($order!="" && $dir!="") {
+						$prodoms = $prodom -> selectAllByDomicilioOrder($order, $dir);
+					} else {
+						$prodoms = $prodom -> selectAllByDomicilio();
+					}
+					$counter = 1;
+					foreach ($prodoms as $currentProDom) {
+						echo "<tr><td>" . $counter . "</td>";
+						echo "<td>".$currentProDom->getProducto()->getNombre()."</td>";
+						echo "<td>".$currentProDom->getCantidad()."</td>";
+						echo "<td>".$currentProDom->getDescripcion()."</td>";
+						
+						
+							echo "<td><a href='modalEditarDomicilio.php?id=".$currentProDom->getProducto()->getIdProducto()."&idp=".$_GET['idDomicilio']. "'
+								data-toggle='modal'
+								data-target='#modalEditarDomicilio' ><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Producto ' ></span></a> ";
+
+
+
+
+						echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/updateDomicilio.php") . "&idDomicilio=" . $_GET['idDomicilio'] . "&idProDom=" . $currentProDom -> getIdProDom() . "&action=delete&idp=0' onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Eliminar producto' ></span></a> </td>";
+						
+						echo "</td>";
+						echo "</tr>";
+						$counter++;
+					};
+					?>
+				</tbody>
+			</table>
 			</div>
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="modalEditarDomicilio" data-keyboard="false" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" >
+		<div class="modal-content" id="modalContent">
+		</div>
+	</div>
+</div>
+
+<script>
+	$('body').on('show.bs.modal', '.modal', function (e) {
+		var link = $(e.relatedTarget);
+		$(this).find(".modal-content").load(link.attr("href"));
+	});
+</script>
+
+
+

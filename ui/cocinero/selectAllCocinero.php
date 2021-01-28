@@ -51,10 +51,10 @@ if(isset($_GET['action']) && $_GET['action']=="delete" ){
 }else if(isset($_GET['action']) && $_GET['action']=="check"){
 	$id=$_GET['id'];
 	$nombre=$_GET['nombre'];
-	$apellido=$_GET['apellido'];
+	
 	$fecha =  date("Y-m-d");
 	$caj= new Cajero();
-	$caj->asistencia($id,$nombre." ".$apellido,$fecha);
+	$caj->asistencia($id,$nombre,$fecha);
 
 }else{
 		$error = 1;

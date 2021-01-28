@@ -86,6 +86,9 @@ class ProDom {
 		$producto = new Producto($result[2]);
 		$producto -> select();
 		$this -> producto = $producto;
+		$this -> cantidad = $result[3];
+		$this -> descripcion = $result[4];
+
 	}
 
 	function selectAll(){
@@ -112,7 +115,7 @@ class ProDom {
 			$domicilio -> select();
 			$producto = new Producto($result[2]);
 			$producto -> select();
-			array_push($proDoms, new ProDom($result[0], $domicilio, $producto));
+			array_push($proDoms, new ProDom($result[0], $domicilio, $producto,$result[3],$result[4]));
 		}
 		$this -> connection -> close();
 		return $proDoms;
@@ -157,7 +160,7 @@ class ProDom {
 			$domicilio -> select();
 			$producto = new Producto($result[2]);
 			$producto -> select();
-			array_push($proDoms, new ProDom($result[0], $domicilio, $producto));
+			array_push($proDoms, new ProDom($result[0], $domicilio, $producto,$result[3],$result[4]));
 		}
 		$this -> connection -> close();
 		return $proDoms;
@@ -200,5 +203,52 @@ class ProDom {
 		$this -> connection -> close();
 		return $success;
 	}
+	function deletePedo(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> proDomDAO -> deletePedo());
+		$success = $this -> connection -> querySuccess();
+		$this -> connection -> close();
+		return $success;
+	}
+	function traer(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> proDomDAO -> traer());
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		$this -> descripcion = $result[0];
+		
+	}
+	function updatePEDO($idp,$idPro,$total,$cantidad){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> proDomDAO -> updatePEDO($idp,$idPro,$total,$cantidad));
+		$this -> connection -> close();
+	}
+	
+	function traerCantidades($idp){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> proDomDAO -> traerCantidades($idp));
+		$pedidoPros = array();
+		while ($result = $this -> connection -> fetchRow()){
+			
+			array_push($pedidoPros, $result[0]);
+		}
+		$this -> connection -> close();
+		return $pedidoPros;
+	}
+		function validar(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> proDomDAO -> validar());
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		if($result[0]>0){
+			return 1;
+		}else{
+			return 0;
+		}
+
+		
+
+}
 }
 ?>
+	

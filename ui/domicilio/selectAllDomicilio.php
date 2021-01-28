@@ -9,8 +9,12 @@ if(isset($_GET['dir'])){
 }
 $error = 0;
 if(isset($_GET['action']) && $_GET['action']=="delete"){
+
 	$deleteDomicilio = new Domicilio($_GET['idDomicilio']);
 	$deleteDomicilio -> select();
+	$pedo= new ProDom("",$_GET['idDomicilio']);
+	$pedo->deletePedo();
+	
 	if($deleteDomicilio -> delete()){
 		$nameDomiciliario = $deleteDomicilio -> getDomiciliario() -> getNombre() . " " . $deleteDomicilio -> getDomiciliario() -> getApellido() . " " . $deleteDomicilio -> getDomiciliario() -> getTelefono() . " " . $deleteDomicilio -> getDomiciliario() -> getSalario() . " " . $deleteDomicilio -> getDomiciliario() -> getRol();
 		$nameCliente = $deleteDomicilio -> getCliente() -> getNombre() . " " . $deleteDomicilio -> getCliente() -> getApellido() . " " . $deleteDomicilio -> getCliente() -> getTelefono() . " " . $deleteDomicilio -> getCliente() -> getDireccion();
@@ -161,7 +165,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						<?php } ?>
 						</th>
 						<th>Domiciliario</th>
-						<th>Cliente</th>
+						
 						<th nowrap></th>
 					</tr>
 				</thead>
@@ -181,20 +185,33 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						echo "<td>" . $currentDomicilio -> getHora() . "</td>";
 						echo "<td>" . $currentDomicilio -> getPrecio() . "</td>";
 						echo "<td>" . $currentDomicilio -> getDescripcion() . "</td>";
-						echo "<td>" . $currentDomicilio -> getCocinando() . "</td>";
-						echo "<td><a href='modalDomiciliario.php?idDomiciliario=" . $currentDomicilio -> getDomiciliario() -> getIdDomiciliario() . "' data-toggle='modal' data-target='#modalDomicilio' >" . $currentDomicilio -> getDomiciliario() -> getNombre() . " " . $currentDomicilio -> getDomiciliario() -> getApellido() . " " . $currentDomicilio -> getDomiciliario() -> getTelefono() . " " . $currentDomicilio -> getDomiciliario() -> getSalario() . " " . $currentDomicilio -> getDomiciliario() -> getRol() . "</a></td>";
-						echo "<td><a href='modalCliente.php?idCliente=" . $currentDomicilio -> getCliente() -> getIdCliente() . "' data-toggle='modal' data-target='#modalDomicilio' >" . $currentDomicilio -> getCliente() -> getNombre() . " " . $currentDomicilio -> getCliente() -> getApellido() . " " . $currentDomicilio -> getCliente() -> getTelefono() . " " . $currentDomicilio -> getCliente() -> getDireccion() . "</a></td>";
+						if($currentDomicilio -> getCocinando()==1){
+							echo "<td>En cola </td>";
+
+
+						}else if($currentDomicilio -> getCocinando()==2){
+							echo "<td>Cocinando...</td>";
+
+						}else if($currentDomicilio -> getCocinando()==3){
+							echo "<td>Domiciliario en camino </td>";
+						}
+						
+						if($currentDomicilio -> getDomiciliario() -> getIdDomiciliario()!=0){
+							echo "<td><a href='modalDomiciliario.php?idDomiciliario=" . $currentDomicilio -> getDomiciliario() -> getIdDomiciliario() . "' data-toggle='modal' data-target='#modalDomicilio' >" . $currentDomicilio -> getDomiciliario() -> getNombre() . " " . $currentDomicilio -> getDomiciliario() -> getApellido() . " " . $currentDomicilio -> getDomiciliario() -> getTelefono() . " " . $currentDomicilio -> getDomiciliario() -> getSalario() . " " . $currentDomicilio -> getDomiciliario() -> getRol() . "</a></td>";
+						
+						
+
+						}else{
+							echo "<td>Domiciliario por asignar</td>";
+						}
 						echo "<td class='text-right' nowrap>";
-						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cliente') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/updateDomicilio.php") . "&idDomicilio=" . $currentDomicilio -> getIdDomicilio() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Domicilio' ></span></a> ";
+						if(  $currentDomicilio -> getCocinando()==1) {
+							echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/updateDomicilio.php") . "&idDomicilio=" . $currentDomicilio -> getIdDomicilio() . "&idp=0'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Domicilio' ></span></a> ";
 						}
 						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cliente') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/selectAllDomicilio.php") . "&idDomicilio=" . $currentDomicilio -> getIdDomicilio() . "&action=delete' onclick='return confirm(\"Confirma eliminar Domicilio: " . $currentDomicilio -> getDireccion() . " " . $currentDomicilio -> getCocinando() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Domicilio' ></span></a> ";
 						}
-						echo "<a href='index.php?pid=" . base64_encode("ui/proDom/selectAllProDomByDomicilio.php") . "&idDomicilio=" . $currentDomicilio -> getIdDomicilio() . "'><span class='fas fa-search-plus' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Consultar Pro Dom' ></span></a> ";
-						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cliente') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/proDom/insertProDom.php") . "&idDomicilio=" . $currentDomicilio -> getIdDomicilio() . "'><span class='fas fa-pen' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Crear Pro Dom' ></span></a> ";
-						}
+						
 						echo "</td>";
 						echo "</tr>";
 						$counter++;

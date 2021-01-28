@@ -95,5 +95,8 @@ class ClienteDAO{
 		return "delete from Cliente
 				where idCliente = '" . $this -> idCliente . "'";
 	}
+		function consultarCorreo(){
+		return "select count(correo) from cliente where correo = '". $this -> correo."'";
+	}
 }
 ?>

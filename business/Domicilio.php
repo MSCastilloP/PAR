@@ -113,6 +113,13 @@ class Domicilio {
 		$this -> connection -> run($this -> domicilioDAO -> update());
 		$this -> connection -> close();
 	}
+	function updateP(){
+		
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> updateP());
+		$this -> connection -> close();
+		
+	}
 
 	function select(){
 		$this -> connection -> open();

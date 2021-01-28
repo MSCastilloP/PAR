@@ -1,5 +1,6 @@
 <?php
 $processed=false;
+$email=false;
 $nombre="";
 if(isset($_POST['nombre'])){
 	$nombre=$_POST['nombre'];
@@ -29,8 +30,12 @@ if(isset($_POST['state'])){
 	$state=$_POST['state'];
 }
 if(isset($_POST['insert'])){
+
 	$newCliente = new Cliente("", $nombre, $apellido, $correo, $clave, "", $telefono, $direccion);
-	$newCliente -> insert();
+	if($newCliente->consultarCorreo()==0){
+
+		$newCliente -> insert();
+
 	$user_ip = getenv('REMOTE_ADDR');
 	$agent = $_SERVER["HTTP_USER_AGENT"];
 	$browser = "-";
@@ -53,6 +58,13 @@ if(isset($_POST['insert'])){
 	
 	
 	$processed=true;
+ 
+	header("Location: index.php");
+
+	}else{
+		$email=true;
+	}
+	
 }
 ?>
 <div class="container">
@@ -66,7 +78,14 @@ if(isset($_POST['insert'])){
 				<div class="card-body">
 					<?php if($processed){ ?>
 					<div class="alert alert-success" >Datos Ingresados
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<button  type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<?php } ?>
+					<?php if($email){ ?>
+					<div class="alert alert-danger" > Correo ya existente.
+						<button  type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -97,10 +116,16 @@ if(isset($_POST['insert'])){
 							<input type="text" class="form-control" name="direccion" value="<?php echo $direccion ?>" required />
 						</div>
 						
-						<button type="submit" class="btn btn-info" name="insert">Crear</button>
+						<button  type="submit" class="btn btn-info" name="insert">Crear</button>
+
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	function salir(){
+		window.location.replace("index.php");
+	}
+</script>

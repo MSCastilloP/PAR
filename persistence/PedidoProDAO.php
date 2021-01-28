@@ -58,7 +58,7 @@ class PedidoProDAO{
 	function traer() {
 		return "select descripcion  
 				from PedidoPro
-				where pedido_idPedido = '" . $this -> pedido . "' and producto_idProducto= '".$this->producto ."'";
+				where pedido_idPedido = '" . $this -> pedido . "' and producto_idProducto= '".$this-> producto ."'";
 	}
 
 	function selectAll() {
