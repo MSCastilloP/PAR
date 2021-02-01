@@ -18,15 +18,10 @@ $cliente -> select();
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/producto/selectAllProducto.php") ?>">Producto</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domicilio/selectAllDomicilio.php") ?>">Domicilio</a>
+					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domicilio/selectAllDomicilioHecho.php") ?>">Domicilios hechos</a>
 				</div>
 			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Buscar</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/producto/searchProducto.php") ?>">Producto</a>
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domicilio/searchDomicilio.php") ?>">Domicilio</a>
-				</div>
-			</li>
+			
 		</ul>
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown">

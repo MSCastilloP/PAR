@@ -156,6 +156,20 @@ class Domicilio {
 		return $domicilios;
 	}
 
+function selectAllHecho(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> selectAllHecho());
+		$domicilios = array();
+		while ($result = $this -> connection -> fetchRow()){
+			$domiciliario = new Domiciliario($result[7]);
+			$domiciliario -> select();
+			$cliente = new Cliente($result[8]);
+			$cliente -> select();
+			array_push($domicilios, new Domicilio($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $domiciliario, $cliente));
+		}
+		$this -> connection -> close();
+		return $domicilios;
+	}
 	function selectAllByDomiciliario(){
 		$this -> connection -> open();
 		$this -> connection -> run($this -> domicilioDAO -> selectAllByDomiciliario());
@@ -200,7 +214,20 @@ class Domicilio {
 		$this -> connection -> close();
 		return $domicilios;
 	}
-
+function selectAllOrderHecho($order, $dir){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> selectAllOrder($order, $dir));
+		$domicilios = array();
+		while ($result = $this -> connection -> fetchRow()){
+			$domiciliario = new Domiciliario($result[7]);
+			$domiciliario -> select();
+			$cliente = new Cliente($result[8]);
+			$cliente -> select();
+			array_push($domicilios, new Domicilio($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $domiciliario, $cliente));
+		}
+		$this -> connection -> close();
+		return $domicilios;
+	}
 	function selectAllByDomiciliarioOrder($order, $dir){
 		$this -> connection -> open();
 		$this -> connection -> run($this -> domicilioDAO -> selectAllByDomiciliarioOrder($order, $dir));
@@ -246,9 +273,9 @@ class Domicilio {
 		return $domicilios;
 	}
 
-	function delete(){
+	function delete($c){
 		$this -> connection -> open();
-		$this -> connection -> run($this -> domicilioDAO -> delete());
+		$this -> connection -> run($this -> domicilioDAO -> delete($c));
 		$success = $this -> connection -> querySuccess();
 		$this -> connection -> close();
 		return $success;

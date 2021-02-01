@@ -63,10 +63,16 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 
 	
 
+
 	if($deletePedo -> delete()){
 		if($pedo ->validar()==0){
+
+
 			$dom= new Domicilio($deletePedo->getDomicilio()->getidDomicilio());
-			$dom->delete();
+			$dom->select();
+			$c= $dom ->getCocinando();
+		
+			$dom->delete($c);
 			header("Location: index.php?pid=".base64_encode('ui/domicilio/selectAllDomicilio.php'));
 		}else{
 		$array=$pedo->selectAllByDomicilio();

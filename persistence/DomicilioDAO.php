@@ -58,9 +58,21 @@ class DomicilioDAO{
 		
 
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
-				from Domicilio where cliente_idCliente = ".$id;
+				from Domicilio where cliente_idCliente = ".$id." and cocinando  < 50";
 
 	}
+
+	function selectAllHecho() {
+		$id = $_SESSION['id'];
+		
+
+		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
+				from Domicilio where cliente_idCliente = ".$id." and cocinando  > 3";
+
+	}
+
+
+
 
 	function selectAllByDomiciliario() {
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
@@ -78,7 +90,14 @@ class DomicilioDAO{
 		$id = $_SESSION['id'];
 		
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
-				from Domicilio where cliente_idCliente= ".$id. "
+				from Domicilio where cliente_idCliente= ".$id. " and cocinando  < 50
+				order by " . $orden . " " . $dir;
+	}
+	function selectAllOrderHecho($orden, $dir){
+		$id = $_SESSION['id'];
+		
+		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
+				from Domicilio where cliente_idCliente= ".$id. " and cocinando  > 3
 				order by " . $orden . " " . $dir;
 	}
 
@@ -102,10 +121,14 @@ class DomicilioDAO{
 				where direccion like '%" . $search . "%' or fecha like '%" . $search . "%' or hora like '%" . $search . "%' or precio like '%" . $search . "%' or descripcion like '%" . $search . "%' or cocinando like '%" . $search . "%'";
 	}
 
-	function delete(){
-		return "delete from Domicilio
+	function delete( $c){
+
+		$c = $c + 50; 
+		return "update Domicilio set 
+				cocinando = ". $c ."
 				where idDomicilio = '" . $this -> idDomicilio . "'";
 	}
+
 
 
 

@@ -85,6 +85,7 @@ $webPages = array(
 	'ui/domicilio/insertDomicilio.php',
 	'ui/domicilio/updateDomicilio.php',
 	'ui/domicilio/selectAllDomicilio.php',
+	'ui/domicilio/selectAllDomicilioHecho.php',
 	'ui/domicilio/searchDomicilio.php',
 	'ui/proDom/selectAllProDomByDomicilio.php',
 	'ui/logCajero/searchLogCajero.php',
