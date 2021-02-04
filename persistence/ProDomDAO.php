@@ -102,5 +102,11 @@ class ProDomDAO{
 	function validar(){
 		return "select count(domicilio_idDomicilio) from ProDom where domicilio_idDomicilio=". $this-> domicilio;
 	}
+
+	function selectDescripcionCocinero($id) {
+		return "select pro.descripcion , p.nombre, pro.cantidad 
+				from proDom as pro , producto as p 
+				where pro.domicilio_idDomicilio = " . $id ." and p.idProducto = pro.producto_idProducto";
+	}
 }
 ?>

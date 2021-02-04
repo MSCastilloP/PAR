@@ -52,6 +52,7 @@ $webPages = array(
 	'ui/producto/insertProducto.php',
 	'ui/producto/updateProducto.php',
 	'ui/producto/selectAllProducto.php',
+	'ui/producto/selectAllCocinero.php',
 	'ui/producto/searchProducto.php',
 	'ui/ingrePro/selectAllIngreProByProducto.php',
 	'ui/proDom/selectAllProDomByProducto.php',
@@ -176,7 +177,10 @@ if(isset($_GET['logOut'])){
 					include('ui/menuCliente.php');
 				}
 				if($_SESSION['entity']=="Cajero"){
-					include('ui/menuCajero.php');
+					if(strcmp($pid,"ui/producto/selectAllCocinero.php")!==0){
+						include('ui/menuCajero.php');
+					}
+					
 				}
 				if (in_array($pid, $webPages)){
 					include($pid);

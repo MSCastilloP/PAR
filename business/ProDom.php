@@ -249,6 +249,22 @@ class ProDom {
 		
 
 }
+
+function selectDescripcionCocinero($id){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> proDomDAO -> selectDescripcionCocinero($id));
+	//	$result = $this -> connection -> fetchRow();
+		$pedidoPros = array();
+		while ($result = $this -> connection -> fetchRow()){
+		
+			
+			
+			array_push($pedidoPros, array($result[2], $result[1], $result[0]));
+
+		}
+		$this -> connection -> close();
+		return $pedidoPros;
+	}
 }
 ?>
 	

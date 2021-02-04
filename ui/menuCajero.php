@@ -30,6 +30,13 @@ $cajero -> select();
 					
 				</div>
 			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Cocinero</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" target="_blank" href="index.php?pid=<?php echo base64_encode("ui/producto/selectAllCocinero.php") ?>">Cocinero</a>
+					
+				</div>
+			</li>
 		</ul>
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown">

@@ -373,7 +373,17 @@ function verificar($idc){
 		$this -> idDomicilio = $result[0];
 		
 	}
-
+	function selectAllCocinero(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> domicilioDAO -> selectAllCocinero());
+		$domicilios = array();
+		while ($result = $this -> connection -> fetchRow()){
+			
+			array_push($domicilios, new Domicilio($result[0],"", "", $result[1], "", $result[2], $result[3]));
+		}
+		$this -> connection -> close();
+		return $domicilios;
+	}
 
 }
 ?>

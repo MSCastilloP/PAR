@@ -129,6 +129,14 @@ class PedidoDAO{
 				cantidad = " . $cantidad . "
 				where idp = " . $idp . "";
 	}
+
+
+	function selectAllCocinero() {
+		return "select idPedido,  hora, descripcion,  cocinando
+				from Pedido
+				where cocinando<3 
+				order by hora";
+	}
 	
 }
 ?>	

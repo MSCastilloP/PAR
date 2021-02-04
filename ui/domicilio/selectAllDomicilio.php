@@ -19,7 +19,7 @@ $c=$deleteDomicilio -> getCocinando();
 	if($deleteDomicilio -> delete($c)){
 		$nameDomiciliario = $deleteDomicilio -> getDomiciliario() -> getNombre() . " " . $deleteDomicilio -> getDomiciliario() -> getApellido() . " " . $deleteDomicilio -> getDomiciliario() -> getTelefono() . " " . $deleteDomicilio -> getDomiciliario() -> getSalario() . " " . $deleteDomicilio -> getDomiciliario() -> getRol();
 
-		$nameCliente = $deleteDomicilio -> getCliente() -> getNombre() . " " . $deleteDomicilio -> getCliente() -> getApellido() . " " . $deleteDomicilio -> getCliente() -> getTelefono() . " " . $deleteDomicilio -> getCliente() -> getDireccion();
+		$nameCliente = $deleteDomicilio -> getCliente() -> getNombre() . " " . $deleteDomicilio -> getCliente() -> getApellido().  " " . $deleteDomicilio -> getCliente() -> getTelefono() . " " . $deleteDomicilio -> getCliente() -> getDireccion();
 		$user_ip = getenv('REMOTE_ADDR');
 		$agent = $_SERVER["HTTP_USER_AGENT"];
 		$browser = "-";
@@ -195,6 +195,9 @@ $c=$deleteDomicilio -> getCocinando();
 							echo "<td>Cocinando...</td>";
 
 						}else if($currentDomicilio -> getCocinando()==3){
+							echo "<td>Domicilio preparado!</td>";
+						}
+						else if($currentDomicilio -> getCocinando()==4){
 							echo "<td>Domiciliario en camino </td>";
 						}
 						

@@ -283,6 +283,18 @@ function updateTemporal($idp,$total,$cantidad){
 		$this -> connection -> close();
 	}
 
+	function selectAllCocinero(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> selectAllCocinero());
+		$pedidos = array();
+		while ($result = $this -> connection -> fetchRow()){
+			
+			array_push($pedidos, new Pedido($result[0], "", $result[1], $result[2], "", $result[3]));
+		}
+		$this -> connection -> close();
+		return $pedidos;
+	}
+
 	
 
 }

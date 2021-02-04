@@ -58,7 +58,7 @@ class DomicilioDAO{
 		
 
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
-				from Domicilio where cliente_idCliente = ".$id." and cocinando  < 50";
+				from Domicilio where cliente_idCliente = ".$id." and cocinando  < 5";
 
 	}
 
@@ -67,7 +67,7 @@ class DomicilioDAO{
 		
 
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
-				from Domicilio where cliente_idCliente = ".$id." and cocinando  > 3";
+				from Domicilio where cliente_idCliente = ".$id." and cocinando  > 5";
 
 	}
 
@@ -90,7 +90,7 @@ class DomicilioDAO{
 		$id = $_SESSION['id'];
 		
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
-				from Domicilio where cliente_idCliente= ".$id. " and cocinando  < 50
+				from Domicilio where cliente_idCliente= ".$id. " and cocinando  < 5
 				order by " . $orden . " " . $dir;
 	}
 	function selectAllOrderHecho($orden, $dir){
@@ -184,6 +184,17 @@ class DomicilioDAO{
 				where fecha ='" . $this -> fecha . "' and 
 				hora ='".$this-> hora. "' and
 				cliente_idCliente =".$this-> cliente;
+	}
+
+	function selectAllCocinero() {
+		
+
+		return "select idDomicilio, hora, descripcion, cocinando
+
+				from Domicilio where cocinando < 4
+				order by hora";
+
+
 	}
 
 

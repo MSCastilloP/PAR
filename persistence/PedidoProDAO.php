@@ -127,5 +127,10 @@ class PedidoProDAO{
 	function validar(){
 		return "select count(pedido_idPedido) from PedidoPro where pedido_idPedido=". $this-> pedido;
 	}
+	function selectDescripcionCocinero($id) {
+		return "select pro.descripcion , p.nombre , pro.cantidad 
+				from PedidoPro as pro , producto as p
+				where pro.pedido_idPedido = " . $id ." and p.idProducto = pro.producto_idProducto  ";
+	}
 }
 ?>
