@@ -153,8 +153,42 @@ if(isset($_GET['logOut'])){
 				$("[data-toggle='tooltip']").tooltip(); 
 			});
 		</script>
+<script  src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"> </script >
+<script  src="https://www.gstatic.com/firebasejs/7.17.2/firebase-analytics.js"> </script >
+<script  src="https://www.gstatic.com/firebasejs/7.17.2/firebase-firestore.js"> </script>
+
+  <script>3
+    // TODO: Replace the following with your app's Firebase project configuration
+    // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
+    var firebaseConfig = {
+    	apiKey: "AIzaSyB7QXnzdZ9Uy2sVBzxNWSmUpShWM7Y97OE",
+    authDomain: "par-proyecto.firebaseapp.com",
+    projectId: "par-proyecto",
+    storageBucket: "par-proyecto.appspot.com",
+    messagingSenderId: "797222872531",
+    appId: "1:797222872531:web:9284baafd4d8a937aa7b26",
+    measurementId: "G-989J9MY4J5"
+      // ...
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
+
+  firebase.analytics();
+//const firebase = require("firebase");
+  </script>
+
+
 	</head>
 	<body>
+		
+
+
+
+
+
+
 		<?php
 		if(empty($_GET['pid'])){
 			include('ui/home.php' );

@@ -1,3 +1,34 @@
+<script type="">
+	function agregar(id,idProducto,cantidad, descripcion, producto){
+
+
+				db.collection('Pedidos').add({
+										id:id,
+										idProducto:idProducto,
+										descripcion:descripcion	,
+										cantidad:cantidad,
+										producto:producto	
+										//hora:".$hora.",
+										//precio:".$precio."
+
+										
+															}).then(function() {
+
+											    console.log('Document successfully written!' );
+											})
+											.catch(function(error) {
+											    console.error('Error writing document: ', error);
+											});	
+		}
+		function salir(){
+						
+									window.location.replace("index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>&idp=0");
+								}
+							
+
+		
+</script>
+
 	<?php
 	$array = array();
 	$arrays = array();
@@ -38,11 +69,13 @@
 
 
 			$precio=$_GET['limpiar'];
-			$descripcion="";			
+			$descripcion="";	
+			$descripcionPed	="";	
 			$arrays=$nuevoPedido->imprimirTemporal();
 			$nuevoPedido->eliminarTemporal();
 			foreach ($arrays as $facturas) {
 				$descripcion= $descripcion." ".$facturas[3]." ".$facturas[1].".";
+
 			}			  			
 			$crearPedido= new pedido("",$fecha,$hora,$descripcion,$precio,1,$_SESSION['id']);
 			$crearPedido->insert();	
@@ -50,16 +83,27 @@
 
 			$primerID=$crearPedido->traerID($fecha,$hora);
 
-
+			$bandera=false;
 			foreach ($arrays as $facturas) {
-
-				$pedidoPro= new PedidoPro("",$primerID[0],$facturas[0],$facturas[3],$facturas[2]);
-				$pedidoPro->insert();
-
-
-									# code...
+				$descripcionPed=$descripcionPed." ".$facturas[2].".";
+				echo "<script type='text/javascript'>
+		
+									agregar('".$primerID[0]."','".$facturas[0]."','".$facturas[3]."','".$facturas[2]."','".$facturas[1]."');	
+				</script>";
+				$bandera=true;
 			}
+			if($bandera){
+			echo "<script type='text/javascript'>
+			
+			window.setTimeout(salir,2000);
+										
+				</script>";
+			}
+			
+	
 		}
+
+
 
 	}
 	if($nuevoPedido->imprimirTemporal()!=null ){
@@ -139,6 +183,9 @@
 		}
 		$processed=true;
 	}
+
+
+
 	?>
 
 	<div>
@@ -240,6 +287,7 @@
 
 
 							?>
+							
 
 						</td>
 
@@ -280,7 +328,7 @@
 		});
 
 
-
+		
 
 
 	</script>
