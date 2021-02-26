@@ -110,7 +110,7 @@ class PedidoDAO{
 
 	function verificar(){
 		return " select count(idp) from temporal";
-	}
+	}		
 
 	function eliminarTemporal(){
 		return "delete from temporal";
@@ -137,6 +137,8 @@ class PedidoDAO{
 				where cocinando<3 
 				order by hora";
 	}
+
+	
 	
 }
 ?>	

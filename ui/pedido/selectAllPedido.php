@@ -7,6 +7,31 @@ $dir = "";
 if(isset($_GET['dir'])){
 	$dir = $_GET['dir'];
 }
+if(isset($_GET['idpro']) && isset($_GET['idpedido'])){
+echo "<script type='text/javascript'>
+
+
+		
+		function eliminar(id,idPedido){
+
+	db.collection('Pedidos').doc(idPedido+id).delete().then(function() {
+		
+    console.log('Document successfully deleted!');
+}).catch(function(error) {
+    console.error('Error removing document: ', error);
+});
+
+
+}
+
+		
+
+		
+				eliminar('".$_GET['idpro']."','".$_GET['idpedido']."');
+		
+										
+				</script>";
+}
 
 
 
@@ -16,11 +41,22 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 	$deletePedido = new Pedido($_GET['idPedido']);
 	$deletePedido -> select();
 	$pepo= new PedidoPro("",$_GET['idPedido']);
+	$pedos = $pepo -> traerProductos();
+	foreach ($pedos as $p) {
 
+		echo "<script type='text/javascript'>	
+				function eliminar(id,idPedido){
+				db.collection('Pedidos').doc(idPedido+id).delete().then(function() {
+				console.log('Document successfully deleted!');
+			}).catch(function(error) {
+			    console.error('Error removing document: ', error);
+			});
+			}	
+							eliminar('".$p[0]."','".$_GET['idPedido']."');						
+				</script>";
+		# code...	
+	}
 	$pepo->deletePedido();
-
-
-
 	if($deletePedido -> delete()){
 		$nameCajero = $deletePedido -> getCajero() -> getNombre() . " " . $deletePedido -> getCajero() -> getApellido();
 		$user_ip = getenv('REMOTE_ADDR');

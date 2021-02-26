@@ -1,3 +1,12 @@
+<script type="text/javascript">
+
+	function salir(idpro,idpedido){
+
+		window.location.replace("index.php?pid=<?php echo base64_encode("ui/pedido/selectAllPedido.php")?>&idpro="+idpro+"&idpedido="+idpedido);
+		
+	}
+	
+</script>
 <?php
 $order = "";
 if($_GET['idp']!=0){
@@ -30,9 +39,40 @@ echo "\n".$desc;
 $ped= new Pedido($_GET['idPedido'],"","",$desc,$precioP);
 $ped->updateP();
 
+echo "<script type=''>
+function editar(id,cantidad,total,idPedido){
+
+var ped = db.collection('Pedidos').doc(idPedido+id);
+
+
+return ped.update({
+	cantidad: cantidad,
+	descripcion:total
+
+})
+.then(() => {
+    console.log('Document successfully updated!' );
+})
+.catch((error) => {
+    // The document probably doesn't exist.
+    console.error('Error updating document: ', error);
+});
 
 
 }
+editar('".$idp."','".$cantidad."','".$total."','".$_GET['idPedido']."');
+
+
+
+
+
+
+</script>";
+
+
+
+}
+
 
 
 if(isset($_GET['order'])){
@@ -47,19 +87,36 @@ if(isset($_GET['dir'])){
 
 $error = 0;
 if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
-	echo "Entra a eliminar";
+	
 	$deletePedidoPro = new PedidoPro($_GET['idPedidoPro']);
+
+	if($deletePedidoPro -> existe() == 1 ){
 	$deletePedidoPro -> select();
 	$pedidoPro=new PedidoPro("",$deletePedidoPro->getPedido()->getidPedido());
-
-	
-
 	if($deletePedidoPro -> delete()){
+
+		
 		if($pedidoPro ->validar()==0){
 			$ped= new Pedido($deletePedidoPro->getPedido()->getidPedido());
 			$ped->delete();
-			header("Location: index.php?pid=".base64_encode('ui/pedido/selectAllPedido.php'));
+			
+echo "<script type='text/javascript'>
+		salir('".$_GET['idpro']."','".$_GET['idPedido']."');
+</script>";
+			
 		}else{
+			echo "<script type='text/javascript'>
+						function eliminar(id,idPedido){
+						db.collection('Pedidos').doc(idPedido+id).delete().then(function() {	
+				    console.log('Document successfully deleted!');
+				}).catch(function(error) {
+				    console.error('Error removing document: ', error);
+				});
+				}
+				eliminar('".$_GET['idpro']."','".$_GET['idPedido']."');
+		
+										
+				</script>";
 		$array=$pedidoPro->selectAllByPedido();
 		$descripcion="";
 		$precio=0;
@@ -69,8 +126,11 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 			$descripcion=$descripcion." ".$a->getCantidad()." ".$a->getProducto()->getNombre();
 			$precio+=$a->getCantidad()*$a->getProducto()->getPrecio();		
 		}
+
 		$ped= new Pedido($pedidoPro->getPedido(),"","",$descripcion,$precio);
 		$ped->updateP();
+
+
 		echo $descripcion." precio".$precio;
 
 
@@ -118,6 +178,10 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 	}else{
 		$error = 1;
 	}
+
+	}
+
+	
 	
 }
 $pedido = new Pedido($_GET['idPedido']); 
@@ -177,7 +241,7 @@ $pedido -> select();
 
 
 
-							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/selectAllPedidoProByPedido.php") . "&idPedido=" . $_GET['idPedido'] . "&idPedidoPro=" . $currentPedidoPro -> getIdPedidoPro() . "&action=delete&idp=0' onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Pedido Pro' ></span></a> </td>";
+							echo "<a href='index.php?pid=" . base64_encode("ui/pedidoPro/selectAllPedidoProByPedido.php") . "&idPedido=" . $_GET['idPedido'] . "&idPedidoPro=" . $currentPedidoPro -> getIdPedidoPro() . "&action=delete&idp=0&idpro=".$currentPedidoPro->getProducto()->getIdProducto()."'  onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Pedido Pro' ></span></a> </td>";
 						}
 						echo "</td>";
 						echo "</tr>";

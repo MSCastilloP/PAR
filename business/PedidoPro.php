@@ -286,5 +286,31 @@ class PedidoPro {
 		$this -> connection -> close();
 		return $pedidoPros;
 	}
+
+	function existe(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoProDAO -> existe());
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		if($result[0]>0){
+			return 1;
+		}else{
+			return 0;
+		}
+
+		
+
+}
+
+function traerProductos(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoProDAO -> traerProductos());
+		$pedidoPros = array();
+		while ($result = $this -> connection -> fetchRow()){
+			array_push($pedidoPros, array($result[0]));
+		}
+		$this -> connection -> close();
+		return $pedidoPros;
+	}
 }
 ?>

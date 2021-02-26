@@ -2,7 +2,7 @@
 	function agregar(id,idProducto,cantidad, descripcion, producto){
 
 
-				db.collection('Pedidos').add({
+				db.collection('Pedidos').doc(id+idProducto).set({
 										id:id,
 										idProducto:idProducto,
 										descripcion:descripcion	,
@@ -85,7 +85,9 @@
 
 			$bandera=false;
 			foreach ($arrays as $facturas) {
-				$descripcionPed=$descripcionPed." ".$facturas[2].".";
+					$ProDom = new pedidoPro("",$primerID[0],$facturas[0],$facturas[3],$facturas[2]);
+				$ProDom->insert();
+
 				echo "<script type='text/javascript'>
 		
 									agregar('".$primerID[0]."','".$facturas[0]."','".$facturas[3]."','".$facturas[2]."','".$facturas[1]."');	

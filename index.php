@@ -157,7 +157,7 @@ if(isset($_GET['logOut'])){
 <script  src="https://www.gstatic.com/firebasejs/7.17.2/firebase-analytics.js"> </script >
 <script  src="https://www.gstatic.com/firebasejs/7.17.2/firebase-firestore.js"> </script>
 
-  <script>3
+  <script>
     // TODO: Replace the following with your app's Firebase project configuration
     // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
     var firebaseConfig = {

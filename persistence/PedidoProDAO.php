@@ -132,5 +132,11 @@ class PedidoProDAO{
 				from PedidoPro as pro , producto as p
 				where pro.pedido_idPedido = " . $id ." and p.idProducto = pro.producto_idProducto  ";
 	}
+	function existe(){
+		return  "select count(idPedidoPro) from pedidoPro where idPedidoPro=".$this-> idPedidoPro ;
+	}
+	function traerProductos(){
+		return "select producto_idProducto from pedidoPro where pedido_idPedido=".$this-> pedido ;
+	}
 }
 ?>

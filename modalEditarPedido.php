@@ -32,6 +32,7 @@
 		$global="";
 		?>
 
+
 		<script type="text/javascript">
 			// Variables globales utilizadas para los javascript, en especial para los botones.
 			var contador=0;
