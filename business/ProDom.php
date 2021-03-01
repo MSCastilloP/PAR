@@ -265,6 +265,16 @@ function selectDescripcionCocinero($id){
 		$this -> connection -> close();
 		return $pedidoPros;
 	}
+	function traerProductos(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> proDomDAO -> traerProductos());
+		$pedidoPros = array();
+		while ($result = $this -> connection -> fetchRow()){
+			array_push($pedidoPros, array($result[0]));
+		}
+		$this -> connection -> close();
+		return $pedidoPros;
+	}
 }
 ?>
 	

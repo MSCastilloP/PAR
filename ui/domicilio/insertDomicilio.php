@@ -1,3 +1,34 @@
+	<script type="">
+	function agregar(id,idProducto,cantidad, descripcion, producto){
+
+
+				db.collection('domicilio').doc(id+idProducto).set({
+										id:id,
+										idProducto:idProducto,
+										descripcion:descripcion	,
+										cantidad:cantidad,
+										producto:producto	
+										//hora:".$hora.",
+										//precio:".$precio."
+
+										
+															}).then(function() {
+
+											    console.log('Document successfully written!' );
+											})
+											.catch(function(error) {
+											    console.error('Error writing document: ', error);
+											});	
+		}
+		function salir(){
+						
+									window.location.replace("index.php?pid=<?php echo base64_encode("ui/domicilio/insertDomicilio.php") ?>&idp=0");
+								}
+							
+
+		
+</script>
+
 	<?php
 
 	$cliente = new Cliente($_SESSION['id']);
@@ -52,6 +83,9 @@
 			}	
 			if($descripcion!=""){
 			$crearDomicilio = new domicilio("",$direccion,$fecha,$hora,$precio,$descripcion,1,"",$_SESSION['id']);
+
+
+
 			$crearDomicilio->insert();	
 			$crearDomicilio->buscarDomicilio();
 
@@ -60,9 +94,22 @@
 
 				$ProDom = new ProDom("",$crearDomicilio->getIdDomicilio(),$facturas[0],$facturas[3],$facturas[2]);
 				$ProDom->insert();
+					echo "<script type='text/javascript'>
+		
+									agregar('".$crearDomicilio->getIdDomicilio()."','".$facturas[0]."','".$facturas[3]."','".$facturas[2]."','".$facturas[1]."');	
+				</script>";
 
 
+				$bandera=true;
 									# code...
+			}
+
+			if($bandera){
+			echo "<script type='text/javascript'>
+			
+			window.setTimeout(salir,2000);
+										
+				</script>";
 			}
 
 			//echo $crearDomicilio->getIdDomicilio();
@@ -302,8 +349,7 @@
 //href='index.php?pid=" . base64_encode("ui/domicilio/insertDomicilio.php") ."&limpiar=". $precioTotal."&idp=0'
 			var precio = <?php echo $precioTotal; ?>;
 			var direccion= document.getElementById("direccion").value;
-			alert(direccion);
-			alert(precio);
+			
 			window.location.replace("index.php?pid=<?php echo base64_encode("ui/domicilio/insertDomicilio.php")?>&limpiar="+precio+"&idp=0&direccion="+direccion);
 			alert("Tu pedido fue enviado");
 		}

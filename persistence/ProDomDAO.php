@@ -108,5 +108,8 @@ class ProDomDAO{
 				from proDom as pro , producto as p 
 				where pro.domicilio_idDomicilio = " . $id ." and p.idProducto = pro.producto_idProducto";
 	}
+	function traerProductos (){
+		return "select producto_idProducto from ProDom where domicilio_idDomicilio=".$this-> domicilio ;
+	}
 }
 ?>

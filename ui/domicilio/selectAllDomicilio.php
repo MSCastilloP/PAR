@@ -8,12 +8,60 @@ if(isset($_GET['dir'])){
 	$dir = $_GET['dir'];
 }
 $error = 0;
+
+if(isset($_GET['idpro']) && isset($_GET['idDomicilio'])){
+echo "<script type='text/javascript'>
+    
+
+		
+		function eliminar(id,idPedido){
+
+	db.collection('domicilio').doc(idPedido+id).delete().then(function() {
+		
+    console.log('Document successfully deleted!');
+}).catch(function(error) {
+    console.error('Error removing document: ', error);
+});
+
+
+}
+
+		
+
+		
+				eliminar('".$_GET['idpro']."','".$_GET['idDomicilio']."');
+		
+										
+				</script>";
+}
 if(isset($_GET['action']) && $_GET['action']=="delete"){
 
 	$deleteDomicilio = new Domicilio($_GET['idDomicilio']);
 	$deleteDomicilio -> select();
 	$pedo= new ProDom("",$_GET['idDomicilio']);
+	$var=$pedo-> traerProductos();
+	foreach ($var as $p) {
+		echo "<script type='text/javascript'>	
+				function eliminar(id,idPedido){
+				db.collection('domicilio').doc(idPedido+id).delete().then(function() {
+				console.log('Document successfully deleted!');
+			}).catch(function(error) {
+			    console.error('Error removing document: ', error);
+			});
+			}	
+							eliminar('".$p[0]."','".$_GET['idDomicilio']."');						
+				</script>";
+		# code...	
+	}
 	$pedo->deletePedo();
+
+
+
+
+
+
+
+
 	
 $c=$deleteDomicilio -> getCocinando();
 	if($deleteDomicilio -> delete($c)){

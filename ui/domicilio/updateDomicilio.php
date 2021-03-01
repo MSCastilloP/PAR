@@ -1,3 +1,12 @@
+<script type="text/javascript">
+
+	function salir(idpro,idDomicilio){
+
+		window.location.replace("index.php?pid=<?php echo base64_encode("ui/domicilio/selectAllDomicilio.php")?>&idpro="+idpro+"&idDomicilio="+idDomicilio);
+		
+	}
+	
+</script>
 <?php
 $order = "";
 if($_GET['idp']!=0){
@@ -39,6 +48,36 @@ echo "\n".$desc;
 $dom= new Domicilio($_GET['idDomicilio'],"","","",$precioP,$desc);
 $dom->updateP();
 
+echo "<script type=''>
+function editar(id,cantidad,total,idPedido){
+
+var ped = db.collection('domicilio').doc(idPedido+id);
+
+
+return ped.update({
+	cantidad: cantidad,
+	descripcion:total
+
+})
+.then(() => {
+    console.log('Document successfully updated!' );
+})
+.catch((error) => {
+    // The document probably doesn't exist.
+    console.error('Error updating document: ', error);
+});
+
+
+}
+editar('".$idp."','".$cantidad."','".$total."','".$_GET['idDomicilio']."');
+
+
+
+
+
+
+</script>";
+
 
 
 }
@@ -73,8 +112,23 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 			$c= $dom ->getCocinando();
 		
 			$dom->delete($c);
-			header("Location: index.php?pid=".base64_encode('ui/domicilio/selectAllDomicilio.php'));
+			echo "<script type='text/javascript'>
+			salir('".$_GET['idPro']."','".$_GET['idDomicilio']."');
+			</script>";
+			
 		}else{
+			echo "<script type='text/javascript'>
+						function eliminar(id,idPedido){
+						db.collection('domicilio').doc(idPedido+id).delete().then(function() {	
+				    console.log('Document successfully deleted!');
+				}).catch(function(error) {
+				    console.error('Error removing document: ', error);
+				});
+				}
+				eliminar('".$_GET['idPro']."','".$_GET['idDomicilio']."');
+		
+										
+				</script>";
 		$array=$pedo->selectAllByDomicilio();
 		$descripcion="";
 		$precio=0;
@@ -194,7 +248,7 @@ echo $domicilio->getDescripcion();
 
 
 
-						echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/updateDomicilio.php") . "&idDomicilio=" . $_GET['idDomicilio'] . "&idProDom=" . $currentProDom -> getIdProDom() . "&action=delete&idp=0' onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Eliminar producto' ></span></a> </td>";
+						echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/updateDomicilio.php") . "&idDomicilio=" . $_GET['idDomicilio'] . "&idProDom=" . $currentProDom -> getIdProDom() . "&action=delete&idp=0&idPro=".$currentProDom->getProducto()->getIdProducto()."' onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Eliminar producto' ></span></a> </td>";
 						
 						echo "</td>";
 						echo "</tr>";
