@@ -40,27 +40,26 @@ $ped= new Pedido($_GET['idPedido'],"","",$desc,$precioP);
 $ped->updateP();
 
 echo "<script type=''>
-function editar(id,cantidad,total,idPedido){
+function editar(id,cantidad,total,idPedido,nombre){
 
-var ped = db.collection('Pedidos').doc(idPedido+id);
+	const database = firebase.database();
+	const newData ={
+		cantidad:cantidad,
+		descripcion:total,
+		idProducto:id,
+		id:idPedido,
+		producto:nombre
+	}
+
+const updates ={};
+updates ['/Pedidos/'+(idPedido+id)]=newData;
+database.ref().update(updates);
 
 
-return ped.update({
-	cantidad: cantidad,
-	descripcion:total
-
-})
-.then(() => {
-    console.log('Document successfully updated!' );
-})
-.catch((error) => {
-    // The document probably doesn't exist.
-    console.error('Error updating document: ', error);
-});
 
 
 }
-editar('".$idp."','".$cantidad."','".$total."','".$_GET['idPedido']."');
+editar('".$idp."','".$cantidad."','".$total."','".$_GET['idPedido']."','".$idn."');
 
 
 
@@ -107,11 +106,14 @@ echo "<script type='text/javascript'>
 		}else{
 			echo "<script type='text/javascript'>
 						function eliminar(id,idPedido){
-						db.collection('Pedidos').doc(idPedido+id).delete().then(function() {	
-				    console.log('Document successfully deleted!');
-				}).catch(function(error) {
-				    console.error('Error removing document: ', error);
-				});
+							const database = firebase.database();
+							const rootRef = database.ref('Pedidos');
+							rootRef.child(idPedido+id).remove();
+
+
+
+
+						
 				}
 				eliminar('".$_GET['idpro']."','".$_GET['idPedido']."');
 		

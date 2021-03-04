@@ -1,3 +1,4 @@
+
 <?php
 $caje= new Cajero();
 

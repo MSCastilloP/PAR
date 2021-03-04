@@ -49,27 +49,26 @@ $dom= new Domicilio($_GET['idDomicilio'],"","","",$precioP,$desc);
 $dom->updateP();
 
 echo "<script type=''>
-function editar(id,cantidad,total,idPedido){
-
-var ped = db.collection('domicilio').doc(idPedido+id);
+function editar(id,cantidad,total,idDomicilio,nombre){
 
 
-return ped.update({
-	cantidad: cantidad,
-	descripcion:total
+	const database = firebase.database();
+	const newData ={
+		cantidad:cantidad,
+		descripcion:total,
+		idProducto:id,
+		id:idDomicilio,
+		producto:nombre
+	}
 
-})
-.then(() => {
-    console.log('Document successfully updated!' );
-})
-.catch((error) => {
-    // The document probably doesn't exist.
-    console.error('Error updating document: ', error);
-});
+const updates ={};
+updates ['/Domicilios/'+(idDomicilio+id)]=newData;
+database.ref().update(updates);
+
 
 
 }
-editar('".$idp."','".$cantidad."','".$total."','".$_GET['idDomicilio']."');
+editar('".$idp."','".$cantidad."','".$total."','".$_GET['idDomicilio']."','".$idp."');
 
 
 
@@ -118,12 +117,10 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 			
 		}else{
 			echo "<script type='text/javascript'>
-						function eliminar(id,idPedido){
-						db.collection('domicilio').doc(idPedido+id).delete().then(function() {	
-				    console.log('Document successfully deleted!');
-				}).catch(function(error) {
-				    console.error('Error removing document: ', error);
-				});
+						function eliminar(id,idDomicilio){
+										const database = firebase.database();
+							const rootRef = database.ref('Domicilios');
+							rootRef.child(idDomicilio+id).remove();
 				}
 				eliminar('".$_GET['idPro']."','".$_GET['idDomicilio']."');
 		
@@ -189,7 +186,7 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 
 $domicilio = new Domicilio($_GET['idDomicilio']); 
 $domicilio -> select();
-echo $domicilio->getDescripcion();
+
 
 ?>
 <div class="container-fluid">

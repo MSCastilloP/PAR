@@ -1,3 +1,36 @@
+
+<script type="text/javascript">
+
+	
+
+const ref = firebase.firestore().collection('Pedidos')
+
+ref.onSnapshot(snapshot => {
+	let requests = [];
+	snapshot.forEach(doc  => {
+		requests.push({...doc.data(),
+			id: doc.id
+
+		});
+				var newDiv = document.createElement("div");
+		var newContent = document.createTextNode(requests[0].id);
+
+  		newDiv.appendChild(newContent); 
+		var currentDiv = document.getElementById("card-body");
+  		document.body.insertBefore(newDiv, currentDiv);
+
+		console.log(requests);
+
+	})
+
+
+}
+
+)
+
+
+
+</script>
 <?php
 $order = "";
 if(isset($_GET['order'])){

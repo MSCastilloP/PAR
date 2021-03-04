@@ -153,31 +153,32 @@ if(isset($_GET['logOut'])){
 				$("[data-toggle='tooltip']").tooltip(); 
 			});
 		</script>
-<script  src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"> </script >
-<script  src="https://www.gstatic.com/firebasejs/7.17.2/firebase-analytics.js"> </script >
-<script  src="https://www.gstatic.com/firebasejs/7.17.2/firebase-firestore.js"> </script>
+		
 
-  <script>
-    // TODO: Replace the following with your app's Firebase project configuration
-    // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
-    var firebaseConfig = {
-    	apiKey: "AIzaSyB7QXnzdZ9Uy2sVBzxNWSmUpShWM7Y97OE",
-    authDomain: "par-proyecto.firebaseapp.com",
-    projectId: "par-proyecto",
-    storageBucket: "par-proyecto.appspot.com",
-    messagingSenderId: "797222872531",
-    appId: "1:797222872531:web:9284baafd4d8a937aa7b26",
-    measurementId: "G-989J9MY4J5"
-      // ...
-    };
+ <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-analytics.js"></script>
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-      var db = firebase.firestore();
-
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyAdn0CWopi_AZiqobAqETSeRF0HzY1x424",
+    authDomain: "par-proyecto-realtime.firebaseapp.com",
+    databaseURL: "https://par-proyecto-realtime-default-rtdb.firebaseio.com",
+    projectId: "par-proyecto-realtime",
+    storageBucket: "par-proyecto-realtime.appspot.com",
+    messagingSenderId: "99978510637",
+    appId: "1:99978510637:web:9865b8cfd11e9ff888d3a4",
+    measurementId: "G-RDLT15R2XV"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
   firebase.analytics();
-//const firebase = require("firebase");
-  </script>
+</script>
 
 
 	</head>

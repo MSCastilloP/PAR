@@ -2,27 +2,23 @@
 	function agregar(id,idProducto,cantidad, descripcion, producto){
 
 
-				db.collection('Pedidos').doc(id+idProducto).set({
-										id:id,
-										idProducto:idProducto,
-										descripcion:descripcion	,
-										cantidad:cantidad,
-										producto:producto	
-										//hora:".$hora.",
-										//precio:".$precio."
 
-										
-															}).then(function() {
+		const database = firebase.database();
+			database.ref('/Pedidos/'+(id+idProducto)).set({
+				id:id,
+				idProducto:idProducto,
+				cantidad:cantidad,
+				descripcion:descripcion,
+				producto:producto
 
-											    console.log('Document successfully written!' );
-											})
-											.catch(function(error) {
-											    console.error('Error writing document: ', error);
-											});	
+			});
+
+
+				
 		}
 		function salir(){
-						
-									window.location.replace("index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>&idp=0");
+						window.location.replace("index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>&idp=0");
+									
 								}
 							
 
@@ -96,8 +92,8 @@
 			}
 			if($bandera){
 			echo "<script type='text/javascript'>
-			
 			window.setTimeout(salir,2000);
+			
 										
 				</script>";
 			}

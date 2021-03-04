@@ -14,14 +14,11 @@ echo "<script type='text/javascript'>
     
 
 		
-		function eliminar(id,idPedido){
+		function eliminar(id,idDomicilio){
 
-	db.collection('domicilio').doc(idPedido+id).delete().then(function() {
-		
-    console.log('Document successfully deleted!');
-}).catch(function(error) {
-    console.error('Error removing document: ', error);
-});
+	const database = firebase.database();
+							const rootRef = database.ref('Domicilios');
+							rootRef.child(idDomicilio+id).remove();
 
 
 }
@@ -42,12 +39,10 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 	$var=$pedo-> traerProductos();
 	foreach ($var as $p) {
 		echo "<script type='text/javascript'>	
-				function eliminar(id,idPedido){
-				db.collection('domicilio').doc(idPedido+id).delete().then(function() {
-				console.log('Document successfully deleted!');
-			}).catch(function(error) {
-			    console.error('Error removing document: ', error);
-			});
+				function eliminar(id,idDomicilio){
+				const database = firebase.database();
+							const rootRef = database.ref('Domicilios');
+							rootRef.child(idDomicilio+id).remove();
 			}	
 							eliminar('".$p[0]."','".$_GET['idDomicilio']."');						
 				</script>";
