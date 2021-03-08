@@ -137,7 +137,11 @@ class PedidoDAO{
 				where cocinando<3 
 				order by hora";
 	}
-
+	function traerHoraFecha() {
+		return "select hora, fecha
+				from Pedido
+				where idPedido=".$this -> idPedido;
+	}
 	
 	
 }

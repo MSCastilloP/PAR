@@ -12,11 +12,11 @@ echo "<script type='text/javascript'>
 
 
 		
-		function eliminar(id,idPedido){
+		function eliminar(idPedido){
 
 	const database = firebase.database();
 							const rootRef = database.ref('Pedidos');
-							rootRef.child(idPedido+id).remove();
+							rootRef.child(idPedido).remove();
 
 
 }
@@ -24,7 +24,7 @@ echo "<script type='text/javascript'>
 		
 
 		
-				eliminar('".$_GET['idpro']."','".$_GET['idpedido']."');
+				eliminar('".$_GET['idpedido']."');
 		
 										
 				</script>";
@@ -42,14 +42,14 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 	foreach ($pedos as $p) {
 
 		echo "<script type='text/javascript'>	
-				function eliminar(id,idPedido){
+				function eliminar(idPedido){
 					
 							const database = firebase.database();
 							const rootRef = database.ref('Pedidos');
-							rootRef.child(idPedido+id).remove();
+							rootRef.child(idPedido).remove();
 
 			}	
-							eliminar('".$p[0]."','".$_GET['idPedido']."');						
+							eliminar('".$_GET['idPedido']."');						
 				</script>";
 		# code...	
 	}
@@ -206,7 +206,20 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						echo "<td>" . $currentPedido -> getHora() . "</td>";
 						echo "<td>" . $currentPedido -> getDescripcion() . "</td>";
 						echo "<td>" . $currentPedido -> getPrecio() . "</td>";
-						echo "<td>" . $currentPedido -> getCocinando() . "</td>";
+						
+
+						if($currentPedido -> getCocinando()==1){
+							echo "<td>En cola </td>";
+
+
+						}else if($currentPedido -> getCocinando()==2){
+							echo "<td>Cocinando...</td>";
+
+						}else if($currentPedido -> getCocinando()==3){
+							echo "<td>Pedido preparado!</td>";
+						}
+						
+
 						
 						echo "<td class='text-right' nowrap>";
 						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cajero' 

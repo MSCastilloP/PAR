@@ -1,15 +1,17 @@
 <script type="">
-	function agregar(id,idProducto,cantidad, descripcion, producto){
+	function agregar(id, descripcion,fecha,hora,estado){
 
 
 
 		const database = firebase.database();
-			database.ref('/Pedidos/'+(id+idProducto)).set({
+
+			database.ref('/Pedidos/'+(id)).set({
 				id:id,
-				idProducto:idProducto,
-				cantidad:cantidad,
 				descripcion:descripcion,
-				producto:producto
+				fecha:fecha,
+				hora:hora,
+				estado:estado,
+				tipo:"Pedido"
 
 			});
 
@@ -80,16 +82,21 @@
 			$primerID=$crearPedido->traerID($fecha,$hora);
 
 			$bandera=false;
+
+			$firebase = "";
+
 			foreach ($arrays as $facturas) {
 					$ProDom = new pedidoPro("",$primerID[0],$facturas[0],$facturas[3],$facturas[2]);
 				$ProDom->insert();
+				$firebase = $firebase." ".$facturas[3]."x ".$facturas[1].":   ".$facturas[2]."-";
 
-				echo "<script type='text/javascript'>
-		
-									agregar('".$primerID[0]."','".$facturas[0]."','".$facturas[3]."','".$facturas[2]."','".$facturas[1]."');	
-				</script>";
+			
 				$bandera=true;
 			}
+			echo "<script type='text/javascript'>
+		
+			agregar('".$primerID[0]."','".$firebase."','".$fecha."','".$hora."','1');	
+</script>";
 			if($bandera){
 			echo "<script type='text/javascript'>
 			window.setTimeout(salir,2000);

@@ -1,33 +1,91 @@
+<script>
+	let num = 0;
+const db = firebase.database().ref('Pedidos');
 
-<script type="text/javascript">
+db.on("child_added", function(snapshot){
+
+	var data = snapshot.val();
+	var pedido = document.createElement("tr");
+	pedido.setAttribute("class", 'bg-warning');
+		pedido.setAttribute("id", snapshot.key);
+		
+		pedido.innerHTML = HTMLJuego(data,1);
+		document.getElementById("table").appendChild(pedido);
+	
+});
+
+
+db.on("child_changed", function(snapshot){
+	let variable = snapshot.val();
+	var el= document.getElementById(snapshot.key);
+	el.innerHTML = HTMLJuego(variable,2);
+
+});
+
+
+
+function HTMLJuego(data, otro){
+
+	if(otro==1){
+		var contenido ="<td class='bg-warning'>P" + data.id + "</td>";
+	contenido+= "<td>" + data.hora + "</td>";
+
+	let palabra = data.descripcion.split("-");
+	contenido+="<td>";
+	for(var i = 0 ; i < palabra.length ; i++){
+		
+		contenido+=palabra[i];
+		if(i!=palabra.length-1){
+			contenido+="<br>";
+		}
+	
+	}
+
+	contenido+="</td>";
+	console.log(typeof data.estado );
+	if(data.estado == '1'){
+		contenido+="<td> En cola</td>";
+	}
 
 	
+		
+	
+	
+	return contenido;
 
-const ref = firebase.firestore().collection('Pedidos')
+	}else{
+		var contenido ="<td class='bg-danger'>P" + data.id + "</td>";
+	contenido+= "<td>" + data.hora + "</td>";
 
-ref.onSnapshot(snapshot => {
-	let requests = [];
-	snapshot.forEach(doc  => {
-		requests.push({...doc.data(),
-			id: doc.id
+	let palabra = data.descripcion.split("-");
+	contenido+="<td>";
+	for(var i = 0 ; i < palabra.length ; i++){
+		
+		contenido+=palabra[i];
+		if(i!=palabra.length-1){
+			contenido+="<br>";
+		}
+	
+	}
 
-		});
-				var newDiv = document.createElement("div");
-		var newContent = document.createTextNode(requests[0].id);
+	contenido+="</td>";
+	console.log(typeof data.estado );
+	if(data.estado == '1'){
+		contenido+="<td> En cola</td>";
+	}
 
-  		newDiv.appendChild(newContent); 
-		var currentDiv = document.getElementById("card-body");
-  		document.body.insertBefore(newDiv, currentDiv);
+	
+		
+	
+	
+	return contenido;
 
-		console.log(requests);
-
-	})
-
-
+	}
+	
 }
 
-)
 
+// 
 
 
 </script>
@@ -89,8 +147,8 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 		</div>
 		<div class="card-body">
 	
-		<div class="table-responsive">
-			<table class="table ">
+		<div class="table-responsive" id="table-responsive">
+			<table class="table " id="table">
 				<thead>
 					<tr>
 						<th >ID 					
@@ -101,149 +159,11 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						<th nowrap>Estado 
 						
 						</th>
-						
-						<th>
-							boton
-						</th>
 					</tr>
 				</thead>
 				</tbody>
-					<?php
-					$domicilio = new Domicilio();
-					$pedo= new ProDom();
-					$pedido = new Pedido();
-					$pepo= new PedidoPro();
-					$dom =	$domicilio -> selectAllCocinero(); 
-					$ped =	$pedido -> selectAllCocinero(); 
-					$banderaP=true;
-					$banderaD=true;
-					$countP=0;
-					$countD=0;
-
-
-if(count($dom)==0){
-$banderaD=false;
-}
-if(count($ped)==0){
-	$banderaP=false;
-
-}
-					while($banderaD==true || $banderaP==true){
-
-						if($banderaD==false ){
-							$var=$pepo->selectDescripcionCocinero($ped[$countP]->getIdPedido());
-							echo "<tr class='bg-warning'><td> P".$ped[$countP]->getIdPedido()."</td>";
-							echo "<td> ".$ped[$countP]->getHora()."</td>";
-							echo "<td>";
-							foreach ($var as $a) {
-							echo $a[0]." x ";
-								echo $a[1].": ";
-								echo $a[2]."<br> ";
-							}
-								echo "</td>";
-								if($ped[$countP]->getCocinando()==1){
-							echo "<td> Cola </td></tr>";
-								}else if($ped[$countP]->getCocinando()==2){
-									echo "<td> Cocinando </td></tr>";
-								}
-							
-						
-							
-							$countP++;
-						}else if($banderaP==false){
-							$var=$pedo->selectDescripcionCocinero($dom[$countD]->getIdDomicilio());
-							echo "<tr  class='bg-danger'><td> D".$dom[$countD]->getIdDomicilio()."</td>";
-							echo "<td> ".$dom[$countD]->getHora()."</td>";
-							echo "<td>";
-							foreach ($var as $a) {
-								echo $a[0]." x ";
-								echo $a[1].": ";
-								echo $a[2]."<br> ";
-							}
-								echo "</td>";
-
-								if($dom[$countD]->getCocinando()==1){
-							echo "<td> Cola </td></tr>";
-								}else if($dom[$countD]->getCocinando()==2){
-									echo "<td> Cocinando </td></tr>";
-								}else if($dom[$countD]->getCocinando()==3){
-									echo "<td> Hecho </td></tr>";
-								}
-							
-							
-							$countD++;
-						}
-						else if(strtotime($dom[$countD]->getHora())<strtotime($ped[$countP]->getHora())){
-							$var=$pedo->selectDescripcionCocinero($dom[$countD]->getIdDomicilio());
-							echo "<tr class='bg-danger><td> D".$dom[$countD]->getIdDomicilio()."</td>";
-							echo "<td> ".$dom[$countD]->getHora()."</td>";
-							echo "<td>";
-							foreach ($var as $a) {
-								echo $a[0]." x ";
-								echo $a[1].": ";
-								echo $a[2]."<br> ";
-							}
-								echo "</td>";
-								
-							if($dom[$countD]->getCocinando()==1){
-							echo "<td> Cola </td></tr>";
-								}else if($dom[$countD]->getCocinando()==2){
-									echo "<td> Cocinando </td></tr>";
-								}else if($dom[$countD]->getCocinando()==3){
-									echo "<td> Hecho </td></tr>";
-								}
-							
-							$countD++;
-		            		
-		            }else{
-		            		$var=$pepo->selectDescripcionCocinero($ped[$countP]->getIdPedido());
-							echo "<tr class='bg-warning'><td> P".$ped[$countP]->getIdPedido()."</td>";
-							echo "<td> ".$ped[$countP]->getHora()."</td>";
-							echo "<td>";
-							foreach ($var as $a) {
-								echo $a[0]." x ";
-								echo $a[1].": ";
-								echo $a[2]."<br> ";
-							}
-								echo "</td>";
-							if($ped[$countP]->getCocinando()==1){
-							echo "<td> Cola </td></tr>";
-								}else if($ped[$countP]->getCocinando()==2){
-									echo "<td> Cocinando </td></tr>";
-								}
-							
-							
-							$countP++;
-		            	
-		            }
-
-
-		            if($countD==count($dom)){
-		            	$banderaD=false;
-		            }
-		             if($countP==count($ped)){
-		            	$banderaP=false;
-		            }
-
-					}
-
-
-
-
-
-					//echo $dom[0]->getDescripcion() ." ".$ped[0]->getDescripcion() ;
-
-					/*$hora1 =  strtotime($dom[0]->getHora());
-		            $hora2 =  strtotime($ped[0]->getHora());
-		            if(strtotime($dom[0]->getHora())>strtotime($ped[0]->getHora())){
-		            		echo "Domicilio";
-		            }else{
-		            	echo "Pedidos";
-		            }
-		            echo count($dom)." ----- ".count($ped);
-					$counter = 1;*/
-				  
-					?>
+				
+					
 				</tbody>
 			</table>
 			</div>

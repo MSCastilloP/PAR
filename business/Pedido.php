@@ -295,6 +295,19 @@ function updateTemporal($idp,$total,$cantidad){
 		return $pedidos;
 	}
 
+	function traerHoraFecha(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> traerHoraFecha());
+		
+		$result = $this -> connection -> fetchRow();
+			$arrays = array($result[0],$result[1]);
+		
+			
+		
+		$this -> connection -> close();
+		return $arrays;
+	}
+
 	
 
 }

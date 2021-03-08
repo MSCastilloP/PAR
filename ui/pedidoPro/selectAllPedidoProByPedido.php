@@ -23,11 +23,15 @@ $precioP=0;
 $pepo->updatePEPO($_GET['idPedido'],$idp,$total,$cantidad);
 $aux=$pepo->traerCantidades($_GET['idPedido']);
 $count=0;
+$firebase="";
+
 foreach ($variable as $v) {
 	if($idp!=$v->getProducto()->getIdProducto()){
 		$desc=$desc." ".$v->getCantidad()." ".$v->getProducto()->getNombre();
+		$firebase=$firebase." ".$v->getCantidad()."x ".$v->getProducto()->getNombre().": ".$v->getDescripcion()."-";
 	}else{
 		$desc=$desc." ".$cantidad." ".$idn;
+		$firebase=$firebase." ".$cantidad."x ".$idn.": ".$total."-";
 	}
 
 	$precioP+=$v->getProducto()->getPrecio()*$aux[$count]	;
@@ -37,29 +41,35 @@ echo "\n".$desc;
 
 
 $ped= new Pedido($_GET['idPedido'],"","",$desc,$precioP);
+$hora = $ped->traerHoraFecha();
+
+
 $ped->updateP();
 
+
+
 echo "<script type=''>
-function editar(id,cantidad,total,idPedido,nombre){
+function editar(total,idPedido,fecha,hora){
 
 	const database = firebase.database();
 	const newData ={
-		cantidad:cantidad,
 		descripcion:total,
-		idProducto:id,
 		id:idPedido,
-		producto:nombre
+		tipo:'Pedido',
+		fecha:fecha,
+		hora:hora,
+		estado:'1'
 	}
 
 const updates ={};
-updates ['/Pedidos/'+(idPedido+id)]=newData;
+updates ['/Pedidos/'+(idPedido)]=newData;
 database.ref().update(updates);
 
 
 
 
 }
-editar('".$idp."','".$cantidad."','".$total."','".$_GET['idPedido']."','".$idn."');
+editar('".$firebase."','".$_GET['idPedido']."','".$hora[1]."','".$hora[0]."');
 
 
 
@@ -94,9 +104,9 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 	$pedidoPro=new PedidoPro("",$deletePedidoPro->getPedido()->getidPedido());
 	if($deletePedidoPro -> delete()){
 
-		
+		$ped= new Pedido($deletePedidoPro->getPedido()->getidPedido());
 		if($pedidoPro ->validar()==0){
-			$ped= new Pedido($deletePedidoPro->getPedido()->getidPedido());
+			
 			$ped->delete();
 			
 echo "<script type='text/javascript'>
@@ -104,21 +114,43 @@ echo "<script type='text/javascript'>
 </script>";
 			
 		}else{
-			echo "<script type='text/javascript'>
-						function eliminar(id,idPedido){
-							const database = firebase.database();
-							const rootRef = database.ref('Pedidos');
-							rootRef.child(idPedido+id).remove();
 
+			$ped->select();
+			$traerPedidoPro=$pedidoPro -> selectAllByPedido();
+			$firebase = "";
+			foreach($traerPedidoPro as $t){
+				$firebase = $firebase." ".$t->getCantidad(). "x ".$t->getProducto()->getNombre(). ": ".$t->getDescripcion()."-"; 
 
-
-
-						
+			}
+			echo "<script type=''>
+			function editar(total,idPedido,fecha,hora){
+			
+				const database = firebase.database();
+				const newData ={
+					descripcion:total,
+					id:idPedido,
+					tipo:'Pedido',
+					fecha:fecha,
+					hora:hora,
+					estado:'1'
 				}
-				eliminar('".$_GET['idpro']."','".$_GET['idPedido']."');
-		
-										
-				</script>";
+			
+			const updates ={};
+			updates ['/Pedidos/'+(idPedido)]=newData;
+			database.ref().update(updates);
+			
+			
+			
+			
+			}
+			editar('".$firebase."','".$_GET['idPedido']."','".$ped->getFecha()."','".$ped->getHora()."');
+			
+			
+			
+			
+			
+			
+			</script>";
 		$array=$pedidoPro->selectAllByPedido();
 		$descripcion="";
 		$precio=0;
