@@ -38,16 +38,9 @@ foreach ($variable as $v) {
 	$count++;
 }
 echo "\n".$desc;
-
-
 $ped= new Pedido($_GET['idPedido'],"","",$desc,$precioP);
 $hora = $ped->traerHoraFecha();
-
-
 $ped->updateP();
-
-
-
 echo "<script type=''>
 function editar(total,idPedido,fecha,hora){
 
@@ -62,7 +55,7 @@ function editar(total,idPedido,fecha,hora){
 	}
 
 const updates ={};
-updates ['/Pedidos/'+(idPedido)]=newData;
+updates ['/Pedidos/'+('P'+idPedido)]=newData;
 database.ref().update(updates);
 
 
@@ -136,12 +129,8 @@ echo "<script type='text/javascript'>
 				}
 			
 			const updates ={};
-			updates ['/Pedidos/'+(idPedido)]=newData;
+			updates ['/Pedidos/'+('P'+idPedido)]=newData;
 			database.ref().update(updates);
-			
-			
-			
-			
 			}
 			editar('".$firebase."','".$_GET['idPedido']."','".$ped->getFecha()."','".$ped->getHora()."');
 			

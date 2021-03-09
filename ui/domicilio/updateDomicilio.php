@@ -18,7 +18,7 @@ $idn=$_GET['idn'];
 $total =$_GET['total'];
 //cantidad ª
 $cantidad=$_GET['cantidad'];
-
+$objDom = new Domicilio($_GET['idDomicilio']);
 $prod=new Producto($idp);
 $prod->select();
 $pedo=new ProDom('',$_GET['idDomicilio']);
@@ -28,15 +28,17 @@ $precioP=0;
 $pedo->updatePEDO($_GET['idDomicilio'],$idp,$total,$cantidad);
 $aux=$pedo->traerCantidades($_GET['idDomicilio']);
 $count=0;
+$firebase = "";
+$objDom->select();
 
 foreach ($variable as $v) {
 	if($idp!=$v->getProducto()->getIdProducto()){
 		$desc=$desc." ".$v->getCantidad()." ".$v->getProducto()->getNombre();
-	
+		$firebase=$firebase." ".$v->getCantidad()."x ".$v->getProducto()->getNombre().": ".$v->getDescripcion()."-";
 	}else{
 		
 		$desc=$desc." ".$cantidad." ".$idn;
-		
+		$firebase=$firebase." ".$cantidad."x ".$idn.": ".$total."-";
 	}
 
 	$precioP+=$v->getProducto()->getPrecio()*$aux[$count]	;
@@ -49,26 +51,23 @@ $dom= new Domicilio($_GET['idDomicilio'],"","","",$precioP,$desc);
 $dom->updateP();
 
 echo "<script type=''>
-function editar(id,cantidad,total,idDomicilio,nombre){
-
+function editar(total,idDomicilio,fecha,hora,direccion){
 
 	const database = firebase.database();
 	const newData ={
-		cantidad:cantidad,
 		descripcion:total,
-		idProducto:id,
 		id:idDomicilio,
-		producto:nombre
+		tipo:'Domicilio',
+		fecha:fecha,
+		hora:hora,
+		estado:'1',
+		direccion:direccion
 	}
-
 const updates ={};
-updates ['/Domicilios/'+(idDomicilio+id)]=newData;
+updates ['/Pedidos/'+('D'+idDomicilio)]=newData;
 database.ref().update(updates);
-
-
-
 }
-editar('".$idp."','".$cantidad."','".$total."','".$_GET['idDomicilio']."','".$idp."');
+editar('".$firebase."','".$_GET['idDomicilio']."','".$objDom->getFecha()."','".$objDom->getHora()."','".$objDom->getDireccion()."');
 
 
 
@@ -101,13 +100,13 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 
 	
 
-
+	$dom= new Domicilio($deletePedo->getDomicilio()->getidDomicilio());
+	$dom->select();
 	if($deletePedo -> delete()){
 		if($pedo ->validar()==0){
 
 
-			$dom= new Domicilio($deletePedo->getDomicilio()->getidDomicilio());
-			$dom->select();
+			
 			$c= $dom ->getCocinando();
 		
 			$dom->delete($c);
@@ -116,15 +115,31 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 			</script>";
 			
 		}else{
-			echo "<script type='text/javascript'>
-						function eliminar(id,idDomicilio){
-										const database = firebase.database();
-							const rootRef = database.ref('Domicilios');
-							rootRef.child(idDomicilio+id).remove();
+			
+			$traerProDom=$pedo -> selectAllByDomicilio();
+			$firebase = "";
+			foreach($traerProDom as $t){
+				$firebase = $firebase." ".$t->getCantidad(). "x ".$t->getProducto()->getNombre(). ": ".$t->getDescripcion()."-"; 
+
+			}
+				echo "<script type=''>
+				function editar(total,idDomicilio,fecha,hora,direccion){
+
+					const database = firebase.database();
+					const newData ={
+						descripcion:total,
+						id:idDomicilio,
+						tipo:'Domicilio',
+						fecha:fecha,
+						hora:hora,
+						estado:'1',
+						direccion:direccion
+					}
+				const updates ={};
+				updates ['/Pedidos/'+('D'+idDomicilio)]=newData;
+				database.ref().update(updates);
 				}
-				eliminar('".$_GET['idPro']."','".$_GET['idDomicilio']."');
-		
-										
+				editar('".$firebase."','".$_GET['idDomicilio']."','".$dom->getFecha()."','".$dom->getHora()."','".$dom->getDireccion()."');
 				</script>";
 		$array=$pedo->selectAllByDomicilio();
 		$descripcion="";

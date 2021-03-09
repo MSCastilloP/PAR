@@ -1,26 +1,27 @@
-	<script type="">
-	function agregar(id,idProducto,cantidad, descripcion, producto){
+<script type="">
+	function agregar(id, descripcion,fecha,hora, direccion){
 
 
-				
+
 		const database = firebase.database();
-			database.ref('/Domicilios/'+(id+idProducto)).set({
-				id:id,
-				idProducto:idProducto,
-				cantidad:cantidad,
-				descripcion:descripcion,
-				producto:producto
 
-			});
+			database.ref('/Pedidos/'+("D"+id)).set({
+				id:id,
+				descripcion:descripcion,
+				fecha:fecha,
+				hora:hora,
+				estado:"1",
+				tipo:"Domicilio",
+				direccion:direccion
+			});			
 		}
 		function salir(){
-						
-									window.location.replace("index.php?pid=<?php echo base64_encode("ui/domicilio/insertDomicilio.php") ?>&idp=0");
+			window.location.replace("index.php?pid=<?php echo base64_encode("ui/domicilio/insertDomicilio.php") ?>&idp=0");
+									
 								}
 							
 
-		
-</script>
+								</script>	
 
 	<?php
 
@@ -82,20 +83,19 @@
 			$crearDomicilio->insert();	
 			$crearDomicilio->buscarDomicilio();
 
-
+			$firebase = "";
 			foreach ($arrays as $facturas) {
-
 				$ProDom = new ProDom("",$crearDomicilio->getIdDomicilio(),$facturas[0],$facturas[3],$facturas[2]);
+				$firebase = $firebase." ".$facturas[3]."x ".$facturas[1].":   ".$facturas[2]."-";
 				$ProDom->insert();
-					echo "<script type='text/javascript'>
-		
-									agregar('".$crearDomicilio->getIdDomicilio()."','".$facturas[0]."','".$facturas[3]."','".$facturas[2]."','".$facturas[1]."');	
-				</script>";
-
-
 				$bandera=true;
 									# code...
 			}
+			echo "<script type='text/javascript'>
+			agregar('".$crearDomicilio->getIdDomicilio()."','".$firebase."','".$fecha."','".$hora."','".$direccion."');	
+
+
+			</script>";
 
 			if($bandera){
 			echo "<script type='text/javascript'>
@@ -231,13 +231,9 @@
 
 						<tr>
 							<td>IDP</td>
-
 							<td>Nombre</td>
-
 							<td>Descripción</td>
-
 							<td>Cantidad</td>
-
 							<td>Precio</td>
 							<td>Eliminar</td>
 							<td>Editar</td>

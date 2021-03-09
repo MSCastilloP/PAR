@@ -9,27 +9,16 @@ if(isset($_GET['dir'])){
 }
 if(isset($_GET['idpro']) && isset($_GET['idpedido'])){
 echo "<script type='text/javascript'>
-
-
-		
-		function eliminar(idPedido){
-
-	const database = firebase.database();
+							function eliminar(idPedido){
+							const database = firebase.database();
 							const rootRef = database.ref('Pedidos');
-							rootRef.child(idPedido).remove();
-
-
+							rootRef.child('P'+idPedido).remove();
 }
-
-		
-
-		
 				eliminar('".$_GET['idpedido']."');
 		
 										
 				</script>";
 }
-
 
 
 
@@ -39,20 +28,16 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 	$deletePedido -> select();
 	$pepo= new PedidoPro("",$_GET['idPedido']);
 	$pedos = $pepo -> traerProductos();
-	foreach ($pedos as $p) {
-
 		echo "<script type='text/javascript'>	
 				function eliminar(idPedido){
 					
 							const database = firebase.database();
 							const rootRef = database.ref('Pedidos');
-							rootRef.child(idPedido).remove();
+							rootRef.child('P'+idPedido).remove();
 
 			}	
 							eliminar('".$_GET['idPedido']."');						
 				</script>";
-		# code...	
-	}
 	$pepo->deletePedido();
 	if($deletePedido -> delete()){
 		$nameCajero = $deletePedido -> getCajero() -> getNombre() . " " . $deletePedido -> getCajero() -> getApellido();

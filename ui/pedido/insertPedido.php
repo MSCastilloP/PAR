@@ -5,7 +5,7 @@
 
 		const database = firebase.database();
 
-			database.ref('/Pedidos/'+(id)).set({
+			database.ref('/Pedidos/'+("P"+id)).set({
 				id:id,
 				descripcion:descripcion,
 				fecha:fecha,
@@ -232,13 +232,9 @@
 
 						<tr>
 							<td>IDP</td>
-
 							<td>Nombre</td>
-
-							<td>Descripción</td>
-
+						    <td>Descripción</td>
 							<td>Cantidad</td>
-
 							<td>Precio</td>
 							<td>Eliminar</td>
 							<td>Editar</td>

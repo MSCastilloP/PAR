@@ -9,7 +9,7 @@ db.on("child_added", function(snapshot){
 	pedido.setAttribute("class", 'bg-warning');
 		pedido.setAttribute("id", snapshot.key);
 		
-		pedido.innerHTML = HTMLJuego(data,1);
+		pedido.innerHTML = HTMLJuego(data,1,snapshot.key);
 		document.getElementById("table").appendChild(pedido);
 	
 });
@@ -18,16 +18,41 @@ db.on("child_added", function(snapshot){
 db.on("child_changed", function(snapshot){
 	let variable = snapshot.val();
 	var el= document.getElementById(snapshot.key);
-	el.innerHTML = HTMLJuego(variable,2);
+	el.innerHTML = HTMLJuego(variable,2,snapshot.key);
 
+});
+
+db.on("child_removed",function(snapshot){
+	let variable = snapshot.val();
+	var el= document.getElementById(snapshot.key);
+	document.getElementById("table").removeChild(el);
 });
 
 
 
-function HTMLJuego(data, otro){
+function HTMLJuego(data, otro,id){
 
 	if(otro==1){
-		var contenido ="<td class='bg-warning'>P" + data.id + "</td>";
+		var contenido ="<td class='bg-warning'>" + id+ "</td>";
+	contenido+= "<td>" + data.hora + "</td>";
+
+	let palabra = data.descripcion.split("-");
+	contenido+="<td>";
+	for(var i = 0 ; i < palabra.length ; i++){
+		contenido+=palabra[i];
+		if(i!=palabra.length-1){
+			contenido+="<br>";
+		}
+	}
+	contenido+="</td>";
+	console.log(typeof data.estado );
+	if(data.estado == '1'){
+		contenido+="<td> En cola</td>";
+	}
+	return contenido;
+
+	}else if (otro==2){
+		var contenido ="<td class='bg-danger'>" + id + "</td>";
 	contenido+= "<td>" + data.hora + "</td>";
 
 	let palabra = data.descripcion.split("-");
@@ -54,7 +79,7 @@ function HTMLJuego(data, otro){
 	return contenido;
 
 	}else{
-		var contenido ="<td class='bg-danger'>P" + data.id + "</td>";
+		var contenido ="<td  class='bg-info'>" + id + "</td>";
 	contenido+= "<td>" + data.hora + "</td>";
 
 	let palabra = data.descripcion.split("-");
@@ -79,7 +104,6 @@ function HTMLJuego(data, otro){
 	
 	
 	return contenido;
-
 	}
 	
 }
