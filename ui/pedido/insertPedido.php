@@ -5,7 +5,7 @@
 
 		const database = firebase.database();
 
-			database.ref('/Pedidos/'+("P"+id)).set({
+			database.ref('/Pedidos/'+(hora)).set({
 				id:id,
 				descripcion:descripcion,
 				fecha:fecha,

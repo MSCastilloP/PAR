@@ -10,13 +10,16 @@ if(isset($_GET['dir'])){
 $error = 0;
 
 if(isset($_GET['idpro']) && isset($_GET['idDomicilio'])){
+	$objDom = new Domicilio($_GET['idDomicilio']);
+	$objDom->select();
+
 	echo "<script type='text/javascript'>
-	function eliminar(idDomicilio){
+	function eliminar(hora){
 	const database = firebase.database();
 	const rootRef = database.ref('Pedidos');
-	rootRef.child('D'+idDomicilio).remove();
+	rootRef.child(hora).remove();
 }
-eliminar('".$_GET['idDomicilio']."');
+eliminar('".$objDom->getHora()."');
 
 				
 </script>";
@@ -30,14 +33,19 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 	$pedo= new ProDom("",$_GET['idDomicilio']);
 	$var=$pedo-> traerProductos();
 	
-		echo "<script type='text/javascript'>
-		function eliminar(idDomicilio){
-		const database = firebase.database();
-		const rootRef = database.ref('Pedidos');
-		rootRef.child('D'+idDomicilio).remove();
+	$objDom = new Domicilio($_GET['idDomicilio']);
+	$objDom->select();
+
+	echo "<script type='text/javascript'>
+	function eliminar(hora){
+	const database = firebase.database();
+	const rootRef = database.ref('Pedidos');
+	rootRef.child(hora).remove();
 	}
-	eliminar('".$_GET['idDomicilio']."');	
-	</script>";
+	eliminar('".$objDom->getHora()."');
+
+				
+</script>";
 		# code...	
 	
 	$pedo->deletePedo();

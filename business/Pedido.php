@@ -308,6 +308,12 @@ function updateTemporal($idp,$total,$cantidad){
 		return $arrays;
 	}
 
+	function updateEstado($variable){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> pedidoDAO -> updateEstado($variable));
+		$this -> connection -> close();
+	}
+
 	
 
 }

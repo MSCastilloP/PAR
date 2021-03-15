@@ -1,104 +1,163 @@
+<?php
+if(isset($_GET["string"])){
+	$object = $_GET["string"];
+	$splitt = explode("_",$object);
+	$integer = intval($splitt[2])+1;
+	if($splitt[1] == "Pedido"){
+		$ped = new Pedido( $splitt[0]);	
+
+		$ped -> updateEstado($integer);
+	}else{
+		$dom= new Domicilio( $splitt[0]);
+		$dom->updateEstado($integer);
+	}
+	
+		if($integer==4 && $splitt[1] == "Pedido"){
+		
+			echo "<script type=''>
+				const database = firebase.database();
+				const rootRef = database.ref('Pedidos');
+				rootRef.child('".$splitt[3]."').remove();
+				</script>";
+		
+		}else{
+			echo "<script type=''>
+			const database = firebase.database();
+			ref=database.ref('Pedidos').child('". $splitt[3]."');
+			ref.child('estado').set('".$integer."');
+			let a =document.getElementById(".$splitt[0].");
+			</script>";	
+		}
+		
+
+			
+}	
+
+?>
+
+
 <script>
 	let num = 0;
-	const db = firebase.database().ref('Pedidos');
+const db = firebase.database().ref('Pedidos');
 
-	db.on("child_added", function(snapshot){
-	var data = snapshot.val();
-	var pedido = document.createElement("tr");
-	pedido.setAttribute("class", 'bg-warning');
-	pedido.setAttribute("id", data.id);
-	pedido.innerHTML = HTMLJuego(data,1,snapshot.key);
-	document.getElementById("table").appendChild(pedido);
+db.on("child_added", function(snapshot){
+
+		var data = snapshot.val();
+		if(data.estado < 4 ){
+			var pedido = document.createElement("tr");
+		pedido.setAttribute("class", 'bg-warning');
+		pedido.setAttribute("id", snapshot.key);
+		pedido.innerHTML = HTMLJuego(data,snapshot.key);
+		document.getElementById("table").appendChild(pedido);	
+		}
+		
+	
 });
 
 
-	db.on("child_changed", function(snapshot){
+db.on("child_changed", function(snapshot){
 	let variable = snapshot.val();
-	var el= document.getElementById(variable.id);
-	el.innerHTML = HTMLJuego(variable,2,snapshot.key);
-	});
+	if(variable.estado > 3){
+		var el= document.getElementById(snapshot.key);
+		document.getElementById("table").removeChild(el);
 
-	db.on("child_removed",function(snapshot){
+	}else{
+		var el= document.getElementById(snapshot.key);
+	el.innerHTML = HTMLJuego(variable,snapshot.key);
+	if(variable.tipo == "Pedido"){		
+	alert("El pedido P"+ variable.id +  " fue cambiado");
+	}else{
+		alert("El pedido D"+ variable.id +  " fue cambiado");
+	}
+	
+	}
+		
+	
+	
+
+});
+
+db.on("child_removed",function(snapshot){
 	let variable = snapshot.val();
-	var el= document.getElementById(variable.id);
+	var el= document.getElementById(snapshot.key);
 	document.getElementById("table").removeChild(el);
-	});
-
-
-
-function HTMLJuego(data, otro,id){
-	
-		if(otro==1){
-
-	if(data.tipo=="Pedido"){
-		var contenido ="<td class='bg-warning'>P" + data.id+ "</td>";
+	if(variable.tipo == "Pedido"){		
+	alert("El pedido P"+ variable.id +  " fue cancelado");
 	}else{
-		var contenido ="<td class='bg-warning'>D" + data.id+ "</td>";
-	}
-	contenido+= "<td>" + data.hora + "</td>";
-	let palabra = data.descripcion.split("-");
-	contenido+="<td>";
-	for(var i = 0 ; i < palabra.length ; i++){
-		contenido+=palabra[i];
-		if(i!=palabra.length-1){
-			contenido+="<br>";
+		alert("El pedido D"+ variable.id +  " fue cancelado");
+	};
+});
+
+
+
+
+
+function botones(data,id){
+	let string = "";
+	 string += data.id+"_";
+	 string+= data.tipo+"_" ;
+	 string+= data.estado+"_";
+	 string+= data.hora ;
+
+	let estado = "";
+	 if(data.estado=="1"){
+		estado = "Cocinar Productos";
+	
+		var contenido = "<a href='index.php?pid=<?php echo base64_encode("ui/verPedidos.php")?>&string="+string+"' class='btn btn-dark' id ="+ data.id +"> "+estado+"  </a>";
+		
+		
+	 }else if(data.estado=="2"){
+		estado = "Pedido Hecho";
+
+		var contenido = "<a href='index.php?pid=<?php echo base64_encode("ui/verPedidos.php")?>&string="+string+"' class='btn btn-dark' id ="+ data.id +"> "+estado+"  </a>";
+	 }else if(data.estado=="3"){
+		estado = "Pedido por entregar";
+		if(data.tipo == "Pedido"){
+			var contenido = "<a href='index.php?pid=<?php echo base64_encode("ui/verPedidos.php")?>&string="+string+"' class='btn btn-dark' id ="+ data.id +"> "+estado+"  </a>";
+		}else{
+			var contenido ="esperando domiciliario";
 		}
-	}
-	contenido+="</td>";
-	console.log(typeof data.estado );
-	if(data.estado == '1'){
-		contenido+="<td> En cola</td>";
-	}
+		
+	 }
+
 	
-	else if(data.estado == '2'){
-		contenido+="<td> En Cocinando</td>";
-	}
 	
-	else if(data.estado == '3'){
-		contenido+="<td> En Listo para entregar</td>";
-	}
 
 
-	return contenido;
-	}else if (otro==2){	
-	
+
+
+
+return contenido;
+}
+
+function HTMLJuego(data,id){
 	if(data.tipo=="Pedido"){
 		var contenido ="<td class='bg-warning'>P" + data.id+ "</td>";
 	}else{
 		var contenido ="<td class='bg-warning'>D" + data.id+ "</td>";
 	}
 	contenido+= "<td>" + data.hora + "</td>";
-	let palabra = data.descripcion.split("-");
-	contenido+="<td>";
-	for(var i = 0 ; i < palabra.length ; i++){
-		contenido+=palabra[i];
-		if(i!=palabra.length-1){
-			contenido+="<br>";
-		}	
-	}
-	contenido+="</td>";
-	console.log(typeof data.estado );
 	if(data.estado == '1'){
 		
 		contenido+="<td> En cola</td>";
 	}
 	else if(data.estado == '2'){
-		document.getElementById(data.id).className = "table-info";
-		contenido+="<td> En Cocinando</td>";
-	}
-	else if(data.estado == '3'){
-		document.getElementById(data.id).className =  'bg-success';
-		contenido+="<td> En Listo para entregar</td>";
-	}
 
+		contenido+="<td class='table-info'> En cocinando</td>";
+	}
+	else if(data.tipo=="Pedido" && data.estado == '3'){
+		contenido+="<td class='bg-success'> Hecho</td>";
+	}else if(data.tipo=="Domicilio" && data.estado=="3"){
+		contenido+="<td> Listo Para entregar</td>";
+
+	}
+	contenido+="<td> ";
+	contenido+=botones(data,id);
+	contenido+="</td>";
 	return contenido;
-	}
+	
 }
-
 </script>
-
-
-
 <?php
 $order = "";
 if(isset($_GET['order'])){
@@ -153,7 +212,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-header">
-			<h4 class="card-title">Consultar Producto</h4>
+			<h4 class="card-title">Ordenes</h4>
 		</div>
 		<div class="card-body">
 	
@@ -164,10 +223,9 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						<th >ID 					
 						</th>
 						<th nowrap>Hora</th>
-						<th nowrap>Descripcion 			
-						</th>
 						<th nowrap>Estado 
-						
+						</th>
+						<th nowrap>botones 			
 						</th>
 					</tr>
 				</thead>

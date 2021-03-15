@@ -1,18 +1,19 @@
 <script type="">
-	function agregar(id, descripcion,fecha,hora, direccion){
+	function agregar(id, descripcion,fecha,hora, direccion,precio){
 
 
 
 		const database = firebase.database();
 
-			database.ref('/Pedidos/'+("D"+id)).set({
+			database.ref('/Pedidos/'+(hora)).set({
 				id:id,
 				descripcion:descripcion,
 				fecha:fecha,
 				hora:hora,
 				estado:"1",
 				tipo:"Domicilio",
-				direccion:direccion
+				direccion:direccion,
+				precio:precio
 			});			
 		}
 		function salir(){
@@ -92,7 +93,7 @@
 									# code...
 			}
 			echo "<script type='text/javascript'>
-			agregar('".$crearDomicilio->getIdDomicilio()."','".$firebase."','".$fecha."','".$hora."','".$direccion."');	
+			agregar('".$crearDomicilio->getIdDomicilio()."','".$firebase."','".$fecha."','".$hora."','".$direccion."','".$precio."');	
 
 
 			</script>";

@@ -8,13 +8,16 @@ if(isset($_GET['dir'])){
 	$dir = $_GET['dir'];
 }
 if(isset($_GET['idpro']) && isset($_GET['idpedido'])){
+	$ped= new Pedido($_GET['idpedido']);
+	$hora = $ped->traerHoraFecha();
+
 echo "<script type='text/javascript'>
-							function eliminar(idPedido){
+							function eliminar(hora){
 							const database = firebase.database();
 							const rootRef = database.ref('Pedidos');
-							rootRef.child('P'+idPedido).remove();
+							rootRef.child(hora).remove();
 }
-				eliminar('".$_GET['idpedido']."');
+				eliminar('".$hora[0]."');
 		
 										
 				</script>";
@@ -28,15 +31,18 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 	$deletePedido -> select();
 	$pepo= new PedidoPro("",$_GET['idPedido']);
 	$pedos = $pepo -> traerProductos();
-		echo "<script type='text/javascript'>	
-				function eliminar(idPedido){
-					
+	$ped= new Pedido($_GET['idPedido']);
+	$hora = $ped->traerHoraFecha();
+
+echo "<script type='text/javascript'>
+							function eliminar(hora){
 							const database = firebase.database();
 							const rootRef = database.ref('Pedidos');
-							rootRef.child('P'+idPedido).remove();
-
-			}	
-							eliminar('".$_GET['idPedido']."');						
+							rootRef.child(hora).remove();
+}
+				eliminar('".$hora[0]."');
+		
+										
 				</script>";
 	$pepo->deletePedido();
 	if($deletePedido -> delete()){

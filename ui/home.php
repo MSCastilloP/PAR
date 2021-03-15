@@ -57,12 +57,23 @@ if(isset($_POST['logIn'])){
 		}
 		$cajero = new Cajero();
 		if($cajero -> logIn($email, $password)){
+			
 			if($cajero -> getState()==1){
-				$_SESSION['id']=$cajero -> getIdCajero();
-				$_SESSION['entity']="Cajero";
-				$logCajero = new LogCajero("", "Log In", "", date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $cajero -> getIdCajero());
-				$logCajero -> insert();
-				echo "<script>location.href = 'index.php?pid=" . base64_encode("ui/sessionCajero.php") . "'</script>"; 
+
+				if(strcmp($email, "cocinero@gmail.com") !=0){
+					$_SESSION['id']=$cajero -> getIdCajero();
+					$_SESSION['entity']="Cajero";
+					$logCajero = new LogCajero("", "Log In", "", date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $cajero -> getIdCajero());
+					$logCajero -> insert();
+					echo "<script>location.href = 'index.php?pid=" . base64_encode("ui/sessionCajero.php") . "'</script>"; 
+				}else{
+					$_SESSION['id']=$cajero -> getIdCajero();
+					$_SESSION['entity']="Cocinero";
+					$logCajero = new LogCajero("", "Log In", "", date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $cajero -> getIdCajero());
+					$logCajero -> insert();
+					echo "<script>location.href = 'index.php?pid=" . base64_encode("ui/verPedidos.php") . "'</script>"; 
+				}
+			
 			} else { 
 				$enabledError=true; 
 			}
@@ -82,7 +93,7 @@ if(isset($_POST['logIn'])){
 					<h4><strong>PAR</strong></h4>
 				</div>
 				<div class="card-body">
-					<p>Aplicación para la gestión de restaurantes de comida rapida</p>
+					<p>Aplicaciï¿½n para la gestiï¿½n de restaurantes de comida rapida</p>
 				</div>
 			</div>
 		</div>

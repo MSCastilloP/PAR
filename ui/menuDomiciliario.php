@@ -10,7 +10,7 @@ $domiciliario -> select();
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Consultar</a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domicilio/selectAllDomicilio.php") ?>">Domicilio</a>
+					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domicilio/consultaDomiciliario.php") ?>">Domicilio</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">

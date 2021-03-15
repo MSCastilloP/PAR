@@ -71,10 +71,11 @@ $webPages = array(
 	'ui/domiciliario/updatePasswordDomiciliario.php',
 	'ui/domiciliario/updateProfilePictureDomiciliario.php',
 	'ui/domicilio/selectAllDomicilioByDomiciliario.php',
+	'ui/domicilio/consultaDomiciliario.php',
 	'ui/domiciliario/updateFotoDomiciliario.php',
 	'ui/logCliente/searchLogCliente.php',
 	'ui/sessionCliente.php',
-	
+	'ui/verPedidos.php',
 	'ui/cliente/updateCliente.php',
 	'ui/cliente/selectAllCliente.php',
 	'ui/cliente/searchCliente.php',

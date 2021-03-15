@@ -55,7 +55,7 @@ function editar(total,idPedido,fecha,hora){
 	}
 
 const updates ={};
-updates ['/Pedidos/'+('P'+idPedido)]=newData;
+updates ['/Pedidos/'+hora]=newData;
 database.ref().update(updates);
 
 
@@ -129,7 +129,7 @@ echo "<script type='text/javascript'>
 				}
 			
 			const updates ={};
-			updates ['/Pedidos/'+('P'+idPedido)]=newData;
+			updates ['/Pedidos/'+hora]=newData;
 			database.ref().update(updates);
 			}
 			editar('".$firebase."','".$_GET['idPedido']."','".$ped->getFecha()."','".$ped->getHora()."');

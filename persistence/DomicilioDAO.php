@@ -196,6 +196,11 @@ class DomicilioDAO{
 
 
 	}
+	function updateEstado($variable){
+		return "update Domicilio set 
+				cocinando =".$variable."
+				where idDomicilio = " . $this -> idDomicilio;
+	}
 
 
 

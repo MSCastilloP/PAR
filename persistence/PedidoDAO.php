@@ -142,6 +142,12 @@ class PedidoDAO{
 				from Pedido
 				where idPedido=".$this -> idPedido;
 	}
+
+	function updateEstado($variable){
+		return "update pedido set 
+				cocinando =".$variable."
+				where idPedido = " . $this -> idPedido;
+	}
 	
 	
 }
