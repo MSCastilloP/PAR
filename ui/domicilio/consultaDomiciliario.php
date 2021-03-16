@@ -3,16 +3,10 @@ if(isset($_GET["string"])){
 	$object = $_GET["string"];
 	$splitt = explode("_",$object);
 	$integer = intval($splitt[2])+1;
-	if($splitt[1] == "Pedido"){
-		$ped = new Pedido( $splitt[0]);	
-
-		$ped -> updateEstado($integer);
-	}else{
-		$dom= new Domicilio( $splitt[0]);
+		$dom= new Domicilio($splitt[0]);
 		$dom->updateEstado($integer);
-	}
 	
-		if($integer==4 && $splitt[1] == "Pedido"){
+		if($integer==5){
 		
 			echo "<script type=''>
 				const database = firebase.database();
@@ -28,8 +22,7 @@ if(isset($_GET["string"])){
 			let a =document.getElementById(".$splitt[0].");
 			</script>";	
 		}
-		
-
+	
 			
 }	
 
@@ -61,11 +54,8 @@ db.on("child_changed", function(snapshot){
 		var pedido = document.createElement("tr");
 		pedido.setAttribute("class", 'bg-warning');
 		pedido.setAttribute("id", snapshot.key);
-		pedido.innerHTML = HTMLJuego(variable,snapshot.key);
+		pedido.innerHTML = HTMLJuego(variable);
 		document.getElementById("table").appendChild(pedido);	
-
-
-		alert("El pedido D"+ variable.id +  " fue cambiado");
     }
 	
 	
@@ -88,7 +78,7 @@ db.on("child_removed",function(snapshot){
 
 
 
-function botones(data,id){
+function botones(data){
 	let string = "";
 	 string += data.id+"_";
 	 string+= data.tipo+"_" ;
@@ -116,15 +106,13 @@ function botones(data,id){
 return contenido;
 }
 
-function HTMLJuego(data,id){
+function HTMLJuego(data){
 		var contenido ="<td class='bg-warning'>D" + data.id+ "</td>";
-	contenido+= "<td>" + data.hora + "</td>";
-	 if( data.estado=="3"){
-		contenido+="<td> Listo Para entregar</td>";
-
-	}
+		contenido+= "<td>" + data.descripcion + "</td>";
+		contenido+= "<td>" + data.direccion + "</td>";
+		contenido+= "<td>" + data.precio + "</td>";
 	contenido+="<td> ";
-	contenido+=botones(data,id);
+	contenido+=botones(data);
 	contenido+="</td>";
 	return contenido;
 	
@@ -192,13 +180,11 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 			<table class="table " id="table">
 				<thead>
 					<tr>
-						<th >ID 					
-						</th>
-						<th nowrap>Hora</th>
-						<th nowrap>Estado 
-						</th>
-						<th nowrap>botones 			
-						</th>
+						<th >ID </th>
+						<th >Descripcion</th>
+						<th >Direccion</th>
+						<th >Precio </th>
+						<th >Estado</th>
 					</tr>
 				</thead>
 				</tbody>
