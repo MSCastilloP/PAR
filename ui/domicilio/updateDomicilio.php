@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <script type="text/javascript">
 
 	function salir(idpro,idDomicilio){
@@ -258,10 +259,6 @@ $domicilio -> select();
 							echo "<td><a href='modalEditarDomicilio.php?id=".$currentProDom->getProducto()->getIdProducto()."&idp=".$_GET['idDomicilio']. "'
 								data-toggle='modal'
 								data-target='#modalEditarDomicilio' ><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Producto ' ></span></a> ";
-
-
-
-
 						echo "<a href='index.php?pid=" . base64_encode("ui/domicilio/updateDomicilio.php") . "&idDomicilio=" . $_GET['idDomicilio'] . "&idProDom=" . $currentProDom -> getIdProDom() . "&action=delete&idp=0&idPro=".$currentProDom->getProducto()->getIdProducto()."' onclick='return confirm(\"Confirm to delete Pedido Pro\")'> <span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Eliminar producto' ></span></a> </td>";
 						
 						echo "</td>";

@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <?php
 $processed=false;
 $updateDomiciliario = new Domiciliario($_SESSION['id']);

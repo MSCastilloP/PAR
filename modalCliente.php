@@ -1,4 +1,5 @@
 <?php
+//actualmente se usa
 require("business/Administrador.php");
 require("business/LogAdministrador.php");
 require("business/Inventario.php");

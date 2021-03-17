@@ -1,3 +1,4 @@
+<!-- se usa -->
 <script charset="utf-8">
 	$(function () { 
 		$("[data-toggle='tooltip']").tooltip(); 

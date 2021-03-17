@@ -8,9 +8,10 @@ class ClienteDAO{
 	private $foto;
 	private $telefono;
 	private $direccion;
+	private $state;
 
 
-	function ClienteDAO($pIdCliente = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pTelefono = "", $pDireccion = ""){
+	function ClienteDAO($pIdCliente = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pTelefono = "", $pDireccion = "", $pState = ""){
 		$this -> idCliente = $pIdCliente;
 		$this -> nombre = $pNombre;
 		$this -> apellido = $pApellido;
@@ -19,6 +20,7 @@ class ClienteDAO{
 		$this -> foto = $pFoto;
 		$this -> telefono = $pTelefono;
 		$this -> direccion = $pDireccion;
+		$this -> state = $pState;
 		
 	}
 
@@ -86,7 +88,7 @@ class ClienteDAO{
 	}
 
 	function search($search) {
-		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion
+		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion, state
 				from Cliente
 				where nombre like '%" . $search . "%' or apellido like '%" . $search . "%' or correo like '%" . $search . "%' or telefono like '%" . $search . "%' or direccion like '%" . $search . "%' ";
 	}

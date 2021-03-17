@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <?php
 $domiciliario = new Domiciliario($_SESSION['id']);
 $domiciliario -> select();
@@ -13,12 +14,7 @@ $domiciliario -> select();
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domicilio/consultaDomiciliario.php") ?>">Domicilio</a>
 				</div>
 			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Buscar</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domicilio/searchDomicilio.php") ?>">Domicilio</a>
-				</div>
-			</li>
+			
 		</ul>
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown">

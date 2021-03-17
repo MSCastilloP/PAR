@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <script charset="utf-8">
 	$(function () { 
 		$("[data-toggle='tooltip']").tooltip(); 
@@ -44,10 +45,8 @@
 		$counter = 1;
 
 		foreach ($productos as $currentProducto) {
-
 			echo " ";
-			
-		echo "<th><span class='border border-primary'> ".$counter."</th>";
+			echo "<th><span class='border border-primary'> ".$counter."</th>";
 			echo "<td class=''>  " ;
 			echo "<br>";	
 			echo "<div class='dad row justify-content-center h-100'  >" . str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentProducto -> getNombre()). "</div>";

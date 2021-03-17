@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <script type="text/javascript">
 
 	function salir(idpro,idpedido){

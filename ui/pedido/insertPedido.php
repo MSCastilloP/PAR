@@ -1,4 +1,6 @@
+<!-- Se usa -->
 <script type="">
+
 	function agregar(id, descripcion,fecha,hora,estado){
 
 
@@ -28,6 +30,7 @@
 </script>
 
 	<?php
+
 	$array = array();
 	$arrays = array();
 	$precioTotal=0;
@@ -250,8 +253,6 @@
 								echo "<td>" . $facturas[3] . "</td>";
 								echo "<td>" . $facturas[4]*$facturas[3] . "</td>";
 								$precioTotal+=$facturas[4]*$facturas[3];
-
-
 								echo "<td> <a class='btn btn-outline-danger' href='index.php?pid=" . base64_encode("ui/pedido/insertPedido.php") . "&eliminar=" . $facturas[0] . "&idp=0' onclick='return confirm(\"Confirma eliminar Pedido: " . $facturas[2] . " " . $facturas[4]*$facturas[3] . "\")'> x</a> </td>";
 								echo "<td> <a class='btn btn-outline-warning' href='modalCrearProducto.php?id=".$facturas[0]."'
 								data-toggle='modal'

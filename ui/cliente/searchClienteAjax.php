@@ -1,3 +1,4 @@
+<!-- se usa -->
 <script charset="utf-8">
 	$(function () { 
 		$("[data-toggle='tooltip']").tooltip(); 
@@ -28,7 +29,7 @@
 			echo "<td>" . str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentCliente -> getCorreo()) . "</td>";
 			echo "<td>" . str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentCliente -> getTelefono()) . "</td>";
 			echo "<td>" . str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentCliente -> getDireccion()) . "</td>";
-						echo "<td>" . ($currentCliente -> getState()==1?"Habilitado":"Deshabilitado") . "</td>";
+						echo "<td>" . ($currentCliente -> getState()=='1'?"Habilitado":"Deshabilitado") . "</td>";
 						echo "<td class='text-right' nowrap>";
 						echo "<a href='modalCliente.php?idCliente=" . $currentCliente -> getIdCliente() . "'  data-toggle='modal' data-target='#modalCliente' ><span class='fas fa-eye' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Ver mas información' ></span></a> ";
 						

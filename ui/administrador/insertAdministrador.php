@@ -1,5 +1,5 @@
 <?php
-// se usa
+// Actualmente se usa
 $processed=false;
 $nombre="";
 if(isset($_POST['nombre'])){

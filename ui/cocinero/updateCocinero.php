@@ -1,4 +1,5 @@
 <?php
+//actualmente se usa
 $processed=false;
 $idCocinero = $_GET['idCocinero'];
 $updateCocinero = new Cocinero($idCocinero);

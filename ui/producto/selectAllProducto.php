@@ -1,4 +1,5 @@
 <?php
+//actualmente se usa
 $order = "";
 if(isset($_GET['order'])){
 	$order = $_GET['order'];

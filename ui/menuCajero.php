@@ -17,10 +17,15 @@ $cajero -> select();
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Consultar</a>
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/producto/selectAllProducto.php") ?>">Producto</a>
-
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/pedido/selectAllPedido.php") ?>">Pedido</a>
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cocinero/selectAllCocinero.php") ?>">Cocinero</a>
+
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/proveedor/selectAllProveedor.php") ?>">Proveedor</a>
+				</div>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Asistencia</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cocinero/selectAllCocinero.php") ?>">Asistencia</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">

@@ -1,4 +1,5 @@
 <?php
+//actualmente se usa
 $processed=false;
 $idCajero = $_GET['idCajero'];
 $updateCajero = new Cajero($idCajero);

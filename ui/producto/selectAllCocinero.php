@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <script>
 	let num = 0;
 	const db = firebase.database().ref('Pedidos');

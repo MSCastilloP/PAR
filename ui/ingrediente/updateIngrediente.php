@@ -1,4 +1,5 @@
 <?php
+//actualmente se usa
 $processed=false;
 $idIngrediente = $_GET['idIngrediente'];
 $updateIngrediente = new Ingrediente($idIngrediente);

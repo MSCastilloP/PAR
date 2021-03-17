@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <?php
 $processed=false;
 $updateCliente = new Cliente($_SESSION['id']);

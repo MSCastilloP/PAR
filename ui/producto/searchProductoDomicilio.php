@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <script charset="utf-8">
 	$(function () { 
 		$("[data-toggle='tooltip']").tooltip(); 
@@ -50,45 +51,21 @@
 
 			echo " ";
 			
-		echo "<th><span class='border border-primary'> ".$counter."</th>";
-			echo "<td class=''>  " ;
-			echo "<br>";	
-			echo "<div class='dad row justify-content-center h-100'  >" . str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentProducto -> getNombre()). "</div>";
-			echo "<br>";
-			echo "<a href='modalCrearDomicilio.php?id=".$currentProducto->getIdProducto()."&idc=".$_GET['idc']."'";
-			echo "data-toggle='modal'";
-			echo "data-target='#modalCrearDomicilio'>";
-			echo " <img   src=".$currentProducto -> getFoto()." height='100px' /> ";
-			
-			echo "</a>";
-
-
-
-
-			echo "<br>";
-			echo  str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentProducto -> getDescripcion());
-			echo "<br>";
-			echo  str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentProducto -> getPrecio()) ;
-			echo "<br>";
-
-
-			
-
-	/*echo"<input type='button' value='obtenerCantidades' 
-			href='modalCrearProducto.php'
-			data-toggle='modal' 
-			data-target='#modalCrearProducto'";*/
-			/*echo"<input type='button' value='obtenerCantidades' 
-			onclick='obtenerCantidad(".$currentProducto->getIdProducto().")' href='modalCrearProducto.php'
-			data-toggle='modal' 
-			data-target='#modalCrearProducto'>";*/
-
-		/*echo"<a class='btn btn-primary' 
-			onclick='obtenerCantidad(".$currentProducto->getIdProducto().")'
-			href='modalCrearProducto.php?id=".$currentProducto->getIdProducto()."&cantidades=obtenerCantidad(".$currentProducto->getIdProducto().")'
-			data-toggle='modal' 
-			data-target='#modalCrearProducto' >Agregar</a>";*/
-
+				echo "<th><span class='border border-primary'> ".$counter."</th>";
+				echo "<td class=''>  " ;
+				echo "<br>";	
+				echo "<div class='dad row justify-content-center h-100'  >" . str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentProducto -> getNombre()). "</div>";
+				echo "<br>";
+				echo "<a href='modalCrearDomicilio.php?id=".$currentProducto->getIdProducto()."&idc=".$_GET['idc']."'";
+				echo "data-toggle='modal'";
+				echo "data-target='#modalCrearDomicilio'>";
+				echo " <img   src=".$currentProducto -> getFoto()." height='100px' /> ";
+				echo "</a>";
+				echo "<br>";
+				echo  str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentProducto -> getDescripcion());
+				echo "<br>";
+				echo  str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentProducto -> getPrecio()) ;
+				echo "<br>";
 				echo "</td>";
 
 				echo "</span>";

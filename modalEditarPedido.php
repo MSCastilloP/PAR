@@ -1,3 +1,4 @@
+		<!-- Se usa -->
 		<?php
 		require("business/Administrador.php");
 		require("business/LogAdministrador.php");

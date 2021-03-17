@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <script type="">
 	function agregar(id, descripcion,fecha,hora, direccion,precio){
 

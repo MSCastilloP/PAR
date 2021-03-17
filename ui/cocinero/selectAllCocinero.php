@@ -1,5 +1,5 @@
-
 <?php
+//actualmente se usa
 $caje= new Cajero();
 
 $order = "";

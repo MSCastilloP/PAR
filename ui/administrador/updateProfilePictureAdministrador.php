@@ -1,4 +1,5 @@
 <?php
+//<!-- se usa -->
 $processed=false;
 $updateAdministrador = new Administrador($_SESSION['id']);
 $updateAdministrador -> select();

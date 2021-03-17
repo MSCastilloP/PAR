@@ -1,4 +1,5 @@
 <?php
+//actualmente se usa
 $processed = false;
 $attribute = $_GET['attribute'];
 $idCajero= $_GET['idCajero'];

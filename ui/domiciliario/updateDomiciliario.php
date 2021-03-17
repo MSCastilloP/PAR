@@ -1,4 +1,5 @@
 <?php
+//actualmente se usa
 $processed=false;
 $idDomiciliario = $_GET['idDomiciliario'];
 $updateDomiciliario = new Domiciliario($idDomiciliario);

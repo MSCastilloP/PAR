@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <?php
 $processed=false;
 $updateCajero = new Cajero($_SESSION['id']);

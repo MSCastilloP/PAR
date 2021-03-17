@@ -1,4 +1,6 @@
 <?php
+
+//actualmente se usa
 $processed=0;
 $nombre="";
 if(isset($_POST['nombre'])){

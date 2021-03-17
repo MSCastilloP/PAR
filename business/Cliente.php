@@ -11,7 +11,7 @@ class Cliente {
 	private $foto;
 	private $telefono;
 	private $direccion;
-
+	private $state;
 	private $clienteDAO;
 	private $connection;
 
@@ -21,6 +21,14 @@ class Cliente {
 
 	function setIdCliente($pIdCliente) {
 		$this -> idCliente = $pIdCliente;
+	}
+
+	function getState() {
+		return $this -> state;
+	}
+
+	function setState($pState) {
+		$this -> state = $pState;
 	}
 
 	function getNombre() {
@@ -81,7 +89,7 @@ class Cliente {
 
 	
 
-	function Cliente($pIdCliente = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pTelefono = "", $pDireccion = ""){
+	function Cliente($pIdCliente = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pTelefono = "", $pDireccion = "", $pState = ""){
 		$this -> idCliente = $pIdCliente;
 		$this -> nombre = $pNombre;
 		$this -> apellido = $pApellido;
@@ -90,8 +98,8 @@ class Cliente {
 		$this -> foto = $pFoto;
 		$this -> telefono = $pTelefono;
 		$this -> direccion = $pDireccion;
-		
-		$this -> clienteDAO = new ClienteDAO($this -> idCliente, $this -> nombre, $this -> apellido, $this -> correo, $this -> clave, $this -> foto, $this -> telefono, $this -> direccion);
+		$this -> state = $pState;
+		$this -> clienteDAO = new ClienteDAO($this -> idCliente, $this -> nombre, $this -> apellido, $this -> correo, $this -> clave, $this -> foto, $this -> telefono, $this -> direccion, $this -> state);
 		$this -> connection = new Connection();
 	}
 
@@ -202,7 +210,7 @@ class Cliente {
 		$this -> connection -> run($this -> clienteDAO -> search($search));
 		$clientes = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($clientes, new Cliente($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7]));
+			array_push($clientes, new Cliente($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8]));
 		}
 		$this -> connection -> close();
 		return $clientes;

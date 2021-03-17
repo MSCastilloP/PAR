@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <?php
 $processed=false;
 $email=false;
@@ -32,6 +33,7 @@ if(isset($_POST['state'])){
 if(isset($_POST['insert'])){
 
 	$newCliente = new Cliente("", $nombre, $apellido, $correo, $clave, "", $telefono, $direccion);
+	
 	if($newCliente->consultarCorreo()==0){
 
 		$newCliente -> insert();
@@ -58,7 +60,7 @@ if(isset($_POST['insert'])){
 	
 	
 	$processed=true;
- 
+	
 	header("Location: index.php");
 
 	}else{

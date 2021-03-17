@@ -11,7 +11,6 @@ $administrador -> select();
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Crear</a>
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/administrador/insertAdministrador.php") ?>">Administrador</a>
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/inventario/insertInventario.php") ?>">Inventario</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/ingrediente/insertIngrediente.php") ?>">Ingrediente</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/producto/insertProducto.php") ?>">Producto</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domiciliario/insertDomiciliario.php") ?>">Domiciliario</a>
@@ -23,15 +22,13 @@ $administrador -> select();
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Consultar</a>
 				<div class="dropdown-menu">
+				
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/administrador/selectAllAdministrador.php") ?>">Administrador</a>
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/inventario/selectAllInventario.php") ?>">Inventario</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/ingrediente/selectAllIngrediente.php") ?>">Ingrediente</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/producto/selectAllProducto.php") ?>">Producto</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domiciliario/selectAllDomiciliario.php") ?>">Domiciliario</a>
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cliente/selectAllCliente.php") ?>">Cliente</a>
-					
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cajero/selectAllCajero.php") ?>">Cajero</a>
-					
+					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cliente/selectAllCliente.php") ?>">Cliente</a>				
+					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cajero/selectAllCajero.php") ?>">Cajero</a>	
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cocinero/selectAllCocinero.php") ?>">Cocinero</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/proveedor/selectAllProveedor.php") ?>">Proveedor</a>
 				</div>
@@ -39,15 +36,10 @@ $administrador -> select();
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Buscar</a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/administrador/searchAdministrador.php") ?>">Administrador</a>
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/inventario/searchInventario.php") ?>">Inventario</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/ingrediente/searchIngrediente.php") ?>">Ingrediente</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/producto/searchProducto.php") ?>">Producto</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domiciliario/searchDomiciliario.php") ?>">Domiciliario</a>
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cliente/searchCliente.php") ?>">Cliente</a>
-					
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cajero/searchCajero.php") ?>">Cajero</a>
-					
+					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cliente/searchCliente.php") ?>">Cliente</a>			
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cocinero/searchCocinero.php") ?>">Cocinero</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/proveedor/searchProveedor.php") ?>">Proveedor</a>
 				</div>

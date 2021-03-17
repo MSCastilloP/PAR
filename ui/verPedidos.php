@@ -1,3 +1,4 @@
+<!-- Se usa -->
 <?php
 if(isset($_GET["string"])){
 	$object = $_GET["string"];

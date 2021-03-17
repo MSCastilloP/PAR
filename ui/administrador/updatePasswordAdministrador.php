@@ -1,4 +1,5 @@
 <?php
+//<!-- se usa -->
 $processed = false;
 $error = 0;
 if(isset($_POST['update'])){

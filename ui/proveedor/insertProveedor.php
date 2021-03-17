@@ -1,4 +1,5 @@
 <?php
+//actualmente se usa
 $processed=false;
 $nombreEmpresa="";
 if(isset($_POST['nombreEmpresa'])){
