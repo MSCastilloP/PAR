@@ -57,12 +57,9 @@ $cajero -> select();
 			<th>Telefono</th>
 			<td><?php echo $cajero -> getTelefono() ?></td>
 		</tr>
+		
 		<tr>
-			<th>Rol</th>
-			<td><?php echo $cajero -> getRol() ?></td>
-		</tr>
-		<tr>
-			<th>State</th>
+			<th>Estado</th>
 			<td><?php echo ($cajero -> getState()==1?"Habilitado":"Deshabilitado") ?> </td>
 		</tr>
 	</table>

@@ -8,12 +8,12 @@ $nombre="";
 if(isset($_POST['nombre'])){
 	$nombre=$_POST['nombre'];
 }
-$precio="";
-if(isset($_POST['precio'])){
-	$precio=$_POST['precio'];
+$estado="";
+if(isset($_POST['estado'])){
+	$estado=$_POST['estado'];
 }
 if(isset($_POST['update'])){
-	$updateIngrediente = new Ingrediente($idIngrediente, $nombre, $precio);
+	$updateIngrediente = new Ingrediente($idIngrediente, $nombre, $estado);
 	$updateIngrediente -> update();
 	$updateIngrediente -> select();
 	$user_ip = getenv('REMOTE_ADDR');
@@ -33,19 +33,19 @@ if(isset($_POST['update'])){
 		$browser = "Safari";
 	}
 	if($_SESSION['entity'] == 'Administrador'){
-		$logAdministrador = new LogAdministrador("","Editar Ingrediente", "Nombre: " . $nombre . "; Precio: " . $precio, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+		$logAdministrador = new LogAdministrador("","Editar Ingrediente", "Nombre: " . $nombre . "; estado: " . $estado, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 		$logAdministrador -> insert();
 	}
 	else if($_SESSION['entity'] == 'Domiciliario'){
-		$logDomiciliario = new LogDomiciliario("","Editar Ingrediente", "Nombre: " . $nombre . "; Precio: " . $precio, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+		$logDomiciliario = new LogDomiciliario("","Editar Ingrediente", "Nombre: " . $nombre . "; estado: " . $estado, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 		$logDomiciliario -> insert();
 	}
 	else if($_SESSION['entity'] == 'Cliente'){
-		$logCliente = new LogCliente("","Editar Ingrediente", "Nombre: " . $nombre . "; Precio: " . $precio, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+		$logCliente = new LogCliente("","Editar Ingrediente", "Nombre: " . $nombre . "; estado: " . $estado, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 		$logCliente -> insert();
 	}
 	else if($_SESSION['entity'] == 'Cajero'){
-		$logCajero = new LogCajero("","Editar Ingrediente", "Nombre: " . $nombre . "; Precio: " . $precio, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+		$logCajero = new LogCajero("","Editar Ingrediente", "Nombre: " . $nombre . "; estado: " . $estado, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 		$logCajero -> insert();
 	}
 	$processed=true;
@@ -72,9 +72,22 @@ if(isset($_POST['update'])){
 							<label>Nombre*</label>
 							<input type="text" class="form-control" name="nombre" value="<?php echo $updateIngrediente -> getNombre() ?>" required />
 						</div>
+						<label>estado*</label>
 						<div class="form-group">
-							<label>Precio*</label>
-							<input type="text" class="form-control" name="precio" value="<?php echo $updateIngrediente -> getPrecio() ?>" required />
+							
+							<select class="form-select form-select-lg mb-3" name="estado" >
+							<?php if($updateIngrediente -> getEstado()== 1) { ?>
+								<option  selected value="1">Habilitado</option>
+								<option value="0">Deshabilitado</option>
+							<?php } else{ ?>
+								<option   value="1">Habilitado</option>
+								<option selected value="0">Deshabilitado</option>
+								<?php }
+							?>
+								
+							</select>
+
+							
 						</div>
 						<button type="submit" class="btn btn-info" name="update">Editar</button>
 					</form>

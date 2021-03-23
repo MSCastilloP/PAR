@@ -57,10 +57,7 @@ $domiciliario -> select();
 			<th>Salario</th>
 			<td><?php echo $domiciliario -> getSalario() ?></td>
 		</tr>
-		<tr>
-			<th>Rol</th>
-			<td><?php echo $domiciliario -> getRol() ?></td>
-		</tr>
+		
 		<tr>
 			<th>State</th>
 			<td><?php echo ($domiciliario -> getState()==1?"Habilitado":"Deshabilitado") ?> </td>

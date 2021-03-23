@@ -30,21 +30,10 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 			$browser = "Safari";
 		}
 		if($_SESSION['entity'] == 'Administrador'){
-			$logAdministrador = new LogAdministrador("","Delete Domiciliario", "Nombre: " . $deleteDomiciliario -> getNombre() . ";; Apellido: " . $deleteDomiciliario -> getApellido() . ";; Correo: " . $deleteDomiciliario -> getCorreo() . ";; Clave: " . $deleteDomiciliario -> getClave() . ";; Telefono: " . $deleteDomiciliario -> getTelefono() . ";; Salario: " . $deleteDomiciliario -> getSalario() . ";; Rol: " . $deleteDomiciliario -> getRol() . ";; State: " . $deleteDomiciliario -> getState(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+			$logAdministrador = new LogAdministrador("","Delete Domiciliario", "Nombre: " . $deleteDomiciliario -> getNombre() . ";; Apellido: " . $deleteDomiciliario -> getApellido() . ";; Correo: " . $deleteDomiciliario -> getCorreo() . ";; Clave: " . $deleteDomiciliario -> getClave() . ";; Telefono: " . $deleteDomiciliario -> getTelefono() . ";; Salario: " . $deleteDomiciliario -> getSalario() . ";; State: " . $deleteDomiciliario -> getState(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 			$logAdministrador -> insert();
 		}
-		else if($_SESSION['entity'] == 'Domiciliario'){
-			$logDomiciliario = new LogDomiciliario("","Delete Domiciliario", "Nombre: " . $deleteDomiciliario -> getNombre() . ";; Apellido: " . $deleteDomiciliario -> getApellido() . ";; Correo: " . $deleteDomiciliario -> getCorreo() . ";; Clave: " . $deleteDomiciliario -> getClave() . ";; Telefono: " . $deleteDomiciliario -> getTelefono() . ";; Salario: " . $deleteDomiciliario -> getSalario() . ";; Rol: " . $deleteDomiciliario -> getRol() . ";; State: " . $deleteDomiciliario -> getState(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logDomiciliario -> insert();
-		}
-		else if($_SESSION['entity'] == 'Cliente'){
-			$logCliente = new LogCliente("","Delete Domiciliario", "Nombre: " . $deleteDomiciliario -> getNombre() . ";; Apellido: " . $deleteDomiciliario -> getApellido() . ";; Correo: " . $deleteDomiciliario -> getCorreo() . ";; Clave: " . $deleteDomiciliario -> getClave() . ";; Telefono: " . $deleteDomiciliario -> getTelefono() . ";; Salario: " . $deleteDomiciliario -> getSalario() . ";; Rol: " . $deleteDomiciliario -> getRol() . ";; State: " . $deleteDomiciliario -> getState(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logCliente -> insert();
-		}
-		else if($_SESSION['entity'] == 'Cajero'){
-			$logCajero = new LogCajero("","Delete Domiciliario", "Nombre: " . $deleteDomiciliario -> getNombre() . ";; Apellido: " . $deleteDomiciliario -> getApellido() . ";; Correo: " . $deleteDomiciliario -> getCorreo() . ";; Clave: " . $deleteDomiciliario -> getClave() . ";; Telefono: " . $deleteDomiciliario -> getTelefono() . ";; Salario: " . $deleteDomiciliario -> getSalario() . ";; Rol: " . $deleteDomiciliario -> getRol() . ";; State: " . $deleteDomiciliario -> getState(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logCajero -> insert();
-		}
+		
 	}else{
 		$error = 1;
 	}
@@ -145,20 +134,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 							<span class='fas fa-sort-amount-down' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Descendente' ></span></a>
 						<?php } ?>
 						</th>
-						<th nowrap>Rol 
-						<?php if($order=="rol" && $dir=="asc") { ?>
-							<span class='fas fa-sort-up'></span>
-						<?php } else { ?>
-							<a href='index.php?pid=<?php echo base64_encode("ui/domiciliario/selectAllDomiciliario.php") ?>&order=rol&dir=asc'>
-							<span class='fas fa-sort-amount-up' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Ascendente' ></span></a>
-						<?php } ?>
-						<?php if($order=="rol" && $dir=="desc") { ?>
-							<span class='fas fa-sort-down'></span>
-						<?php } else { ?>
-							<a href='index.php?pid=<?php echo base64_encode("ui/domiciliario/selectAllDomiciliario.php") ?>&order=rol&dir=desc'>
-							<span class='fas fa-sort-amount-down' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Descendente' ></span></a>
-						<?php } ?>
-						</th>
+						
 						<th nowrap>State 
 						<?php if($order=="state" && $dir=="asc") { ?>
 							<span class='fas fa-sort-up'></span>
@@ -192,7 +168,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						echo "<td>" . $currentDomiciliario -> getCorreo() . "</td>";
 						echo "<td>" . $currentDomiciliario -> getTelefono() . "</td>";
 						echo "<td>" . $currentDomiciliario -> getSalario() . "</td>";
-						echo "<td>" . $currentDomiciliario -> getRol() . "</td>";
+					
 						echo "<td>" . ($currentDomiciliario -> getState()==1?"Habilitado":"Deshabilitado") . "</td>";
 						echo "<td class='text-right' nowrap>";
 						echo "<a href='modalDomiciliario.php?idDomiciliario=" . $currentDomiciliario -> getIdDomiciliario() . "'  data-toggle='modal' data-target='#modalDomiciliario' ><span class='fas fa-eye' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Ver mas información' ></span></a> ";
@@ -200,9 +176,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 							echo "<a href='index.php?pid=" . base64_encode("ui/domiciliario/updateDomiciliario.php") . "&idDomiciliario=" . $currentDomiciliario -> getIdDomiciliario() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Domiciliario' ></span></a> ";
 							echo "<a href='index.php?pid=" . base64_encode("ui/domiciliario/updateFotoDomiciliario.php") . "&idDomiciliario=" . $currentDomiciliario -> getIdDomiciliario() . "&attribute=foto'><span class='fas fa-camera' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar foto'></span></a> ";
 						}
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/domiciliario/selectAllDomiciliario.php") . "&idDomiciliario=" . $currentDomiciliario -> getIdDomiciliario() . "&action=delete' onclick='return confirm(\"Confirma eliminar Domiciliario: " . $currentDomiciliario -> getNombre() . " " . $currentDomiciliario -> getApellido() . " " . $currentDomiciliario -> getTelefono() . " " . $currentDomiciliario -> getSalario() . " " . $currentDomiciliario -> getRol() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Domiciliario' ></span></a> ";
-						}
+						
 						
 						echo "</td>";
 						echo "</tr>";

@@ -23,12 +23,9 @@ $salario="";
 if(isset($_POST['salario'])){
 	$salario=$_POST['salario'];
 }
-$rol="";
-if(isset($_POST['rol'])){
-	$rol=$_POST['rol'];
-}
+
 if(isset($_POST['update'])){
-	$updateDomiciliario = new Domiciliario($_SESSION['id'], $nombre, $apellido, $correo, "", "", $telefono, $salario, $rol, "1");
+	$updateDomiciliario = new Domiciliario($_SESSION['id'], $nombre, $apellido, $correo, "", "", $telefono, $salario, "1");
 	$updateDomiciliario -> update();
 	$updateDomiciliario -> select();
 	$user_ip = getenv('REMOTE_ADDR');
@@ -47,7 +44,7 @@ if(isset($_POST['update'])){
 	} else if (preg_match('/Safari[\/\s](\d+\.\d+)/', $agent) ) {
 		$browser = "Safari";
 	}
-	$logDomiciliario = new LogDomiciliario("","Editar Profile Domiciliario", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Telefono: " . $telefono . "; Salario: " . $salario . "; Rol: " . $rol, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+	$logDomiciliario = new LogDomiciliario("","Editar Profile Domiciliario", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Telefono: " . $telefono . "; Salario: " . $salario , date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 	$logDomiciliario -> insert();
 	$processed=true;
 }
@@ -87,12 +84,9 @@ if(isset($_POST['update'])){
 						</div>
 						<div class="form-group">
 							<label>Salario*</label>
-							<input type="text" class="form-control" name="salario" value="<?php echo $updateDomiciliario -> getSalario() ?>" required />
+							<input type="text" class="form-control" name="salario" disabled="disabled" value="<?php echo $updateDomiciliario -> getSalario() ?>" required  />
 						</div>
-						<div class="form-group">
-							<label>Rol*</label>
-							<input type="text" class="form-control" name="rol" value="<?php echo $updateDomiciliario -> getRol() ?>" required />
-						</div>
+						
 						<button type="submit" class="btn btn-info" name="update">Editar</button>
 					</form>
 				</div>

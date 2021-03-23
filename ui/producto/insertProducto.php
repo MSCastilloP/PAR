@@ -13,11 +13,6 @@ $descripcion = "";
 if (isset($_POST['descripcion'])) {
     $descripcion = $_POST['descripcion'];
 }
-
-
-
-
-
 $error = 0;
 $foto = "";
 if (isset($_POST['image'])) {
@@ -26,21 +21,21 @@ if (isset($_POST['image'])) {
     
 }
 if (isset($_POST['insert'])) {
+$verificar= new Producto("",$nombre);
+if($verificar->verificarNombre()){
     $localPath=$_FILES['image']['tmp_name'];
     $type=$_FILES['image']['type'];
     if($type!="image/png" && $type!="image/jpg" && $type!="image/jpeg"){
         $error=1;
     } else {
-
         $serverPath = "image/" . time() . ".png";
-
         copy($localPath, $serverPath);
+		
         $newProducto = new Producto("", $nombre, $precio, $descripcion, $serverPath);
         $newProducto->insert();
         $user_ip = getenv('REMOTE_ADDR');
         $agent = $_SERVER["HTTP_USER_AGENT"];
         $browser = "-";
-
         if (preg_match('/MSIE (\d+\.\d+);/', $agent)) {
             $browser = "Internet Explorer";
         } else if (preg_match('/Chrome[\/\s](\d+\.\d+)/', $agent)) {
@@ -70,7 +65,6 @@ if (isset($_POST['insert'])) {
 
          $newProducto->encontrar();
 			        if(!empty($_POST['ingredient'])){
-
 			// Ciclo para mostrar las casillas checked checkbox.
 			foreach($_POST['ingredient'] as $selected){
 				$newIngrePro= new IngrePro ("",$selected,$newProducto->getIdProducto());
@@ -79,7 +73,9 @@ if (isset($_POST['insert'])) {
 			}
 			}
         $processed = true;
-    }
+    }}else{
+		$error = 2;
+	}
 }
 ?>
 <div class="container">
@@ -102,6 +98,14 @@ if (isset($_POST['insert'])) {
 					<?php } else if($error == 1) { ?>
 						<div class="alert alert-danger">
 						Error. The image must be png
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<?php } else if($error == 2) { ?>
+						<div class="alert alert-danger">
+						Error. Producto ya creado.
 						<button type="button" class="close" data-dismiss="alert"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>

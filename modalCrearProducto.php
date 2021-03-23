@@ -113,10 +113,22 @@
 						 		foreach ($vector as $currentIngrediente) {
 
 						 			if($id!=22){
+										 if($currentIngrediente->getEstado()=='1'){
 						 				echo "<input type='checkbox'  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> Sin " . $currentIngrediente->getNombre() . " <br>";
-
+									
+									}else{
+											echo "<input type='checkbox' checked='checked' disabled name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> No hay " . $currentIngrediente->getNombre() . " <br>";
+				
+										 }
 						 			}else{
-						 				echo "<input type='checkbox'  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> Con " . $currentIngrediente->getNombre() . " <br>";
+										if($currentIngrediente->getEstado()=='1'){
+											echo "<input type='checkbox'  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> Con " . $currentIngrediente->getNombre() . " <br>";
+
+
+										}else{
+											echo "<input type='checkbox' disabled  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> No hay " . $currentIngrediente->getNombre() . " <br>";
+
+										}
 
 						 			}
 
@@ -132,9 +144,14 @@
 						 			//Se crea la lista despegable de la porcion de pizza para que solo se pueda escoger uno.
 						 			echo "<select id='pizza' class='form-select' aria-label='Default select example'>";
 						 			foreach ($vector as $currentIngrediente) {
+										if($currentIngrediente->getEstado()=='1'){
+											echo "<option   name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . ">  " . $currentIngrediente->getNombre() . " </option> <br>";
+
+										}else{
+											echo "<option disabled  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> No hay " . $currentIngrediente->getNombre() . " </option> <br>";
+
+										}
 						 		
-						 		
-						 				echo "<option   name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> Con " . $currentIngrediente->getNombre() . " </option> <br>";
 						 		}
 						 		echo "</select>";
 						 		}

@@ -11,7 +11,7 @@ class Domiciliario {
 	private $foto;
 	private $telefono;
 	private $salario;
-	private $rol;
+
 	private $state;
 	private $domiciliarioDAO;
 	private $connection;
@@ -80,13 +80,7 @@ class Domiciliario {
 		$this -> salario = $pSalario;
 	}
 
-	function getRol() {
-		return $this -> rol;
-	}
 
-	function setRol($pRol) {
-		$this -> rol = $pRol;
-	}
 
 	function getState() {
 		return $this -> state;
@@ -96,7 +90,7 @@ class Domiciliario {
 		$this -> state = $pState;
 	}
 
-	function Domiciliario($pIdDomiciliario = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pTelefono = "", $pSalario = "", $pRol = "", $pState = ""){
+	function Domiciliario($pIdDomiciliario = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pTelefono = "", $pSalario = "", $pState = ""){
 		$this -> idDomiciliario = $pIdDomiciliario;
 		$this -> nombre = $pNombre;
 		$this -> apellido = $pApellido;
@@ -105,9 +99,9 @@ class Domiciliario {
 		$this -> foto = $pFoto;
 		$this -> telefono = $pTelefono;
 		$this -> salario = $pSalario;
-		$this -> rol = $pRol;
+	
 		$this -> state = $pState;
-		$this -> domiciliarioDAO = new DomiciliarioDAO($this -> idDomiciliario, $this -> nombre, $this -> apellido, $this -> correo, $this -> clave, $this -> foto, $this -> telefono, $this -> salario, $this -> rol, $this -> state);
+		$this -> domiciliarioDAO = new DomiciliarioDAO($this -> idDomiciliario, $this -> nombre, $this -> apellido, $this -> correo, $this -> clave, $this -> foto, $this -> telefono, $this -> salario,  $this -> state);
 		$this -> connection = new Connection();
 	}
 
@@ -124,8 +118,7 @@ class Domiciliario {
 			$this -> foto = $result[5];
 			$this -> telefono = $result[6];
 			$this -> salario = $result[7];
-			$this -> rol = $result[8];
-			$this -> state = $result[9];
+			$this -> state = $result[8];
 			$this -> connection -> close();
 			return true;
 		}else{
@@ -189,8 +182,8 @@ class Domiciliario {
 		$this -> foto = $result[5];
 		$this -> telefono = $result[6];
 		$this -> salario = $result[7];
-		$this -> rol = $result[8];
-		$this -> state = $result[9];
+		$this -> state = $result[8];
+		
 	}
 
 	function selectAll(){
@@ -198,7 +191,7 @@ class Domiciliario {
 		$this -> connection -> run($this -> domiciliarioDAO -> selectAll());
 		$domiciliarios = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($domiciliarios, new Domiciliario($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8], $result[9]));
+			array_push($domiciliarios, new Domiciliario($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8]));
 		}
 		$this -> connection -> close();
 		return $domiciliarios;
@@ -209,7 +202,7 @@ class Domiciliario {
 		$this -> connection -> run($this -> domiciliarioDAO -> selectAllOrder($order, $dir));
 		$domiciliarios = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($domiciliarios, new Domiciliario($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8], $result[9]));
+			array_push($domiciliarios, new Domiciliario($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8]));
 		}
 		$this -> connection -> close();
 		return $domiciliarios;
@@ -220,7 +213,7 @@ class Domiciliario {
 		$this -> connection -> run($this -> domiciliarioDAO -> search($search));
 		$domiciliarios = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($domiciliarios, new Domiciliario($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8], $result[9]));
+			array_push($domiciliarios, new Domiciliario($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8]));
 		}
 		$this -> connection -> close();
 		return $domiciliarios;

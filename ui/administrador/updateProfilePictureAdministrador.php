@@ -5,6 +5,7 @@ $updateAdministrador = new Administrador($_SESSION['id']);
 $updateAdministrador -> select();
 $error = 0;
 if(isset($_POST['update'])){
+
 	$localPath=$_FILES['image']['tmp_name'];
 	$type=$_FILES['image']['type'];
 	if($type!="image/png" && $type!="image/jpg" && $type!="image/jpeg"){

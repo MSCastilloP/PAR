@@ -5,7 +5,7 @@ require_once ("persistence/Connection.php");
 class Ingrediente {
 	private $idIngrediente;
 	private $nombre;
-	private $precio;
+	private $estado;
 	private $ingredienteDAO;
 	private $connection;
 
@@ -25,19 +25,19 @@ class Ingrediente {
 		$this -> nombre = $pNombre;
 	}
 
-	function getPrecio() {
-		return $this -> precio;
+	function getEstado() {
+		return $this -> estado;
 	}
 
-	function setPrecio($pPrecio) {
-		$this -> precio = $pPrecio;
+	function setEstado($pEstado) {
+		$this -> estado = $pEstado;
 	}
 
-	function Ingrediente($pIdIngrediente = "", $pNombre = "", $pPrecio = ""){
+	function Ingrediente($pIdIngrediente = "", $pNombre = "", $pEstado = ""){
 		$this -> idIngrediente = $pIdIngrediente;
 		$this -> nombre = $pNombre;
-		$this -> precio = $pPrecio;
-		$this -> ingredienteDAO = new IngredienteDAO($this -> idIngrediente, $this -> nombre, $this -> precio);
+		$this -> estado = $pEstado;
+		$this -> ingredienteDAO = new IngredienteDAO($this -> idIngrediente, $this -> nombre, $this -> estado);
 		$this -> connection = new Connection();
 	}
 
@@ -60,7 +60,7 @@ class Ingrediente {
 		$this -> connection -> close();
 		$this -> idIngrediente = $result[0];
 		$this -> nombre = $result[1];
-		$this -> precio = $result[2];
+		$this -> estado = $result[2];
 	}
 
 	function selectAll(){

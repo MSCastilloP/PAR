@@ -18,7 +18,7 @@ $domiciliario -> select();
 		</ul>
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#"  data-toggle="dropdown">Domiciliario: <?php echo $domiciliario -> getNombre() . " " . $domiciliario -> getApellido() . " " . $domiciliario -> getTelefono() . " " . $domiciliario -> getSalario() . " " . $domiciliario -> getRol() ?><span class="caret"></span></a>
+				<a class="nav-link dropdown-toggle" href="#"  data-toggle="dropdown">Domiciliario: <?php echo $domiciliario -> getNombre() . " " . $domiciliario -> getApellido() . " " . $domiciliario -> getTelefono() . " " . $domiciliario -> getSalario()  ?><span class="caret"></span></a>
 				<div class="dropdown-menu" >
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domiciliario/updateProfileDomiciliario.php") ?>">Editar Perfil</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/domiciliario/updatePasswordDomiciliario.php") ?>">Editar Clave</a>

@@ -24,16 +24,13 @@ $telefono="";
 if(isset($_POST['telefono'])){
 	$telefono=$_POST['telefono'];
 }
-$rol="";
-if(isset($_POST['rol'])){
-	$rol=$_POST['rol'];
-}
+
 $state="";
 if(isset($_POST['state'])){
 	$state=$_POST['state'];
 }
 if(isset($_POST['update'])){
-	$updateCajero = new Cajero($idCajero, $nombre, $apellido, $correo, "", "", $salario, $telefono, $rol, $state);
+	$updateCajero = new Cajero($idCajero, $nombre, $apellido, $correo, "", "", $salario, $telefono, $state);
 	$updateCajero -> update();
 	$updateCajero -> select();
 	$user_ip = getenv('REMOTE_ADDR');
@@ -53,20 +50,8 @@ if(isset($_POST['update'])){
 		$browser = "Safari";
 	}
 	if($_SESSION['entity'] == 'Administrador'){
-		$logAdministrador = new LogAdministrador("","Editar Cajero", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Salario: " . $salario . "; Telefono: " . $telefono . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+		$logAdministrador = new LogAdministrador("","Editar Cajero", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Salario: " . $salario . "; Telefono: " . $telefono . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 		$logAdministrador -> insert();
-	}
-	else if($_SESSION['entity'] == 'Domiciliario'){
-		$logDomiciliario = new LogDomiciliario("","Editar Cajero", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Salario: " . $salario . "; Telefono: " . $telefono . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logDomiciliario -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cliente'){
-		$logCliente = new LogCliente("","Editar Cajero", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Salario: " . $salario . "; Telefono: " . $telefono . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCliente -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cajero'){
-		$logCajero = new LogCajero("","Editar Cajero", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Salario: " . $salario . "; Telefono: " . $telefono . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCajero -> insert();
 	}
 	$processed=true;
 }
@@ -108,10 +93,7 @@ if(isset($_POST['update'])){
 							<label>Telefono*</label>
 							<input type="text" class="form-control" name="telefono" value="<?php echo $updateCajero -> getTelefono() ?>" required />
 						</div>
-						<div class="form-group">
-							<label>Rol*</label>
-							<input type="text" class="form-control" name="rol" value="<?php echo $updateCajero -> getRol() ?>" required />
-						</div>
+						
 						<div class="form-group">
 							<label>State*</label>
 						<div class="form-check">

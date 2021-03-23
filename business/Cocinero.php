@@ -8,6 +8,7 @@ class Cocinero {
 	private $apellido;
 	private $telefono;
 	private $salario;
+	private $estado;
 	private $cocineroDAO;
 	private $connection;
 
@@ -50,14 +51,22 @@ class Cocinero {
 	function setSalario($pSalario) {
 		$this -> salario = $pSalario;
 	}
+	function getEstado() {
+		return $this -> estado;
+	}
 
-	function Cocinero($pIdCocinero = "", $pNombre = "", $pApellido = "", $pTelefono = "", $pSalario = ""){
+	function setEstado($pEstado) {
+		$this -> estado = $pEstado;
+	}
+
+	function Cocinero($pIdCocinero = "", $pNombre = "", $pApellido = "", $pTelefono = "", $pSalario = "", $pEstado = ""){
 		$this -> idCocinero = $pIdCocinero;
 		$this -> nombre = $pNombre;
 		$this -> apellido = $pApellido;
 		$this -> telefono = $pTelefono;
 		$this -> salario = $pSalario;
-		$this -> cocineroDAO = new CocineroDAO($this -> idCocinero, $this -> nombre, $this -> apellido, $this -> telefono, $this -> salario);
+		$this -> estado = $pEstado;
+		$this -> cocineroDAO = new CocineroDAO($this -> idCocinero, $this -> nombre, $this -> apellido, $this -> telefono, $this -> salario, $this -> estado);
 		$this -> connection = new Connection();
 	}
 
@@ -83,6 +92,7 @@ class Cocinero {
 		$this -> apellido = $result[2];
 		$this -> telefono = $result[3];
 		$this -> salario = $result[4];
+		$this -> estado = $result[5];
 	}
 
 	function selectAll(){
@@ -90,7 +100,7 @@ class Cocinero {
 		$this -> connection -> run($this -> cocineroDAO -> selectAll());
 		$cocineros = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($cocineros, new Cocinero($result[0], $result[1], $result[2], $result[3], $result[4]));
+			array_push($cocineros, new Cocinero($result[0], $result[1], $result[2], $result[3], $result[4], $result[5]));
 		}
 		$this -> connection -> close();
 		return $cocineros;
@@ -101,7 +111,7 @@ class Cocinero {
 		$this -> connection -> run($this -> cocineroDAO -> selectAllOrder($order, $dir));
 		$cocineros = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($cocineros, new Cocinero($result[0], $result[1], $result[2], $result[3], $result[4]));
+			array_push($cocineros, new Cocinero($result[0], $result[1], $result[2], $result[3], $result[4], $result[5]));
 		}
 		$this -> connection -> close();
 		return $cocineros;
@@ -112,7 +122,7 @@ class Cocinero {
 		$this -> connection -> run($this -> cocineroDAO -> search($search));
 		$cocineros = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($cocineros, new Cocinero($result[0], $result[1], $result[2], $result[3], $result[4]));
+			array_push($cocineros, new Cocinero($result[0], $result[1], $result[2], $result[3], $result[4], $result[5]));
 		}
 		$this -> connection -> close();
 		return $cocineros;

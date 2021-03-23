@@ -24,16 +24,13 @@ $salario="";
 if(isset($_POST['salario'])){
 	$salario=$_POST['salario'];
 }
-$rol="";
-if(isset($_POST['rol'])){
-	$rol=$_POST['rol'];
-}
+
 $state="";
 if(isset($_POST['state'])){
 	$state=$_POST['state'];
 }
 if(isset($_POST['update'])){
-	$updateDomiciliario = new Domiciliario($idDomiciliario, $nombre, $apellido, $correo, "", "", $telefono, $salario, $rol, $state);
+	$updateDomiciliario = new Domiciliario($idDomiciliario, $nombre, $apellido, $correo, "", "", $telefono, $salario, $state);
 	$updateDomiciliario -> update();
 	$updateDomiciliario -> select();
 	$user_ip = getenv('REMOTE_ADDR');
@@ -53,21 +50,10 @@ if(isset($_POST['update'])){
 		$browser = "Safari";
 	}
 	if($_SESSION['entity'] == 'Administrador'){
-		$logAdministrador = new LogAdministrador("","Editar Domiciliario", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Telefono: " . $telefono . "; Salario: " . $salario . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+		$logAdministrador = new LogAdministrador("","Editar Domiciliario", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Telefono: " . $telefono . "; Salario: " . $salario . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 		$logAdministrador -> insert();
 	}
-	else if($_SESSION['entity'] == 'Domiciliario'){
-		$logDomiciliario = new LogDomiciliario("","Editar Domiciliario", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Telefono: " . $telefono . "; Salario: " . $salario . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logDomiciliario -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cliente'){
-		$logCliente = new LogCliente("","Editar Domiciliario", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Telefono: " . $telefono . "; Salario: " . $salario . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCliente -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cajero'){
-		$logCajero = new LogCajero("","Editar Domiciliario", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Telefono: " . $telefono . "; Salario: " . $salario . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCajero -> insert();
-	}
+	
 	$processed=true;
 }
 ?>
@@ -108,10 +94,7 @@ if(isset($_POST['update'])){
 							<label>Salario*</label>
 							<input type="text" class="form-control" name="salario" value="<?php echo $updateDomiciliario -> getSalario() ?>" required />
 						</div>
-						<div class="form-group">
-							<label>Rol*</label>
-							<input type="text" class="form-control" name="rol" value="<?php echo $updateDomiciliario -> getRol() ?>" required />
-						</div>
+					
 						<div class="form-group">
 							<label>State*</label>
 						<div class="form-check">

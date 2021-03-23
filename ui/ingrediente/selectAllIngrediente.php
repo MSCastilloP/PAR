@@ -9,46 +9,7 @@ if(isset($_GET['dir'])){
 	$dir = $_GET['dir'];
 }
 $error = 0;
-if(isset($_GET['action']) && $_GET['action']=="delete"){
-	$deleteIngrediente = new Ingrediente($_GET['idIngrediente']);
-	$deleteIngrediente -> select();
-	if($deleteIngrediente -> delete()){
-		$user_ip = getenv('REMOTE_ADDR');
-		$agent = $_SERVER["HTTP_USER_AGENT"];
-		$browser = "-";
-		if( preg_match('/MSIE (\d+\.\d+);/', $agent) ) {
-			$browser = "Internet Explorer";
-		} else if (preg_match('/Chrome[\/\s](\d+\.\d+)/', $agent) ) {
-			$browser = "Chrome";
-		} else if (preg_match('/Edge\/\d+/', $agent) ) {
-			$browser = "Edge";
-		} else if ( preg_match('/Firefox[\/\s](\d+\.\d+)/', $agent) ) {
-			$browser = "Firefox";
-		} else if ( preg_match('/OPR[\/\s](\d+\.\d+)/', $agent) ) {
-			$browser = "Opera";
-		} else if (preg_match('/Safari[\/\s](\d+\.\d+)/', $agent) ) {
-			$browser = "Safari";
-		}
-		if($_SESSION['entity'] == 'Administrador'){
-			$logAdministrador = new LogAdministrador("","Delete Ingrediente", "Nombre: " . $deleteIngrediente -> getNombre() . ";; Precio: " . $deleteIngrediente -> getPrecio(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logAdministrador -> insert();
-		}
-		else if($_SESSION['entity'] == 'Domiciliario'){
-			$logDomiciliario = new LogDomiciliario("","Delete Ingrediente", "Nombre: " . $deleteIngrediente -> getNombre() . ";; Precio: " . $deleteIngrediente -> getPrecio(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logDomiciliario -> insert();
-		}
-		else if($_SESSION['entity'] == 'Cliente'){
-			$logCliente = new LogCliente("","Delete Ingrediente", "Nombre: " . $deleteIngrediente -> getNombre() . ";; Precio: " . $deleteIngrediente -> getPrecio(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logCliente -> insert();
-		}
-		else if($_SESSION['entity'] == 'Cajero'){
-			$logCajero = new LogCajero("","Delete Ingrediente", "Nombre: " . $deleteIngrediente -> getNombre() . ";; Precio: " . $deleteIngrediente -> getPrecio(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logCajero -> insert();
-		}
-	}else{
-		$error = 1;
-	}
-}
+
 ?>
 <div class="container-fluid">
 	<div class="card">
@@ -89,21 +50,8 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 							<span class='fas fa-sort-amount-down' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Descendente' ></span></a>
 						<?php } ?>
 						</th>
-						<th nowrap>Precio 
-						<?php if($order=="precio" && $dir=="asc") { ?>
-							<span class='fas fa-sort-up'></span>
-						<?php } else { ?>
-							<a href='index.php?pid=<?php echo base64_encode("ui/ingrediente/selectAllIngrediente.php") ?>&order=precio&dir=asc'>
-							<span class='fas fa-sort-amount-up' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Ascendente' ></span></a>
-						<?php } ?>
-						<?php if($order=="precio" && $dir=="desc") { ?>
-							<span class='fas fa-sort-down'></span>
-						<?php } else { ?>
-							<a href='index.php?pid=<?php echo base64_encode("ui/ingrediente/selectAllIngrediente.php") ?>&order=precio&dir=desc'>
-							<span class='fas fa-sort-amount-down' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Descendente' ></span></a>
-						<?php } ?>
-						</th>
-						<th nowrap></th>
+						<th nowrap>Estado </th>
+						<th nowrap>Accion</th>
 					</tr>
 				</thead>
 				</tbody>
@@ -118,14 +66,17 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 					foreach ($ingredientes as $currentIngrediente) {
 						echo "<tr><td>" . $counter . "</td>";
 						echo "<td>" . $currentIngrediente -> getNombre() . "</td>";
-						echo "<td>" . $currentIngrediente -> getPrecio() . "</td>";
-						echo "<td class='text-right' nowrap>";
+						if($currentIngrediente -> getEstado() == 1){
+							echo "<td> Habilitado </td>";
+						}else{
+							echo "<td> Deshabilitado </td>";
+						}
+					
+						echo "<td nowrap>";
 						if($_SESSION['entity'] == 'Administrador') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/ingrediente/updateIngrediente.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Ingrediente' ></span></a> ";
 						}
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/ingrediente/selectAllIngrediente.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "&action=delete' onclick='return confirm(\"Confirma eliminar Ingrediente: " . $currentIngrediente -> getNombre() . " " . $currentIngrediente -> getPrecio() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Ingrediente' ></span></a> ";
-						}
+					
 						
 						echo "</td>";
 						echo "</tr>";

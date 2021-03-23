@@ -51,18 +51,24 @@
 			echo "<br>";	
 			echo "<div class='dad row justify-content-center h-100'  >" . str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentProducto -> getNombre()). "</div>";
 			echo "<br>";
+			if($currentProducto -> getEstado()==1){
 			echo "<a href='modalCrearProducto.php?id=".$currentProducto->getIdProducto()."'";
 			echo "data-toggle='modal'";
 			echo "data-target='#modalCrearProducto'>";
 			echo " <img   src=".$currentProducto -> getFoto()." height='100px' /> ";
 			
-			echo "</a>";
+			echo "</a>";}
+			else{
+				echo " <img   src=".$currentProducto -> getFoto()." height='100px' /> ";
+				echo "<br>";
+				echo "<h3 class='text-danger'>  Producto Deshabilitado</h3>";
+			}
 
 
 
 
 			echo "<br>";
-			echo  str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentProducto -> getDescripcion());
+			echo   $currentProducto -> getDescripcion();
 			echo "<br>";
 			echo  str_ireplace($_GET['search'], "<mark>" . $_GET['search'] . "</mark>", $currentProducto -> getPrecio()) ;
 			echo "<br>";

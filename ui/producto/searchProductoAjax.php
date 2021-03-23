@@ -31,9 +31,7 @@
 						if($_GET['entity'] == 'Administrador') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/producto/updateProducto.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Producto' ></span></a> ";
 						}
-						if($_GET['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/producto/selectAllProducto.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "&action=delete' onclick='return confirm(\"Confirm to delete Producto: " . $currentProducto -> getNombre() . " " . $currentProducto -> getPrecio() . " " . $currentProducto -> getDescripcion() . " " . $currentProducto -> getFoto() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Producto' ></span></a> ";
-						}
+					
 						
 						echo "</td>";
 			echo "</tr>";

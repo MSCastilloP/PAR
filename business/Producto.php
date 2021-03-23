@@ -8,6 +8,7 @@ class Producto {
 	private $precio;
 	private $descripcion;
 	private $foto;
+	private $estado;
 	private $productoDAO;
 	private $connection;
 
@@ -17,6 +18,13 @@ class Producto {
 
 	function setIdProducto($pIdProducto) {
 		$this -> idProducto = $pIdProducto;
+	}
+	function getEstado() {
+		return $this -> estado;
+	}
+
+	function setEstado($pEstado) {
+		$this -> estado = $pEstado;
 	}
 
 	function getNombre() {
@@ -51,13 +59,14 @@ class Producto {
 		$this -> foto = $pFoto;
 	}
 
-	function Producto($pIdProducto = "", $pNombre = "", $pPrecio = "", $pDescripcion = "", $pFoto = ""){
+	function Producto($pIdProducto = "", $pNombre = "", $pPrecio = "", $pDescripcion = "", $pFoto = "", $pEstado = ""){
 		$this -> idProducto = $pIdProducto;
 		$this -> nombre = $pNombre;
 		$this -> precio = $pPrecio;
 		$this -> descripcion = $pDescripcion;
 		$this -> foto = $pFoto;
-		$this -> productoDAO = new ProductoDAO($this -> idProducto, $this -> nombre, $this -> precio, $this -> descripcion, $this -> foto);
+		$this -> estado = $pEstado;
+		$this -> productoDAO = new ProductoDAO($this -> idProducto, $this -> nombre, $this -> precio, $this -> descripcion, $this -> foto, $this -> estado);
 		$this -> connection = new Connection();
 	}
 
@@ -83,6 +92,7 @@ class Producto {
 		$this -> precio = $result[2];
 		$this -> descripcion = $result[3];
 		$this -> foto = $result[4];
+		$this -> estado = $result[5];
 	}
 
 	function selectAll(){
@@ -90,7 +100,7 @@ class Producto {
 		$this -> connection -> run($this -> productoDAO -> selectAll());
 		$productos = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($productos, new Producto($result[0], $result[1], $result[2], $result[3], $result[4]));
+			array_push($productos, new Producto($result[0], $result[1], $result[2], $result[3], $result[4],$result[5]));
 		}
 		$this -> connection -> close();
 		return $productos;
@@ -101,7 +111,7 @@ class Producto {
 		$this -> connection -> run($this -> productoDAO -> selectAllOrder($order, $dir));
 		$productos = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($productos, new Producto($result[0], $result[1], $result[2], $result[3], $result[4]));
+			array_push($productos, new Producto($result[0], $result[1], $result[2], $result[3], $result[4],$result[5]));
 		}
 		$this -> connection -> close();
 		return $productos;
@@ -112,7 +122,7 @@ class Producto {
 		$this -> connection -> run($this -> productoDAO -> search($search));
 		$productos = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($productos, new Producto($result[0], $result[1], $result[2], $result[3], $result[4]));
+			array_push($productos, new Producto($result[0], $result[1], $result[2], $result[3], $result[4],$result[5]));
 		}
 		$this -> connection -> close();
 		return $productos;
@@ -143,6 +153,28 @@ class Producto {
 		
 
 	}
+	function updateImage($attribute, $value){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> productoDAO -> updateImage($attribute, $value));
+		$this -> connection -> close();
+	}
+	function verificarNombre(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> productoDAO -> verificarNombre());
+		$result = $this -> connection -> fetchRow();
+		$this -> connection -> close();
+		if($result[0]>0){
+			return false;
+		}else{
+			return true;
+		}
+	
+}
+function cambiarEstado($estado){
+	$this -> connection -> open();
+	$this -> connection -> run($this -> productoDAO -> cambiarEstado($estado));
+	$this -> connection -> close();
+}
 
 }
 ?>

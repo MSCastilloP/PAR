@@ -8,6 +8,14 @@ $dir = "";
 if(isset($_GET['dir'])){
 	$dir = $_GET['dir'];
 }
+$estado = "";
+if(isset($_GET['est'])){
+	$estado = $_GET['est'];
+	$Pro=new Producto( $_GET['idProducto']);
+	$Pro->cambiarEstado($estado);
+}
+
+
 $error = 0;
 if(isset($_GET['action']) && $_GET['action']=="delete"){
 	$deleteProducto = new Producto($_GET['idProducto']);
@@ -131,7 +139,12 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 							<span class='fas fa-sort-amount-down' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Descendente' ></span></a>
 						<?php } ?>
 						</th>
-						<th nowrap></th>
+						
+						
+						<th>Estado </th>
+						<?php if($_SESSION['entity'] == 'Cajero') { ?>
+							<th>Habilitar o deshabilitar productos </th>
+						<?php }?>
 					</tr>
 				</thead>
 				</tbody>
@@ -148,14 +161,28 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						echo "<td>" . $currentProducto -> getNombre() . "</td>";
 						echo "<td>" . $currentProducto -> getPrecio() . "</td>";
 						echo "<td>" . $currentProducto -> getDescripcion() . "</td>";
-						echo "<td> <img  src=".$currentProducto -> getFoto()." height='80px' /> </td>";
-						echo "<td class='text-right' nowrap>";
+						echo "<td> <img  src=".$currentProducto -> getFoto()." height='140px' /> </td>";
+						if( $currentProducto -> getEstado()== 1){
+							echo "<td> Habilitado </td>";
+						}else{
+							echo "<td> Deshabilitado </td>";
+						}
+						
+						echo "<td class='text-center' nowrap>";
 						if($_SESSION['entity'] == 'Administrador') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/producto/updateProducto.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Producto' ></span></a> ";
 						}
-						if($_SESSION['entity'] == 'Administrador') {
-							echo "<a href='index.php?pid=" . base64_encode("ui/producto/selectAllProducto.php") . "&idProducto=" . $currentProducto -> getIdProducto() . "&action=delete' onclick='return confirm(\"Confirma eliminar Producto: " . $currentProducto -> getNombre() . " " . $currentProducto -> getPrecio() . " " . $currentProducto -> getDescripcion() . " " . $currentProducto -> getFoto() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Producto' ></span></a> ";
+
+						else if($_SESSION['entity'] == 'Cajero') {
+							if( $currentProducto -> getEstado()== 1){
+								echo "<a href='index.php?pid=" . base64_encode("ui/producto/selectAllProducto.php") . "&idProducto=".$currentProducto -> getIdProducto()."&est=0'><span class='fas fa-edit' data-toggle='tooltip' data-placement='right' class='tooltipLink' data-original-title='Deshabilitar' ></span></a> ";
+
+							}else{
+								echo "<a href='index.php?pid=" . base64_encode("ui/producto/selectAllProducto.php") . "&idProducto=".$currentProducto -> getIdProducto()."&est=1'><span class='fas fa-edit' data-toggle='tooltip' data-placement='right' class='tooltipLink' data-original-title='Habilitar' ></span></a> ";
+
+							}
 						}
+					
 						
 						echo "</td>";
 						echo "</tr>";

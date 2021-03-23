@@ -6,13 +6,10 @@ $nombre="";
 if(isset($_POST['nombre'])){
 	$nombre=$_POST['nombre'];
 }
-$precio="";
-if(isset($_POST['precio'])){
-	$precio=$_POST['precio'];
-}
+
 if(isset($_POST['insert'])){
 
-	$newIngrediente = new Ingrediente("", $nombre, $precio);
+	$newIngrediente = new Ingrediente("", $nombre, 1);
 	
 	if($newIngrediente->checkIngrediente()<1){
 		$newIngrediente -> insert();
@@ -33,18 +30,8 @@ if(isset($_POST['insert'])){
 		$browser = "Safari";
 	}
 	if($_SESSION['entity'] == 'Administrador'){
-		$logAdministrador = new LogAdministrador("","Crear Ingrediente", "Nombre: " . $nombre . "; Precio: " . $precio, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+		$logAdministrador = new LogAdministrador("","Crear Ingrediente", "Nombre: " . $nombre . "; estado: " . 1, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 		$logAdministrador -> insert();
-
-
-	}
-	else if($_SESSION['entity'] == 'Domiciliario'){
-		$logDomiciliario = new LogDomiciliario("","Crear Ingrediente", "Nombre: " . $nombre . "; Precio: " . $precio, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logDomiciliario -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cliente'){
-		$logCliente = new LogCliente("","Crear Ingrediente", "Nombre: " . $nombre . "; Precio: " . $precio, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCliente -> insert();
 	}
 	else if($_SESSION['entity'] == 'Cajero'){
 		$logCajero = new LogCajero("","Crear Ingrediente", "Nombre: " . $nombre . "; Precio: " . $precio, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
@@ -85,10 +72,7 @@ if(isset($_POST['insert'])){
 							<label>Nombre*</label>
 							<input type="text" class="form-control" name="nombre" value="<?php echo $nombre ?>" required />
 						</div>
-						<div class="form-group">
-							<label>Precio</label>
-							<input type="text" class="form-control" name="precio" value="<?php echo $precio ?>"  />
-						</div>
+
 						<button type="submit" class="btn btn-info" name="insert">Crear</button>
 					</form>
 				</div>

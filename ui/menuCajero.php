@@ -47,7 +47,6 @@ $cajero -> select();
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#"  data-toggle="dropdown">Cajero: <?php echo $cajero -> getNombre() . " " . $cajero -> getApellido() ?><span class="caret"></span></a>
 				<div class="dropdown-menu" >
-					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cajero/updateProfileCajero.php") ?>">Editar Perfil</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cajero/updatePasswordCajero.php") ?>">Editar Clave</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cajero/updateProfilePictureCajero.php") ?>">Editar Foto</a>
 				</div>

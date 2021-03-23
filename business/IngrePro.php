@@ -185,10 +185,34 @@ class IngrePro {
 		$ingredientes = array();
 		while ($result = $this -> connection -> fetchRow()){
 		
-			array_push($ingredientes,new Ingrediente($result[0],$result[1]));
+			array_push($ingredientes,new Ingrediente($result[0],$result[1],$result[2]));
 		}
 		$this -> connection -> close();
 		return $ingredientes;
 	}
+
+	function ingretra($id){
+
+		$this -> connection -> open();
+		$this -> connection -> run($this -> ingreProDAO -> ingretra($id));
+		$ingredientes = array();
+		while ($result = $this -> connection -> fetchRow()){
+			
+			array_push($ingredientes,$result[0]);
+		}
+		$this -> connection -> close();
+		return $ingredientes;
+	}
+
+	function deleteUpdate(){
+		$this -> connection -> open();
+		echo "entro";
+		$this -> connection -> run($this -> ingreProDAO -> deleteUpdate());
+		$success = $this -> connection -> querySuccess();
+		$this -> connection -> close();
+		echo "salio";
+		return $success;
+	}
+
 }
 ?>

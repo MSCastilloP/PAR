@@ -8,10 +8,10 @@ class DomiciliarioDAO{
 	private $foto;
 	private $telefono;
 	private $salario;
-	private $rol;
+	
 	private $state;
 
-	function DomiciliarioDAO($pIdDomiciliario = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pTelefono = "", $pSalario = "", $pRol = "", $pState = ""){
+	function DomiciliarioDAO($pIdDomiciliario = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pTelefono = "", $pSalario = "",  $pState = ""){
 		$this -> idDomiciliario = $pIdDomiciliario;
 		$this -> nombre = $pNombre;
 		$this -> apellido = $pApellido;
@@ -20,19 +20,19 @@ class DomiciliarioDAO{
 		$this -> foto = $pFoto;
 		$this -> telefono = $pTelefono;
 		$this -> salario = $pSalario;
-		$this -> rol = $pRol;
+		
 		$this -> state = $pState;
 	}
 
 	function logIn($correo, $clave){
-		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, rol, state
+		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, state
 				from Domiciliario
 				where correo = '" . $correo . "' and clave = '" . md5($clave) . "'";
 	}
 
 	function insert(){
-		return "insert into Domiciliario(nombre, apellido, correo, clave, foto, telefono, salario, rol, state)
-				values('" . $this -> nombre . "', '" . $this -> apellido . "', '" . $this -> correo . "', md5('" . $this -> clave . "'), '" . $this -> foto . "', '" . $this -> telefono . "', '" . $this -> salario . "', '" . $this -> rol . "', '" . $this -> state . "')";
+		return "insert into Domiciliario(nombre, apellido, correo, clave, foto, telefono, salario,  state)
+				values('" . $this -> nombre . "', '" . $this -> apellido . "', '" . $this -> correo . "', md5('" . $this -> clave . "'), '" . $this -> foto . "', '" . $this -> telefono . "', '" . $this -> salario . "', '" . $this -> state . "')";
 	}
 
 	function update(){
@@ -42,7 +42,7 @@ class DomiciliarioDAO{
 				correo = '" . $this -> correo . "',
 				telefono = '" . $this -> telefono . "',
 				salario = '" . $this -> salario . "',
-				rol = '" . $this -> rol . "',
+				
 				state = '" . $this -> state . "'	
 				where idDomiciliario = '" . $this -> idDomiciliario . "'";
 	}
@@ -54,7 +54,7 @@ class DomiciliarioDAO{
 	}
 
 	function existEmail($email){
-		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, rol, state
+		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, state
 				from Domiciliario
 				where email = '" . $email . "'";
 	}
@@ -72,26 +72,26 @@ class DomiciliarioDAO{
 	}
 
 	function select() {
-		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, rol, state
+		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, state
 				from Domiciliario
 				where idDomiciliario = '" . $this -> idDomiciliario . "'";
 	}
 
 	function selectAll() {
-		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, rol, state 
-				from Domiciliario where state = 1 ";
+		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, state 
+				from Domiciliario  ";
 	}
 
 	function selectAllOrder($orden, $dir){
-		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, rol, state
-				from Domiciliario where state = 1
+		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, state
+				from Domiciliario
 				order by " . $orden . " " . $dir;
 	}
 
 	function search($search) {
-		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, rol, state
+		return "select idDomiciliario, nombre, apellido, correo, clave, foto, telefono, salario, state
 				from Domiciliario
-				where nombre like '%" . $search . "%' or apellido like '%" . $search . "%' or correo like '%" . $search . "%' or telefono like '%" . $search . "%' or salario like '%" . $search . "%' or rol like '%" . $search . "%' or state like '%" . $search . "%'";
+				where nombre like '%" . $search . "%' or apellido like '%" . $search . "%' or correo like '%" . $search . "%' or telefono like '%" . $search . "%' or salario like '%" . $search . "%' or state like '%" . $search . "%'";
 	}
 
 	function delete(){

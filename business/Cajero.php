@@ -11,7 +11,7 @@ class Cajero {
 	private $foto;
 	private $salario;
 	private $telefono;
-	private $rol;
+
 	private $state;
 	private $cajeroDAO;
 	private $connection;
@@ -80,13 +80,7 @@ class Cajero {
 		$this -> telefono = $pTelefono;
 	}
 
-	function getRol() {
-		return $this -> rol;
-	}
 
-	function setRol($pRol) {
-		$this -> rol = $pRol;
-	}
 
 	function getState() {
 		return $this -> state;
@@ -96,7 +90,7 @@ class Cajero {
 		$this -> state = $pState;
 	}
 
-	function Cajero($pIdCajero = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pSalario = "", $pTelefono = "", $pRol = "", $pState = ""){
+	function Cajero($pIdCajero = "", $pNombre = "", $pApellido = "", $pCorreo = "", $pClave = "", $pFoto = "", $pSalario = "", $pTelefono = "", $pState = ""){
 		$this -> idCajero = $pIdCajero;
 		$this -> nombre = $pNombre;
 		$this -> apellido = $pApellido;
@@ -105,9 +99,8 @@ class Cajero {
 		$this -> foto = $pFoto;
 		$this -> salario = $pSalario;
 		$this -> telefono = $pTelefono;
-		$this -> rol = $pRol;
 		$this -> state = $pState;
-		$this -> cajeroDAO = new CajeroDAO($this -> idCajero, $this -> nombre, $this -> apellido, $this -> correo, $this -> clave, $this -> foto, $this -> salario, $this -> telefono, $this -> rol, $this -> state);
+		$this -> cajeroDAO = new CajeroDAO($this -> idCajero, $this -> nombre, $this -> apellido, $this -> correo, $this -> clave, $this -> foto, $this -> salario, $this -> telefono, $this -> state);
 		$this -> connection = new Connection();
 	}
 
@@ -124,8 +117,7 @@ class Cajero {
 			$this -> foto = $result[5];
 			$this -> salario = $result[6];
 			$this -> telefono = $result[7];
-			$this -> rol = $result[8];
-			$this -> state = $result[9];
+			$this -> state = $result[8];
 			$this -> connection -> close();
 			return true;
 		}else{
@@ -139,9 +131,9 @@ class Cajero {
 		$this -> connection -> run($this -> cajeroDAO -> insert());
 		$this -> connection -> close();
 	}
-	function asistencia($id,$nombre,$fecha){
+	function asistencia($id,$nombre,$fecha,$rol){
 		$this -> connection -> open();
-		$this -> connection -> run($this -> cajeroDAO -> asistencia($id,$nombre,$fecha));
+		$this -> connection -> run($this -> cajeroDAO -> asistencia($id,$nombre,$fecha,$rol));
 		$this -> connection -> close();
 	}
 
@@ -194,8 +186,7 @@ class Cajero {
 		$this -> foto = $result[5];
 		$this -> salario = $result[6];
 		$this -> telefono = $result[7];
-		$this -> rol = $result[8];
-		$this -> state = $result[9];
+		$this -> state = $result[8];
 	}
 
 	function selectAll(){
@@ -203,7 +194,7 @@ class Cajero {
 		$this -> connection -> run($this -> cajeroDAO -> selectAll());
 		$cajeros = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($cajeros, new Cajero($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8], $result[9]));
+			array_push($cajeros, new Cajero($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8]));
 		}
 		$this -> connection -> close();
 		return $cajeros;
@@ -214,7 +205,7 @@ class Cajero {
 		$this -> connection -> run($this -> cajeroDAO -> selectAllOrder($order, $dir));
 		$cajeros = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($cajeros, new Cajero($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8], $result[9]));
+			array_push($cajeros, new Cajero($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8]));
 		}
 		$this -> connection -> close();
 		return $cajeros;
@@ -225,7 +216,7 @@ class Cajero {
 		$this -> connection -> run($this -> cajeroDAO -> search($search));
 		$cajeros = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($cajeros, new Cajero($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8], $result[9]));
+			array_push($cajeros, new Cajero($result[0], $result[1], $result[2], $result[3], $result[4], $result[5], $result[6], $result[7], $result[8]));
 		}
 		$this -> connection -> close();
 		return $cajeros;
@@ -238,10 +229,10 @@ class Cajero {
 		$this -> connection -> close();
 		return $success;
 	}
-	function verificarAsist($id,$fecha){
-		echo $fecha;
+	function verificarAsist($id,$fecha,$rol){
+	
 		$this -> connection -> open();
-		$this -> connection -> run($this -> cajeroDAO -> verificarAsist($id,$fecha));
+		$this -> connection -> run($this -> cajeroDAO -> verificarAsist($id,$fecha,$rol));
 		$result = $this -> connection -> fetchRow();
 		$this -> connection -> close();
 		if($result[0]==0){

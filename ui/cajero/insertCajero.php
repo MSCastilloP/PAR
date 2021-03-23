@@ -25,16 +25,13 @@ $telefono="";
 if(isset($_POST['telefono'])){
 	$telefono=$_POST['telefono'];
 }
-$rol="";
-if(isset($_POST['rol'])){
-	$rol=$_POST['rol'];
-}
+
 $state="";
 if(isset($_POST['state'])){
 	$state=$_POST['state'];
 }
 if(isset($_POST['insert'])){
-	$newCajero = new Cajero("", $nombre, $apellido, $correo, $clave, "", $salario, $telefono, $rol, $state);
+	$newCajero = new Cajero("", $nombre, $apellido, $correo, $clave, "", $salario, $telefono, $state);
 	$newCajero -> insert();
 	$user_ip = getenv('REMOTE_ADDR');
 	$agent = $_SERVER["HTTP_USER_AGENT"];
@@ -53,21 +50,10 @@ if(isset($_POST['insert'])){
 		$browser = "Safari";
 	}
 	if($_SESSION['entity'] == 'Administrador'){
-		$logAdministrador = new LogAdministrador("","Crear Cajero", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Clave: " . $clave . "; Salario: " . $salario . "; Telefono: " . $telefono . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
+		$logAdministrador = new LogAdministrador("","Crear Cajero", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Clave: " . $clave . "; Salario: " . $salario . "; Telefono: " . $telefono . ";  State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 		$logAdministrador -> insert();
 	}
-	else if($_SESSION['entity'] == 'Domiciliario'){
-		$logDomiciliario = new LogDomiciliario("","Crear Cajero", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Clave: " . $clave . "; Salario: " . $salario . "; Telefono: " . $telefono . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logDomiciliario -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cliente'){
-		$logCliente = new LogCliente("","Crear Cajero", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Clave: " . $clave . "; Salario: " . $salario . "; Telefono: " . $telefono . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCliente -> insert();
-	}
-	else if($_SESSION['entity'] == 'Cajero'){
-		$logCajero = new LogCajero("","Crear Cajero", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Clave: " . $clave . "; Salario: " . $salario . "; Telefono: " . $telefono . "; Rol: " . $rol . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCajero -> insert();
-	}
+
 	$processed=true;
 }
 ?>
@@ -112,10 +98,7 @@ if(isset($_POST['insert'])){
 							<label>Telefono*</label>
 							<input type="text" class="form-control" name="telefono" value="<?php echo $telefono ?>" required />
 						</div>
-						<div class="form-group">
-							<label>Rol*</label>
-							<input type="text" class="form-control" name="rol" value=1 required disabled />
-						</div>
+						
 						<div class="form-group">
 							<label>State*</label>
 						<div class="form-check">

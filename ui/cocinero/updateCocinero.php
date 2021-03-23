@@ -20,8 +20,12 @@ $salario="";
 if(isset($_POST['salario'])){
 	$salario=$_POST['salario'];
 }
+$estado="";
+if(isset($_POST['estado'])){
+	$estado=$_POST['estado'];
+}
 if(isset($_POST['update'])){
-	$updateCocinero = new Cocinero($idCocinero, $nombre, $apellido, $telefono, $salario);
+	$updateCocinero = new Cocinero($idCocinero, $nombre, $apellido, $telefono, $salario,$estado);
 	$updateCocinero -> update();
 	$updateCocinero -> select();
 	$user_ip = getenv('REMOTE_ADDR');
@@ -91,6 +95,17 @@ if(isset($_POST['update'])){
 						<div class="form-group">
 							<label>Salario*</label>
 							<input type="text" class="form-control" name="salario" value="<?php echo $updateCocinero -> getSalario() ?>" required />
+						</div>
+						<div class="form-group">
+							<label>Estado</label>
+						<div class="form-check">
+							<input type="radio" class="form-check-input" name="estado" value="1" <?php echo ($updateCocinero -> getEstado()==1)?"checked":"" ?>/>
+							<label class="form-check-label">Habilitado</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input type="radio" class="form-check-input" name="estado" value="0" <?php echo ($updateCocinero -> getEstado()==0)?"checked":"" ?>/>
+							<label class="form-check-label" >Deshabilitado</label>
+						</div>
 						</div>
 						<button type="submit" class="btn btn-info" name="update">Editar</button>
 					</form>

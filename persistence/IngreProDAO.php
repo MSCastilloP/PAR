@@ -70,8 +70,19 @@ class IngreProDAO{
 				where idIngrePro = '" . $this -> idIngrePro . "'";
 	}
 	function traerIngre($id){
-		return "select idIngrediente,nombre 
-		from ingrediente, ingrepro where producto_idProducto= '".$id."' and ingrediente_idIngrediente=idIngrediente";
+		return "select idIngrediente,nombre,estado
+		from ingrediente, ingrepro where producto_idProducto= '".$id."' and ingrediente_idIngrediente=idIngrediente
+		";
+	}	
+	function ingretra($id){
+		return "select ingrediente_idIngrediente
+		from ingrediente, ingrepro where producto_idProducto=".$id." and ingrediente_idIngrediente=idIngrediente";
+	}
+
+
+	function deleteUpdate(){
+		return "delete from IngrePro
+				where producto_idProducto = '" . $this -> producto . "'";
 	}
 }
 ?>

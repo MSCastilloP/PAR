@@ -11,51 +11,15 @@ if(isset($_GET['dir'])){
 	$dir = $_GET['dir'];
 }
 $error = 0;
-if(isset($_GET['action']) && $_GET['action']=="delete" ){
-	
-	$deleteCocinero = new Cocinero($_GET['idCocinero']);
-	$deleteCocinero -> select();
-	if($deleteCocinero -> delete()){
-		$user_ip = getenv('REMOTE_ADDR');
-		$agent = $_SERVER["HTTP_USER_AGENT"];
-		$browser = "-";
-		if( preg_match('/MSIE (\d+\.\d+);/', $agent) ) {
-			$browser = "Internet Explorer";
-		} else if (preg_match('/Chrome[\/\s](\d+\.\d+)/', $agent) ) {
-			$browser = "Chrome";
-		} else if (preg_match('/Edge\/\d+/', $agent) ) {
-			$browser = "Edge";
-		} else if ( preg_match('/Firefox[\/\s](\d+\.\d+)/', $agent) ) {
-			$browser = "Firefox";
-		} else if ( preg_match('/OPR[\/\s](\d+\.\d+)/', $agent) ) {
-			$browser = "Opera";
-		} else if (preg_match('/Safari[\/\s](\d+\.\d+)/', $agent) ) {
-			$browser = "Safari";
-		}
-		if($_SESSION['entity'] == 'Administrador'){
-			$logAdministrador = new LogAdministrador("","Delete Cocinero", "Nombre: " . $deleteCocinero -> getNombre() . ";; Apellido: " . $deleteCocinero -> getApellido() . ";; Telefono: " . $deleteCocinero -> getTelefono() . ";; Salario: " . $deleteCocinero -> getSalario(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logAdministrador -> insert();
-		}
-		else if($_SESSION['entity'] == 'Domiciliario'){
-			$logDomiciliario = new LogDomiciliario("","Delete Cocinero", "Nombre: " . $deleteCocinero -> getNombre() . ";; Apellido: " . $deleteCocinero -> getApellido() . ";; Telefono: " . $deleteCocinero -> getTelefono() . ";; Salario: " . $deleteCocinero -> getSalario(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logDomiciliario -> insert();
-		}
-		else if($_SESSION['entity'] == 'Cliente'){
-			$logCliente = new LogCliente("","Delete Cocinero", "Nombre: " . $deleteCocinero -> getNombre() . ";; Apellido: " . $deleteCocinero -> getApellido() . ";; Telefono: " . $deleteCocinero -> getTelefono() . ";; Salario: " . $deleteCocinero -> getSalario(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logCliente -> insert();
-		}
-		else if($_SESSION['entity'] == 'Cajero'){
-			$logCajero = new LogCajero("","Delete Cocinero", "Nombre: " . $deleteCocinero -> getNombre() . ";; Apellido: " . $deleteCocinero -> getApellido() . ";; Telefono: " . $deleteCocinero -> getTelefono() . ";; Salario: " . $deleteCocinero -> getSalario(), date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logCajero -> insert();
-		}
-	}
-}else if(isset($_GET['action']) && $_GET['action']=="check"){
+
+	if(isset($_GET['action']) && $_GET['action']=="check"){
 	$id=$_GET['id'];
+	$rol=$_GET['rol'];
 	$nombre=$_GET['nombre'];
 	
 	$fecha =  date("Y-m-d");
 	$caj= new Cajero();
-	$caj->asistencia($id,$nombre,$fecha);
+	$caj->asistencia($id,$nombre,$fecha,$rol);
 
 }else{
 		$error = 1;
@@ -64,7 +28,11 @@ if(isset($_GET['action']) && $_GET['action']=="delete" ){
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-header">
+		<?php if($_SESSION['entity'] == 'Administrador') { ?>
 			<h4 class="card-title">Consultar Cocinero</h4>
+			<?php } else  {?>
+				<h4 class="card-title">Asistencia </h4>
+				<?php } ?>
 		</div>
 		<div class="card-body">
 		<?php if(isset($_GET['action']) && $_GET['action']=="delete"){ ?>
@@ -145,7 +113,9 @@ if(isset($_GET['action']) && $_GET['action']=="delete" ){
 							<span class='fas fa-sort-amount-down' data-toggle='tooltip' class='tooltipLink' data-original-title='Ordenar Descendente' ></span></a>
 						<?php } ?>
 						</th>
-						<th nowrap></th>
+						<th nowrap>
+						Estado
+						</th>
 					</tr>
 				</thead>
 				</tbody>
@@ -157,7 +127,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete" ){
 				<th>Nombre</th>
 				<th>Rol</th>
 				<th>Servicio</th>
-
+				
 			</thead>
 			</tbody>	
 			</div>	
@@ -184,61 +154,67 @@ if(isset($_GET['action']) && $_GET['action']=="delete" ){
 						echo "<td>" . $currentCocinero -> getApellido() . "</td>";
 						echo "<td>" . $currentCocinero -> getTelefono() . "</td>";
 						echo "<td>" . $currentCocinero -> getSalario() . "</td>";
+						if($currentCocinero -> getEstado()==1){
+							echo "<td>Habilitado</td>";
+						}else{
+							echo "<td>Deshabilitado</td>";
+						}
 						echo "<td class='text-right' nowrap>";
-
-							echo "<a href='index.php?pid=" . base64_encode("ui/cocinero/updateCocinero.php") . "&idCocinero=" . $currentCocinero -> getIdCocinero() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Cocinero' ></span></a> ";
-						
-					
-							echo "<a href='index.php?pid=" . base64_encode("ui/cocinero/selectAllCocinero.php") . "&idCocinero=" . $currentCocinero -> getIdCocinero() . "&action=delete' onclick='return confirm(\"Confirma eliminar Cocinero: " . $currentCocinero -> getNombre() . " " . $currentCocinero -> getApellido() . " " . $currentCocinero -> getTelefono() . " " . $currentCocinero -> getSalario() . "\")'><span class='fas fa-backspace' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Delete Cocinero' ></span></a> ";
-						
+						echo "<a href='index.php?pid=" . base64_encode("ui/cocinero/updateCocinero.php") . "&idCocinero=" . $currentCocinero -> getIdCocinero() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Cocinero' ></span></a> ";
 						echo "</td>";
 						echo "</tr>";
 						$counter++;
-
 						 }
-
-						
 					}else if($_SESSION['entity'] == 'Cajero'){
-						foreach ($cocineros as $currentCocinero) {
+						$cajes= new Cajero($_SESSION['id']);
+						$cajes->select();
 						echo "<tr><td>" . $counter . "</td>";
-						echo "<td>" . $currentCocinero -> getNombre()." ". $currentCocinero -> getApellido() . "</td>";
-						echo "<td>Cocinero</td>";
-						if($caje->verificarAsist($currentCocinero->getIdCocinero(),date("Y-m-d"))==0){
-							echo "<td ><a href='index.php?pid=" . base64_encode("ui/cocinero/selectAllCocinero.php") . "&id=" . $currentCocinero -> getIdCocinero() . "&action=check&nombre=".$currentCocinero -> getNombre().$currentCocinero -> getApellido()."' onclick='return confirm(\"Confirma que esta Trabajando " . $currentCocinero -> getNombre() . " " . $currentCocinero -> getApellido() . "\")'><span class='fas fa-check' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='check'></span></a> </td>";
+						echo "<td>" . $cajes -> getNombre()." ". $cajes -> getApellido() . "</td>";
+						echo "<td>Cajero</td>";
+						if($cajes->verificarAsist($cajes->getIdCajero(),date("Y-m-d"),"Cajero")==0){
+							echo "<td ><a href='index.php?pid=" . base64_encode("ui/cocinero/selectAllCocinero.php") . "&id=" . $cajes -> getIdCajero() . "&action=check&nombre=".$cajes -> getNombre().$cajes -> getApellido()."&rol=Cajero' onclick='return confirm(\"Confirma que esta Trabajando " . $cajes -> getNombre() . " " . $cajes -> getApellido() . "\")'><span class='fas fa-check' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='check'></span></a> </td>";
 						}else{
 							echo "<td ><a ><span  class='fas fa-times'></span></a> </td>";
 						}
-						
-						
 						echo "<td class='text-right' nowrap>";
-
 							echo "</td>";
 							echo "</tr>";
 							$counter++;
+						foreach ($cocineros as $currentCocinero) {
+							if($currentCocinero->getEstado()==1){
+						echo "<tr><td>" . $counter . "</td>";
+						echo "<td>" . $currentCocinero -> getNombre()." ". $currentCocinero -> getApellido() . "</td>";
+						echo "<td>Cocinero</td>";
+						if($caje->verificarAsist($currentCocinero->getIdCocinero(),date("Y-m-d"),"Cocinero")==0){
+							echo "<td ><a href='index.php?pid=" . base64_encode("ui/cocinero/selectAllCocinero.php") . "&id=" . $currentCocinero -> getIdCocinero() . "&action=check&nombre=".$currentCocinero -> getNombre().$currentCocinero -> getApellido()."&rol=Cocinero' onclick='return confirm(\"Confirma que esta Trabajando " . $currentCocinero -> getNombre() . " " . $currentCocinero -> getApellido() . "\")'><span class='fas fa-check' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='check'></span></a> </td>";
+						}else{
+							echo "<td ><a ><span  class='fas fa-times'></span></a> </td>";
+						}
+						echo "<td class='text-right' nowrap>";
+							echo "</td>";
+							echo "</tr>";
+							$counter++;}
 						 }
 						 foreach ($domiciliario as $currentDomiciliario) {
-						echo "<tr><td>" . $counter . "</td>";
-						echo "<td>" . $currentDomiciliario -> getNombre() ." ". $currentDomiciliario -> getApellido(). "</td>";
-						echo "<td> Domiciliario </td>";
+							if($currentDomiciliario->getState()==1){
+								echo "<tr><td>" . $counter . "</td>";
+								echo "<td>" . $currentDomiciliario -> getNombre() ." ". $currentDomiciliario -> getApellido(). "</td>";
+								echo "<td> Domiciliario </td>";
 
-						$fecha=date("Y-m-d");
-						if($caje->verificarAsist($currentDomiciliario->getIdDomiciliario(),$fecha)==0){
-						echo "<td ><a href='index.php?pid=" . base64_encode("ui/cocinero/selectAllCocinero.php") . "&id=" . $currentDomiciliario -> getIdDomiciliario() . "&action=check&nombre=".$currentDomiciliario -> getNombre()."&apellido=".$currentDomiciliario -> getApellido()."' onclick='return confirm(\"Confirma que esta Trabajando " . $currentDomiciliario -> getNombre() . " " . $currentDomiciliario -> getApellido() . "\")'><span class='fas fa-check' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='check'></span></a> </td>";
+					//	$fecha=date("Y-m-d");
+						if($caje->verificarAsist($currentDomiciliario->getIdDomiciliario(),date("Y-m-d"),"Domiciliario")==0){
+						echo "<td ><a href='index.php?pid=" . base64_encode("ui/cocinero/selectAllCocinero.php") . "&id=" . $currentDomiciliario -> getIdDomiciliario() . "&action=check&nombre=".$currentDomiciliario -> getNombre()."&apellido=".$currentDomiciliario -> getApellido()."&rol=Domiciliario' onclick='return confirm(\"Confirma que esta Trabajando " . $currentDomiciliario -> getNombre() . " " . $currentDomiciliario -> getApellido() . "\")'><span class='fas fa-check' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='check'></span></a> </td>";
 						 }else{
 						 	echo "<td ><a ><span  class='fas fa-times'></span></a> </td>";
 						 }
-					
-						echo "<td class='text-right' nowrap>";
-
+							echo "<td class='text-right' nowrap>";
 							echo "</td>";
 							echo "</tr>";
 							$counter++;
-						 }
-
-
-					}
+							}
+					 }
+				}
 					?>
-
 				</tbody>
 			</table>
 			</div>

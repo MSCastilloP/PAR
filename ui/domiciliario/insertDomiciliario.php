@@ -25,16 +25,13 @@ $salario="";
 if(isset($_POST['salario'])){
 	$salario=$_POST['salario'];
 }
-$rol="";
-if(isset($_POST['rol'])){
-	$rol=$_POST['rol'];
-}
+
 $state="";
 if(isset($_POST['state'])){
 	$state=$_POST['state'];
 }
 if(isset($_POST['insert'])){
-	$newDomiciliario = new Domiciliario("", $nombre, $apellido, $correo, $clave, "", $telefono, $salario, $rol, $state);
+	$newDomiciliario = new Domiciliario("", $nombre, $apellido, $correo, $clave, "", $telefono, $salario, $state);
 	$newDomiciliario -> insert();
 	$user_ip = getenv('REMOTE_ADDR');
 	$agent = $_SERVER["HTTP_USER_AGENT"];
@@ -112,10 +109,7 @@ if(isset($_POST['insert'])){
 							<label>Salario*</label>
 							<input type="text" class="form-control" name="salario" value="<?php echo $salario ?>" required />
 						</div>
-						<div class="form-group">
-							<label>Rol*</label>
-							<input type="text" class="form-control" name="rol" value="<?php echo $rol ?>" required />
-						</div>
+					
 						<div class="form-group">
 							<label>State*</label>
 						<div class="form-check">
