@@ -47,12 +47,13 @@ foreach ($variable as $v) {
 }
 echo "\n".$desc;
 
-
+$cliente = new Cliente($_SESSION['id']);
+			$cliente->select();
 $dom= new Domicilio($_GET['idDomicilio'],"","","",$precioP,$desc);
 $dom->updateP();
 
 echo "<script type=''>
-function editar(total,idDomicilio,fecha,hora,direccion,precio){
+function editar(total,idDomicilio,fecha,hora,direccion,precio,numero){
 
 	const database = firebase.database();
 	const newData ={
@@ -63,13 +64,14 @@ function editar(total,idDomicilio,fecha,hora,direccion,precio){
 		hora:hora,
 		estado:'1',
 		direccion:direccion,
-		precio:precio
+		precio:precio,
+		numero:numero
 	}
 const updates ={};
 updates ['/Pedidos/'+(hora)]=newData;
 database.ref().update(updates);
 }
-editar('".$firebase."','".$_GET['idDomicilio']."','".$objDom->getFecha()."','".$objDom->getHora()."','".$objDom->getDireccion()."','".$precioP."');
+editar('".$firebase."','".$_GET['idDomicilio']."','".$objDom->getFecha()."','".$objDom->getHora()."','".$objDom->getDireccion()."','".$precioP."','".$cliente->getTelefono()."');
 
 
 
@@ -95,7 +97,8 @@ if(isset($_GET['dir'])){
 
 $error = 0;
 if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
-	
+	$cliente = new Cliente($_SESSION['id']);
+			$cliente->select();
 	$deletePedo = new ProDom($_GET['idProDom']);
 	$deletePedo -> select();
 	$pedo=new ProDom("",$deletePedo->getDomicilio()->getidDomicilio());
@@ -133,7 +136,7 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 		
 		echo "va a entrar";
 		echo "<script type=''>
-				function editar(total,idDomicilio,fecha,hora,direccion,precio){
+				function editar(total,idDomicilio,fecha,hora,direccion,precio,numero){
 
 					const database = firebase.database();
 					const newData ={
@@ -144,14 +147,15 @@ if(!empty($_GET['action']) && $_GET['action']=="delete" && $_GET['idp']==0){
 						hora:hora,
 						estado:'1',
 						direccion:direccion,
-						precio:precio
+						precio:precio,
+						numero:numero
 					}
 				const updates ={};
 				updates ['/Pedidos/'+(hora)]=newData;
 				database.ref().update(updates);
 				console.log('entrar');
 				}
-				editar('".$firebase."','".$_GET['idDomicilio']."','".$dom->getFecha()."','".$dom->getHora()."','".$dom->getDireccion()."','".$precio."');
+				editar('".$firebase."','".$_GET['idDomicilio']."','".$dom->getFecha()."','".$dom->getHora()."','".$dom->getDireccion()."','".$precio."','".$cliente->getTelefono()."');
 				</script>";
 				$dome= new Domicilio($deletePedo->getDomicilio()->getidDomicilio(),"","","",$precio,$descripcion);
 		$dome->updateP();

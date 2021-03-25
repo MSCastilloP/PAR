@@ -385,9 +385,9 @@ function verificar($idc){
 		return $domicilios;
 	}
 
-	function updateEstado($variable){
+	function updateEstado($variable,$id){
 		$this -> connection -> open();
-		$this -> connection -> run($this -> domicilioDAO -> updateEstado($variable));
+		$this -> connection -> run($this -> domicilioDAO -> updateEstado($variable,$id));
 		$this -> connection -> close();
 	}
 

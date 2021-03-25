@@ -1,6 +1,6 @@
 <!-- Se usa -->
 <script type="">
-	function agregar(id, descripcion,fecha,hora, direccion,precio){
+	function agregar(id, descripcion,fecha,hora, direccion,precio,numero){
 
 
 
@@ -14,21 +14,22 @@
 				estado:"1",
 				tipo:"Domicilio",
 				direccion:direccion,
-				precio:precio
+				precio:precio,
+				numero:numero
 			});			
 		}
-		function salir(){
-			window.location.replace("index.php?pid=<?php echo base64_encode("ui/domicilio/insertDomicilio.php") ?>&idp=0");
+						function salir(){
+							window.location.replace("index.php?pid=<?php echo base64_encode("ui/domicilio/insertDomicilio.php") ?>&idp=0");
 									
 								}
-							
-
 								</script>	
 
 	<?php
 
 	$cliente = new Cliente($_SESSION['id']);
 	$cliente -> select();
+	$horario=1;
+	$horario=$cliente->verificarHorario(date("H:i:s"),date("Y-m-d"));
 	$array = array();
 	$arrays = array();
 	$precioTotal=0;
@@ -36,6 +37,10 @@
 	$nuevoDomicilio= new Domicilio();
 	$variableGlobal=0;
 	$primerID=array();
+	$pagado=$cliente->verificarDomicilio($_SESSION['id'],date("Y-m-d"));
+	$existeDomiciliario=$cliente->verificarDomiciliario(date("Y-m-d"));
+
+	if($horario==1 ){
 	if( $_GET["idp"]!=0){
 
 		$idp = $_GET["idp"];
@@ -71,6 +76,8 @@
 			$fecha= date("Y-m-d ");
 			$hora = date("H:i:s");	
 			$precio=$_GET['limpiar'];
+			$cliente = new Cliente($_SESSION['id']);
+			$cliente->select();
 			$descripcion="";			
 			$arrays=$nuevoDomicilio->imprimirTemporal($_SESSION['id']);
 			$nuevoDomicilio->eliminarTemporal($_SESSION['id']);
@@ -94,7 +101,7 @@
 									# code...
 			}
 			echo "<script type='text/javascript'>
-			agregar('".$crearDomicilio->getIdDomicilio()."','".$firebase."','".$fecha."','".$hora."','".$direccion."','".$precio."');	
+			agregar('".$crearDomicilio->getIdDomicilio()."','".$firebase."','".$fecha."','".$hora."','".$direccion."','".$precio."','".$cliente->getTelefono()."');	
 
 
 			</script>";
@@ -192,8 +199,11 @@
 		}
 		$processed=true;
 	}
+}
+
 	?>
 
+  <?php if($horario == 1 && $pagado == 0 && $existeDomiciliario == 1){ ?>
 	<div>
 		<div class="row ">
 			<div class="col-md-8" name="Crear Pedido">
@@ -269,7 +279,7 @@
 
 						</table>
 
-					</div>
+			 <!--</div>-->	
 
 					<table class="table"> 
 
@@ -310,12 +320,76 @@
 			</div>
 		</div>
 	</div>
+
+	
 	<div class="modal fade" id="modalCrearProducto" data-keyboard="false" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" >
 		<div class="modal-content" id="modalContent">
 		</div>
 	</div>
 </div>
+<?php } else if ($horario == 0){ ?>
+
+	<div class="d-flex justify-content-center">
+	<h1>NO HAY SERVICIO</h1>
+   </div>
+   <div >
+	<h2 class="d-flex justify-content-center">Nuestro Horario de atencion es:</h2>
+	<table class='table table-dark'>
+	<tr>
+		<td>
+			Dia
+		</td>
+		<td>
+			Apertura
+		</td>
+		<td>
+			Cierre
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Lunes a Jueves
+		</td>
+		<td>
+			5:30
+		</td>
+		<td>
+			10:00
+		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			Viernes a Sabado
+		</td>
+		<td>
+			4:30
+		</td>
+		<td>
+			11:00
+		</td>
+	</tr>
+	
+	</table>
+   </div>
+   <div class="row justify-content-md-center">
+	<h1 class="col col-lg-5 ">
+	<em>
+	Si por algun motivo la hora de cierre no coincide con su hora actual es debido a que ocurrio algo en el establecimiento
+	</em>
+	</h1>
+   </div>
+<?php } else if($pagado == 1){?>
+	<h1>
+		Por favor paga primero  el pedido hecho para hacer otro
+	</h1>
+
+<?php }else if($existeDomiciliario == 0){?>
+	<h1>
+		No hay Domiciliarios, ni modo
+		</h1>	
+<?php } ?>
 
 <script>
 	$('body').on('show.bs.modal', '.modal', function (e) {
@@ -344,10 +418,6 @@
 			window.location.replace("index.php?pid=<?php echo base64_encode("ui/domicilio/insertDomicilio.php")?>&limpiar="+precio+"&idp=0&direccion="+direccion);
 			alert("Tu pedido fue enviado");
 		}
-
-
-
-
 
 	</script>
 

@@ -5,7 +5,7 @@ if(isset($_GET["string"])){
 	$splitt = explode("_",$object);
 	$integer = intval($splitt[2])+1;
 		$dom= new Domicilio($splitt[0]);
-		$dom->updateEstado($integer);
+		$dom->updateEstado($integer,$_SESSION['id']);
 	
 		if($integer==5){
 		
@@ -20,6 +20,7 @@ if(isset($_GET["string"])){
 			const database = firebase.database();
 			ref=database.ref('Pedidos').child('". $splitt[3]."');
 			ref.child('estado').set('".$integer."');
+			ref.child('Domiciliario').set('".$_SESSION['id']."');
 			let a =document.getElementById(".$splitt[0].");
 			</script>";	
 		}
@@ -37,12 +38,18 @@ const db = firebase.database().ref('Pedidos');
 db.on("child_added", function(snapshot){
 
 		var data = snapshot.val();
-		if(data.estado > 2 && data.tipo == "Domicilio"){
+		if(data.estado == 3 && data.tipo == "Domicilio"){
 			var pedido = document.createElement("tr");
 		pedido.setAttribute("class", 'bg-warning');
 		pedido.setAttribute("id", snapshot.key);
 		pedido.innerHTML = HTMLJuego(data,snapshot.key);
 		document.getElementById("table").appendChild(pedido);	
+		}else if(data.estado == 4 && data.tipo == "Domicilio" && data.Domiciliario == "<?php echo $_SESSION['id'] ?>" ){
+			var pedido = document.createElement("tr");
+		pedido.setAttribute("class", 'bg-warning');
+		pedido.setAttribute("id", snapshot.key);
+		pedido.innerHTML = HTMLJuego(data,snapshot.key);
+		document.getElementById("table").appendChild(pedido);
 		}
 		
 	
@@ -51,13 +58,16 @@ db.on("child_added", function(snapshot){
 
 db.on("child_changed", function(snapshot){
 	let variable = snapshot.val();
-    if(variable.estado > 2 && variable.tipo == "Domicilio"){
+    if(variable.estado == 3 && variable.tipo == "Domicilio"){
 		var pedido = document.createElement("tr");
 		pedido.setAttribute("class", 'bg-warning');
 		pedido.setAttribute("id", snapshot.key);
 		pedido.innerHTML = HTMLJuego(variable);
 		document.getElementById("table").appendChild(pedido);	
-    }
+    }else if(variable.estado == 4 &&  variable.tipo == "Domicilio" && variable.Domiciliario  != "<?php echo $_SESSION['id'] ?>"){
+		var el= document.getElementById(snapshot.key);
+	document.getElementById("table").removeChild(el);
+	}
 	
 	
 		
@@ -112,6 +122,7 @@ function HTMLJuego(data){
 		contenido+= "<td>" + data.descripcion + "</td>";
 		contenido+= "<td>" + data.direccion + "</td>";
 		contenido+= "<td>" + data.precio + "</td>";
+		contenido+= "<td>" + data.numero + "</td>";
 	contenido+="<td> ";
 	contenido+=botones(data);
 	contenido+="</td>";
@@ -185,6 +196,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 						<th >Descripcion</th>
 						<th >Direccion</th>
 						<th >Precio </th>
+						<th >Telefono </th>
 						<th >Estado</th>
 					</tr>
 				</thead>

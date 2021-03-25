@@ -63,12 +63,10 @@ class DomicilioDAO{
 	}
 
 	function selectAllHecho() {
+			//cambiamos el cocinando de >3 a =5
 		$id = $_SESSION['id'];
-		
-
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
-				from Domicilio where cliente_idCliente = ".$id." and cocinando  > 5";
-
+				from Domicilio where cliente_idCliente = ".$id." and cocinando  = 5 ";
 	}
 
 
@@ -95,9 +93,9 @@ class DomicilioDAO{
 	}
 	function selectAllOrderHecho($orden, $dir){
 		$id = $_SESSION['id'];
-		
+		//cambiamos el cocinando de >3 a =5
 		return "select idDomicilio, direccion, fecha, hora, precio, descripcion, cocinando, domiciliario_idDomiciliario, cliente_idCliente
-				from Domicilio where cliente_idCliente= ".$id. " and cocinando  > 3
+				from Domicilio where cliente_idCliente= ".$id. " and cocinando  = 5
 				order by " . $orden . " " . $dir;
 	}
 
@@ -196,9 +194,10 @@ class DomicilioDAO{
 
 
 	}
-	function updateEstado($variable){
+	function updateEstado($variable,$id){
 		return "update Domicilio set 
-				cocinando =".$variable."
+				cocinando =".$variable.",
+				domiciliario_idDomiciliario =".$id."
 				where idDomicilio = " . $this -> idDomicilio;
 	}
 

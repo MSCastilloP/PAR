@@ -127,7 +127,6 @@
 
 										}else{
 											echo "<input type='checkbox' disabled  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> No hay " . $currentIngrediente->getNombre() . " <br>";
-
 										}
 
 						 			}
@@ -475,23 +474,5 @@
 
 		}
 
-			/*$(function() {
-
-		      $('#btn_save').on('click', function() {
-		      	
-					var idp = document.getElementById("idp");
-					var idn = document.getElementById("idn");
-					
-					
-
-		          $.post('index.php?pid=<?php echo base64_encode("ui/pedido/insertPedido.php") ?>', {
-		              "var_1": total,
-
-		            },function(data) {
-		              console.log('procesamiento finalizado', total);
-
-		          });
-		      })
-
-		})*/
+		
 		</script>

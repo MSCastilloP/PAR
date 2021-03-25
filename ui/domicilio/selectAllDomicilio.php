@@ -61,7 +61,7 @@ if(isset($_GET['action']) && $_GET['action']=="delete"){
 	
 $c=$deleteDomicilio -> getCocinando();
 	if($deleteDomicilio -> delete($c)){
-		$nameDomiciliario = $deleteDomicilio -> getDomiciliario() -> getNombre() . " " . $deleteDomicilio -> getDomiciliario() -> getApellido() . " " . $deleteDomicilio -> getDomiciliario() -> getTelefono() . " " . $deleteDomicilio -> getDomiciliario() -> getSalario() . " " . $deleteDomicilio -> getDomiciliario() -> getRol();
+		$nameDomiciliario = $deleteDomicilio -> getDomiciliario() -> getNombre() . " " . $deleteDomicilio -> getDomiciliario() -> getApellido() . " " . $deleteDomicilio -> getDomiciliario() -> getTelefono() . " " . $deleteDomicilio -> getDomiciliario() -> getSalario() ;
 
 		$nameCliente = $deleteDomicilio -> getCliente() -> getNombre() . " " . $deleteDomicilio -> getCliente() -> getApellido().  " " . $deleteDomicilio -> getCliente() -> getTelefono() . " " . $deleteDomicilio -> getCliente() -> getDireccion();
 		$user_ip = getenv('REMOTE_ADDR');
@@ -84,10 +84,7 @@ $c=$deleteDomicilio -> getCocinando();
 			$logAdministrador = new LogAdministrador("","Delete Domicilio", "Direccion: " . $deleteDomicilio -> getDireccion() . ";; Fecha: " . $deleteDomicilio -> getFecha() . ";; Hora: " . $deleteDomicilio -> getHora() . ";; Precio: " . $deleteDomicilio -> getPrecio() . ";; Descripcion: " . $deleteDomicilio -> getDescripcion() . ";; Cocinando: " . $deleteDomicilio -> getCocinando() . ";; Domiciliario: " . $nameDomiciliario . ";; Cliente: " . $nameCliente, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 			$logAdministrador -> insert();
 		}
-		else if($_SESSION['entity'] == 'Domiciliario'){
-			$logDomiciliario = new LogDomiciliario("","Delete Domicilio", "Direccion: " . $deleteDomicilio -> getDireccion() . ";; Fecha: " . $deleteDomicilio -> getFecha() . ";; Hora: " . $deleteDomicilio -> getHora() . ";; Precio: " . $deleteDomicilio -> getPrecio() . ";; Descripcion: " . $deleteDomicilio -> getDescripcion() . ";; Cocinando: " . $deleteDomicilio -> getCocinando() . ";; Domiciliario: " . $nameDomiciliario . ";; Cliente: " . $nameCliente, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-			$logDomiciliario -> insert();
-		}
+	
 		else if($_SESSION['entity'] == 'Cliente'){
 			$logCliente = new LogCliente("","Delete Domicilio", "Direccion: " . $deleteDomicilio -> getDireccion() . ";; Fecha: " . $deleteDomicilio -> getFecha() . ";; Hora: " . $deleteDomicilio -> getHora() . ";; Precio: " . $deleteDomicilio -> getPrecio() . ";; Descripcion: " . $deleteDomicilio -> getDescripcion() . ";; Cocinando: " . $deleteDomicilio -> getCocinando() . ";; Domiciliario: " . $nameDomiciliario . ";; Cliente: " . $nameCliente, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
 			$logCliente -> insert();
@@ -246,10 +243,8 @@ $c=$deleteDomicilio -> getCocinando();
 						}
 						
 						if($currentDomicilio -> getDomiciliario() -> getIdDomiciliario()!=0){
-							echo "<td><a href='modalDomiciliario.php?idDomiciliario=" . $currentDomicilio -> getDomiciliario() -> getIdDomiciliario() . "' data-toggle='modal' data-target='#modalDomicilio' >" . $currentDomicilio -> getDomiciliario() -> getNombre() . " " . $currentDomicilio -> getDomiciliario() -> getApellido() . " " . $currentDomicilio -> getDomiciliario() -> getTelefono() . " " . $currentDomicilio -> getDomiciliario() -> getSalario() . " " . $currentDomicilio -> getDomiciliario() -> getRol() . "</a></td>";
+							echo "<td><a href='modalDomiciliario.php?idDomiciliario=" . $currentDomicilio -> getDomiciliario() -> getIdDomiciliario() . "' data-toggle='modal' data-target='#modalDomicilio' >" . $currentDomicilio -> getDomiciliario() -> getNombre() . " " . $currentDomicilio -> getDomiciliario() -> getApellido() . " " . $currentDomicilio -> getDomiciliario() -> getTelefono() . " " . $currentDomicilio -> getDomiciliario() -> getSalario() . "</a></td>";
 						
-						
-
 						}else{
 							echo "<td>Domiciliario por asignar</td>";
 						}

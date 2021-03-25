@@ -7,10 +7,10 @@ if(isset($_GET["string"])){
 	if($splitt[1] == "Pedido"){
 		$ped = new Pedido( $splitt[0]);	
 
-		$ped -> updateEstado($integer);
+		$ped -> updateEstado($integer,0);
 	}else{
 		$dom= new Domicilio( $splitt[0]);
-		$dom->updateEstado($integer);
+		$dom->updateEstado($integer,0);
 	}
 	
 		if($integer==4 && $splitt[1] == "Pedido"){

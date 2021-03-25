@@ -235,6 +235,47 @@ class Cliente {
 		}
 
 }
+function verificarHorario($hora,$fecha){
+	$this -> connection -> open();
+	$this -> connection -> run($this -> clienteDAO -> verificarHorario($hora,$fecha));
+	$result = $this -> connection -> fetchRow();
+	$this -> connection -> close();
+	if($result[0]>0){
+		return 1;
+	}else{
+		return 0;
+	}
+
+	
+
+}
+
+function verificarDomicilio($idCliente,$fecha){
+	$this -> connection -> open();
+	$this -> connection -> run($this -> clienteDAO -> verificarDomicilio($idCliente,$fecha));
+	$result = $this -> connection -> fetchRow();
+	$this -> connection -> close();
+	if($result[0]>0){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+function verificarDomiciliario($fecha){
+	$this -> connection -> open();
+	$this -> connection -> run($this -> clienteDAO -> verificarDomiciliario($fecha));
+	$result = $this -> connection -> fetchRow();
+	$this -> connection -> close();
+	if($result[0]>0){
+		return 1;
+	}else{
+		return 0;
+	}
+
+	
+
+}
 
 
 }

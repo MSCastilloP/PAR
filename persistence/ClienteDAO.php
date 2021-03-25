@@ -100,5 +100,28 @@ class ClienteDAO{
 		function consultarCorreo(){
 		return "select count(correo) from cliente where correo = '". $this -> correo."'";
 	}
+
+	function verificarHorario($hora,$fecha){
+		return "select count(id)
+		from horario 
+		where hora_final > '".$hora."' and hora_inicio < '".$hora."' 
+		and fecha = '".$fecha."'";
+	}
+
+	function verificarDomicilio($idCliente,$fecha){
+		return "select count(idDomicilio)
+		from domicilio 
+		where fecha = '".$fecha."' and cliente_idCliente = ".$idCliente."
+		and cocinando < 5";
+	
+	}
+	function verificarDomiciliario($fecha){
+		return "select count(id) 
+		from asistencia where rol='Domiciliario'
+		and fecha = '".$fecha."'";
+
+	}
+
+
 }
 ?>
