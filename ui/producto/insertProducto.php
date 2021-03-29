@@ -52,18 +52,9 @@ if($verificar->verificarNombre()){
         if ($_SESSION['entity'] == 'Administrador') {
             $logAdministrador = new LogAdministrador("", "Crear Producto", "Nombre: " . $nombre . "; Precio: " . $precio . "; Descripcion: " . $descripcion . "; Foto: " . $foto, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
             $logAdministrador->insert();
-        } else if ($_SESSION['entity'] == 'Domiciliario') {
-            $logDomiciliario = new LogDomiciliario("", "Crear Producto", "Nombre: " . $nombre . "; Precio: " . $precio . "; Descripcion: " . $descripcion . "; Foto: " . $foto, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-            $logDomiciliario->insert();
-        } else if ($_SESSION['entity'] == 'Cliente') {
-            $logCliente = new LogCliente("", "Crear Producto", "Nombre: " . $nombre . "; Precio: " . $precio . "; Descripcion: " . $descripcion . "; Foto: " . $foto, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-            $logCliente->insert();
-        } else if ($_SESSION['entity'] == 'Cajero') {
-            $logCajero = new LogCajero("", "Crear Producto", "Nombre: " . $nombre . "; Precio: " . $precio . "; Descripcion: " . $descripcion . "; Foto: " . $foto, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-            $logCajero->insert();
         }
 
-         $newProducto->encontrar();
+         			$newProducto->encontrar();
 			        if(!empty($_POST['ingredient'])){
 			// Ciclo para mostrar las casillas checked checkbox.
 			foreach($_POST['ingredient'] as $selected){
