@@ -34,6 +34,7 @@ $webPages = array(
 	'ui/administrador/updatePasswordAdministrador.php',
 	'ui/administrador/updateProfilePictureAdministrador.php',
 	'ui/administrador/updateFotoAdministrador.php',
+	'ui/administrador/calcularSalario.php',
 	'ui/logAdministrador/searchLogAdministrador.php',
 	'ui/inventario/insertInventario.php',
 	'ui/inventario/updateInventario.php',

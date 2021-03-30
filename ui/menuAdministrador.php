@@ -31,6 +31,7 @@ $administrador -> select();
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cajero/selectAllCajero.php") ?>">Cajero</a>	
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/cocinero/selectAllCocinero.php") ?>">Cocinero</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/proveedor/selectAllProveedor.php") ?>">Proveedor</a>
+					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/administrador/calcularSalario.php") ?>">calcular Salario</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">

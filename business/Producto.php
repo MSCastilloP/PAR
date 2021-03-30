@@ -141,8 +141,6 @@ class Producto {
 		$result = $this -> connection -> fetchRow();
 		$this -> connection -> close();
 		$this -> idProducto = $result[0];
-		
-
 	}
 	function traer($id){
 		$this -> connection -> open();

@@ -72,6 +72,19 @@ if(isset($_POST['insert'])){
 							<label>Nombre*</label>
 							<input type="text" class="form-control" name="nombre" value="<?php echo $nombre ?>" required />
 						</div>
+						<div class="form-group">
+							<label>Escencial</label>
+							<label>Se le coloca escencial a todo ingrediente que el cliente a la hora de hacer un domicilio
+							no podra retirarlo del producto</label>
+						<div class="form-check">
+							<input type="radio" class="form-check-input" name="estado" value="0" checked />
+							<label class="form-check-label">No Escencial</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input type="radio" class="form-check-input" name="estado" value="1" />
+							<label class="form-check-label" >Escencial</label>
+						</div>
+						</div>
 
 						<button type="submit" class="btn btn-info" name="insert">Crear</button>
 					</form>

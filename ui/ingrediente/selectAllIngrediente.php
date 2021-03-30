@@ -73,7 +73,7 @@ $error = 0;
 						}
 					
 						echo "<td nowrap>";
-						if($_SESSION['entity'] == 'Administrador') {
+						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cajero') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/ingrediente/updateIngrediente.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Ingrediente' ></span></a> ";
 						}
 					

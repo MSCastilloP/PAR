@@ -16,6 +16,7 @@ $cajero -> select();
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Consultar</a>
 				<div class="dropdown-menu">
+				<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/ingrediente/selectAllIngrediente.php") ?>">Ingrediente</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/producto/selectAllProducto.php") ?>">Producto</a>
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/pedido/selectAllPedido.php") ?>">Pedido</a>
 
