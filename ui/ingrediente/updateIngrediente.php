@@ -12,8 +12,12 @@ $estado="";
 if(isset($_POST['estado'])){
 	$estado=$_POST['estado'];
 }
+
+if(isset($_POST['esencial'])){
+	$esencial=$_POST['esencial'];
+}
 if(isset($_POST['update'])){
-	$updateIngrediente = new Ingrediente($idIngrediente, $nombre, $estado);
+	$updateIngrediente = new Ingrediente($idIngrediente, $nombre, $estado,$esencial);
 	$updateIngrediente -> update();
 	$updateIngrediente -> select();
 	$user_ip = getenv('REMOTE_ADDR');
@@ -86,7 +90,29 @@ if(isset($_POST['update'])){
 							?>
 								
 							</select>
-
+							<br>
+							<label>Escencial</label>
+							<label>Se le coloca escencial a todo ingrediente que el cliente a la hora de hacer un domicilio
+							no podra retirarlo del producto</label>
+							<?php if($updateIngrediente->getEsencial()==1){?>
+								<div class="form-check">
+							<input type="radio" class="form-check-input" name="esencial" value="0" />
+							<label class="form-check-label">No Escencial</label>
+							</div>
+							<div class="form-check form-check-inline">
+							<input type="radio" class="form-check-input" name="esencial" value="1"checked />
+							<label class="form-check-label" >Escencial</label>
+								<?php } else{?>
+									<div class="form-check">
+							<input type="radio" class="form-check-input" name="esencial" value="0" checked />
+							<label class="form-check-label">No Escencial</label>
+							</div>
+							<div class="form-check form-check-inline">
+							<input type="radio" class="form-check-input" name="esencial" value="1" />
+							<label class="form-check-label" >Escencial</label>
+									<?php } ?>
+						
+						</div>
 							
 						</div>
 						<button type="submit" class="btn btn-info" name="update">Editar</button>

@@ -1,6 +1,15 @@
 <?php
 $administrador = new Administrador($_SESSION['id']);
 $administrador -> select();
+$btn=0;
+if(isset($_GET['cerrar'])){
+	$administrador->cerrar(date("Y-m-d"),date("H:i:s"));
+	$btn=2;
+}
+	$asis= $administrador->consultAsis(date("Y-m-d"),date("H:i:s"));
+	if($asis==1){
+		$btn=1;
+	}
 ?>
 <div class="container">
 	<div>
@@ -46,6 +55,20 @@ $administrador -> select();
 		</div>
 		<div class="card-footer">
 		<p><?php echo "Su rol es: Administrador"; ?></p>
+		</div>
+		<div class="card-footer">
+		<?php if($btn==1){
+			echo "<a type='button' href='index.php?pid=". base64_encode("ui/sessionAdministrador.php")."&cerrar=0' onclick='return confirm(\"Esta seguro de cerrar el local?\")'>Cerrar local</a>";
+
+			?>
+			
+			<?php } else if($btn == 2){ ?>
+				<div class="alert alert-success" >El negocio a cerrado por el dia de hoy
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<?php } ?>
 		</div>
 	</div>
 </div>

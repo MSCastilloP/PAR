@@ -20,6 +20,10 @@ $error = 0;
 	$fecha =  date("Y-m-d");
 	$caj= new Cajero();
 	$caj->asistencia($id,$nombre,$fecha,$rol);
+	$horario= $caj->consultAsis($fecha);
+	if($horario==1){
+		$caj->insertHorario($fecha);
+	}
 
 }else{
 		$error = 1;
@@ -201,7 +205,7 @@ $error = 0;
 								echo "<td>" . $currentDomiciliario -> getNombre() ." ". $currentDomiciliario -> getApellido(). "</td>";
 								echo "<td> Domiciliario </td>";
 
-					//	$fecha=date("Y-m-d");
+					//	
 						if($caje->verificarAsist($currentDomiciliario->getIdDomiciliario(),date("Y-m-d"),"Domiciliario")==0){
 						echo "<td ><a href='index.php?pid=" . base64_encode("ui/cocinero/selectAllCocinero.php") . "&id=" . $currentDomiciliario -> getIdDomiciliario() . "&action=check&nombre=".$currentDomiciliario -> getNombre()."&apellido=".$currentDomiciliario -> getApellido()."&rol=Domiciliario' onclick='return confirm(\"Confirma que esta Trabajando " . $currentDomiciliario -> getNombre() . " " . $currentDomiciliario -> getApellido() . "\")'><span class='fas fa-check' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='check'></span></a> </td>";
 						 }else{

@@ -25,7 +25,7 @@ class ClienteDAO{
 	}
 
 	function logIn($correo, $clave){
-		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion
+		return "select idCliente, nombre, apellido, correo, clave, foto, telefono, direccion,state
 				from Cliente
 				where correo = '" . $correo . "' and clave = '" . md5($clave) . "'";
 	}

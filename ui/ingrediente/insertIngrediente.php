@@ -8,8 +8,8 @@ if(isset($_POST['nombre'])){
 }
 
 if(isset($_POST['insert'])){
-
-	$newIngrediente = new Ingrediente("", $nombre, 1);
+	$estado=$_POST['estado'];
+	$newIngrediente = new Ingrediente("", $nombre, 1,$estado);
 	
 	if($newIngrediente->checkIngrediente()<1){
 		$newIngrediente -> insert();

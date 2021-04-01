@@ -116,7 +116,7 @@ class Cliente {
 			$this -> foto = $result[5];
 			$this -> telefono = $result[6];
 			$this -> direccion = $result[7];
-	
+			$this -> state = $result[8];
 			$this -> connection -> close();
 			return true;
 		}else{

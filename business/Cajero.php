@@ -242,5 +242,20 @@ class Cajero {
 		}
 	
 }
+function consultAsis($fecha){
+	$this -> connection -> open();
+	echo "entra";
+	$this -> connection -> run($this -> cajeroDAO -> consultAsis($fecha));
+	
+	$result = $this -> connection -> fetchRow();
+	$f=$result[0];
+	$this -> connection -> close();
+	return $f;
+}
+function insertHorario($fecha){
+	$this -> connection -> open();
+	$this -> connection -> run($this -> cajeroDAO -> insertHorario($fecha));
+	$this -> connection -> close();
+}
 }
 ?>

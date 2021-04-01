@@ -70,7 +70,7 @@ class IngreProDAO{
 				where idIngrePro = '" . $this -> idIngrePro . "'";
 	}
 	function traerIngre($id){
-		return "select idIngrediente,nombre,estado
+		return "select idIngrediente,nombre,estado,esencial
 		from ingrediente, ingrepro where producto_idProducto= '".$id."' and ingrediente_idIngrediente=idIngrediente
 		";
 	}	

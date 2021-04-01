@@ -213,5 +213,27 @@ class Administrador {
 		$this -> connection -> close();
 		return $administradors;
 	}
+	function salario($id,$fechaIn,$fechaFi,$rol){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> administradorDAO -> salario($id,$fechaIn,$fechaFi,$rol));
+		$result = $this -> connection -> fetchRow();
+		$f= $result[0];
+		$this -> connection -> close();
+		return $f;
+	}
+
+	function consultAsis($fecha,$hora){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> administradorDAO -> consultAsis($fecha,$hora));
+		$result = $this -> connection -> fetchRow();
+		$f=$result[0];
+		$this -> connection -> close();
+		return $f;
+	}
+	function cerrar($fecha,$hora){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> administradorDAO -> cerrar($fecha,$hora));
+		$this -> connection -> close();
+	}
 }
 ?>

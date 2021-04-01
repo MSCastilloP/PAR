@@ -6,6 +6,7 @@ class Ingrediente {
 	private $idIngrediente;
 	private $nombre;
 	private $estado;
+	private $esencial;
 	private $ingredienteDAO;
 	private $connection;
 
@@ -15,6 +16,13 @@ class Ingrediente {
 
 	function setIdIngrediente($pIdIngrediente) {
 		$this -> idIngrediente = $pIdIngrediente;
+	}
+	function getEsencial() {
+		return $this -> esencial;
+	}
+
+	function setEsencial($pEsencial) {
+		$this -> esencial = $pEsencial;
 	}
 
 	function getNombre() {
@@ -33,11 +41,12 @@ class Ingrediente {
 		$this -> estado = $pEstado;
 	}
 
-	function Ingrediente($pIdIngrediente = "", $pNombre = "", $pEstado = ""){
+	function Ingrediente($pIdIngrediente = "", $pNombre = "", $pEstado = "",$pEsencial = ""){
 		$this -> idIngrediente = $pIdIngrediente;
 		$this -> nombre = $pNombre;
 		$this -> estado = $pEstado;
-		$this -> ingredienteDAO = new IngredienteDAO($this -> idIngrediente, $this -> nombre, $this -> estado);
+		$this -> esencial = $pEsencial;
+		$this -> ingredienteDAO = new IngredienteDAO($this -> idIngrediente, $this -> nombre, $this -> estado, $this -> esencial);
 		$this -> connection = new Connection();
 	}
 
@@ -52,7 +61,11 @@ class Ingrediente {
 		$this -> connection -> run($this -> ingredienteDAO -> update());
 		$this -> connection -> close();
 	}
-
+	function updateEstado(){
+		$this -> connection -> open();
+		$this -> connection -> run($this -> ingredienteDAO -> updateEstado());
+		$this -> connection -> close();
+	}
 	function select(){
 		$this -> connection -> open();
 		$this -> connection -> run($this -> ingredienteDAO -> select());
@@ -61,6 +74,7 @@ class Ingrediente {
 		$this -> idIngrediente = $result[0];
 		$this -> nombre = $result[1];
 		$this -> estado = $result[2];
+		$this -> esencial = $result[3];
 	}
 
 	function selectAll(){
@@ -68,7 +82,7 @@ class Ingrediente {
 		$this -> connection -> run($this -> ingredienteDAO -> selectAll());
 		$ingredientes = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($ingredientes, new Ingrediente($result[0], $result[1], $result[2]));
+			array_push($ingredientes, new Ingrediente($result[0], $result[1], $result[2], $result[3]));
 		}
 		$this -> connection -> close();
 		return $ingredientes;
@@ -79,7 +93,7 @@ class Ingrediente {
 		$this -> connection -> run($this -> ingredienteDAO -> selectAllOrder($order, $dir));
 		$ingredientes = array();
 		while ($result = $this -> connection -> fetchRow()){
-			array_push($ingredientes, new Ingrediente($result[0], $result[1], $result[2]));
+			array_push($ingredientes, new Ingrediente($result[0], $result[1], $result[2],$result[3]));
 		}
 		$this -> connection -> close();
 		return $ingredientes;

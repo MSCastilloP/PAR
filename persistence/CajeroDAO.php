@@ -103,5 +103,14 @@ class CajeroDAO{
 		return "select count(idEmpleado) from asistencia where idEmpleado = ".$id." and 
 		fecha = '".$fecha."' and rol='".$rol."'";
 	}
+	function consultAsis ($fecha){
+		return "select count(id) from asistencia where  
+		fecha = '".$fecha."'";
+	}
+
+	function insertHorario($fecha){
+		return "insert into horario(hora_inicio, hora_final, fecha)
+				values('05:30:00', '11:00:00', '" . $fecha . "')";
+	}
 }
 ?>

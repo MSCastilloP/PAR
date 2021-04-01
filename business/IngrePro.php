@@ -185,7 +185,7 @@ class IngrePro {
 		$ingredientes = array();
 		while ($result = $this -> connection -> fetchRow()){
 		
-			array_push($ingredientes,new Ingrediente($result[0],$result[1],$result[2]));
+			array_push($ingredientes,new Ingrediente($result[0],$result[1],$result[2],$result[3]));
 		}
 		$this -> connection -> close();
 		return $ingredientes;

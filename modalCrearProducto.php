@@ -94,7 +94,7 @@
 
 									onclick=<?php 
 									//solamente porcion de pizza
-									if($id!=21){
+									if($id!=5){
 
 										echo "traerN()";
 									}else{
@@ -108,11 +108,11 @@
 						<h2> Ingredientes </h2>
 							<div class='form-check' id='Ingre'>
 								<?php  
-								if($id!=21 ){
+								if($id!=5 ){
 									// Se utiliza para crear los check box de los productos y de la pizza familiar 
 						 		foreach ($vector as $currentIngrediente) {
 
-						 			if($id!=22){
+						 			if($id!=6){
 										 if($currentIngrediente->getEstado()=='1'){
 						 				echo "<input type='checkbox'  name= '".$currentIngrediente->getNombre()."' value=" . $currentIngrediente->getIdIngrediente() . "> Sin " . $currentIngrediente->getNombre() . " <br>";
 									
@@ -130,10 +130,10 @@
 										}
 
 						 			}
-
+//
 						 			
 						 		}
-						 		if($id==22){
+						 		if($id==6){
 						 			echo "<h4>Descripcion Adicional</h4>";
 						 			echo " <input type='button' value='Clear' onclick='javascript:eraseText();' > ";
 									echo "<textarea id='descripcionAdicional' name='w3review' rows='4' cols='50'></textarea>";
@@ -294,7 +294,7 @@
 					var checks  = divCont.getElementsByTagName('input');
 					var cantidadp=0;
 					// Se utiliza solo en el caso de la pizza completa.
-					if(x==22){	
+					if(x==6){	
 						//Cantidadp es la cantidad de sabores de una pizza
 						for(i=0;i<checks.length; i++){
 							 if(checks[i].checked == true ){
@@ -307,7 +307,7 @@
 					variableGlobal=valor+" x / ";			
 					for(i=0;i<checks.length; i++){
 						//ha este if entra todo lo que no sea pizza completa.
-		   				 if(checks[i].checked == true && x!=22 ){
+		   				 if(checks[i].checked == true && x!=6 ){
 		   				 	todo=1; 
 		    				variableGlobal+="Sin "+checks[i].name+".";
 		    					//entra solo para la pizza completa si la cantidad de sabores es valida.
@@ -317,14 +317,14 @@
 		    			}    			
 					}
 					// Solo entra si se desea el producto con todo lo que trae.
-					if(todo==0  && x!=22 ){
+					if(todo==0  && x!=6 ){
 						variableGlobal+=" Todo .";
 					}					
 
 					var r=variableGlobal.split("/");
 					//Se utiliza para saber si ya existe el producto con las mismas especificaciones 			
 					if(evaluar(r[1])==0){
-					if(x!=22){
+					if(x!=6){
 						
 						var string ="habilitar("+variableNumero+")";
 						var h6 = document.createElement("button");
@@ -340,7 +340,7 @@
 						document.productos.appendChild(x);
 						
 
-					}else if(x==22 && cantidadp>0 && cantidadp<5){
+					}else if(x==6 && cantidadp>0 && cantidadp<5){
 						var string ="habilitar("+variableNumero+")";
 						var h6 = document.createElement("button");
 			  			var br = document.createElement("br");
@@ -359,7 +359,7 @@
 					}else{
 						alert("La especificación del porducto ya existe, si desea ingresar mas unidades con la misma especificación, elimine el anterior e ingreselo nuevamente con las unidades solicitadas");
 					}
-					if(x==22 && (cantidadp>4 || cantidadp<1)){
+					if(x==6 && (cantidadp>4 || cantidadp<1)){
 						alert("No ha escogido o sobrepasado el número de sabores posibles. Porfavor Ingrese almenos un sabor o menos de cinco sabores");
 					}
 		}
@@ -381,8 +381,6 @@
 					contador--;	
 					
 					
-
-
 				}
 
 
@@ -395,7 +393,7 @@
 			var idp = document.getElementById("idp");
 			var idn = document.getElementById("idn");
 			
-			if(idp.innerHTML==22){
+			if(idp.innerHTML==6){
 				var descripcion=document.getElementById("descripcionAdicional").value;		
 			}
 					var total="";
@@ -403,14 +401,14 @@
 						total+=boton[i].innerHTML+"\n";
 						
 					}
-			if(descripcion!="" && idp.innerHTML==22){
+			if(descripcion!="" && idp.innerHTML==6){
 				total+=" / (  " +descripcion+" ) ";
 			}
 					//
 
 		function getNumbersInString(string) {
 			 var regex = /(\d+)/g;
-			 if(idp.innerHTML==22 && string.indexOf("(")>-1	){
+			 if(idp.innerHTML==6 && string.indexOf("(")>-1	){
 			 	alert("entra");
 
 			 	var temp=string.split("(");

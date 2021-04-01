@@ -10,28 +10,21 @@ if(isset($_GET['dir'])){
 }
 $error = 0;
 
+if(isset($_GET['estado'])){
+	$estado = $_GET['estado'];
+	$idIngre = $_GET['idIngrediente'];
+	$ingrediente= new Ingrediente($idIngre,"",$estado);
+	$ingrediente->updateEstado();
+}
+
 ?>
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-header">
 			<h4 class="card-title">Consultar Ingrediente</h4>
 		</div>
-		<div class="card-body">
-		<?php if(isset($_GET['action']) && $_GET['action']=="delete"){ ?>
-			<?php if($error == 0){ ?>
-				<div class="alert alert-success" >The registry was succesfully deleted.
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<?php } else { ?>
-				<div class="alert alert-danger" >The registry was not deleted. Check it does not have related information
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<?php }
-			} ?>
+		
+	
 		<div class="table-responsive">
 			<table class="table table-striped table-hover">
 				<thead>
@@ -68,14 +61,24 @@ $error = 0;
 						echo "<td>" . $currentIngrediente -> getNombre() . "</td>";
 						if($currentIngrediente -> getEstado() == 1){
 							echo "<td> Habilitado </td>";
+							echo "<td nowrap>";
+							if($_SESSION['entity'] == 'Cajero') {
+								echo "<a href='index.php?pid=" . base64_encode("ui/ingrediente/selectAllIngrediente.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "&estado=0'><span class='fas fa-minus-circle' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Deshabilitar' ></span></a> ";
+							}
 						}else{
 							echo "<td> Deshabilitado </td>";
+							echo "<td nowrap>";
+							if($_SESSION['entity'] == 'Cajero') {
+								echo "<a href='index.php?pid=" . base64_encode("ui/ingrediente/selectAllIngrediente.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "&estado=1'><span class='fas fa-plus-circle' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Habilitar ' ></span></a> ";
+							}
 						}
-					
-						echo "<td nowrap>";
-						if($_SESSION['entity'] == 'Administrador' || $_SESSION['entity'] == 'Cajero') {
+
+						if($_SESSION['entity'] == 'Administrador') {
 							echo "<a href='index.php?pid=" . base64_encode("ui/ingrediente/updateIngrediente.php") . "&idIngrediente=" . $currentIngrediente -> getIdIngrediente() . "'><span class='fas fa-edit' data-toggle='tooltip' data-placement='left' class='tooltipLink' data-original-title='Editar Ingrediente' ></span></a> ";
 						}
+					
+						
+						
 					
 						
 						echo "</td>";

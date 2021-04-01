@@ -39,7 +39,7 @@
 	$primerID=array();
 	$pagado=$cliente->verificarDomicilio($_SESSION['id'],date("Y-m-d"));
 	$existeDomiciliario=$cliente->verificarDomiciliario(date("Y-m-d"));
-
+//
 	if($horario==1 ){
 	if( $_GET["idp"]!=0){
 

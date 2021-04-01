@@ -90,5 +90,22 @@ class AdministradorDAO{
 				from Administrador
 				where nombre like '%" . $search . "%' or apellido like '%" . $search . "%' or correo like '%" . $search . "%' or telefono like '%" . $search . "%' or celular like '%" . $search . "%' or estado like '%" . $search . "%'";
 	}
+
+	function salario($id,$fechaIn,$fechaFi,$rol){
+
+		return "select count(id) from asistencia
+		where idEmpleado=".$id." and fecha >='".$fechaIn."' and fecha <='".$fechaFi."' and rol='".$rol."'";
+	}
+
+	function consultAsis ($fecha,$hora){
+		return "select count(id) from horario where  
+		fecha = '".$fecha."' and hora_inicio < '".$hora."' and hora_final >'".$hora."'";
+	}
+
+	function cerrar($fecha,$hora){
+		return "update horario set 
+				hora_final = '" . $hora . "'	
+				where fecha = '" . $fecha . "'";
+	}
 }
 ?>

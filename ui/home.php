@@ -47,12 +47,19 @@ if(isset($_POST['logIn'])){
 		}
 		$cliente = new Cliente();
 		if($cliente -> logIn($email, $password)){
-		
-				$_SESSION['id']=$cliente -> getIdCliente();
-				$_SESSION['entity']="Cliente";
-				$logCliente = new LogCliente("", "Log In", "", date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $cliente -> getIdCliente());
-				$logCliente -> insert();
-				echo "<script>location.href = 'index.php?pid=" . base64_encode("ui/sessionCliente.php") . "'</script>"; 
+				if($cliente-> getState() == 1){
+					
+					$_SESSION['id']=$cliente -> getIdCliente();
+					$_SESSION['entity']="Cliente";
+					$logCliente = new LogCliente("", "Log In", "", date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $cliente -> getIdCliente());
+					$logCliente -> insert();
+					echo "<script>location.href = 'index.php?pid=" . base64_encode("ui/sessionCliente.php") . "'</script>"; 
+				}else{
+				
+				
+					$enabledError=true; 	
+				}
+				
 			
 		}
 		$cajero = new Cajero();
