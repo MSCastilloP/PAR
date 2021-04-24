@@ -1,6 +1,38 @@
+
+
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script>
+function google (){
+	
+
+	const googleButton = document.querySelector('#googleLogin')
+	googleButton.addEventListener('click', e=>{
+		const provider = new firebase.auth.GoogleAuthProvider();
+		firebase.auth().signInWithPopup(provider)
+		.then(result => {			
+			const email= result.user.email;
+			window.location.replace("index.php?pid=<?php echo base64_encode("ui/cliente/insertCliente.php")?>&email="+email);
+			
+
+	})
+		
+		.catch(err => {
+			console.log(err)	
+		})
+	})
+
+}
+
+
+
+</script>
 <?php
 $logInError=false;
 $enabledError=false;
+$error=0;
+if(isset($_GET['error'])){
+	$error=$_GET['error'];
+}
 if(isset($_POST['logIn'])){
 	if(isset($_POST['email']) && isset($_POST['password'])){
 		$user_ip = getenv('REMOTE_ADDR');
@@ -99,11 +131,27 @@ if(isset($_POST['logIn'])){
 				<div class="card-header">
 					<h4><strong>PAR</strong></h4>
 				</div>
+				<?php if($error==1){ ?>
+					<div class="alert alert-danger" >Correo ya registrado
+						<button  type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<?php } else if($error==2){ ?>
+						<div class="alert alert-success" >Usuario registrado
+						<button  type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+						<?php } ?>
 				<div class="card-body">
 					<p>Aplicaci�n para la gesti�n de restaurantes de comida rapida</p>
 				</div>
+				
 			</div>
 		</div>
+		
 		<div class="col-md-3">
 			<div class="card">
 				<div class="card-header">
@@ -125,15 +173,21 @@ if(isset($_POST['logIn'])){
 							echo "<div class='alert alert-danger' >Error de correo o clave</div>";
 						} ?>
 						<div class="form-group">
-							<a href="index.php?pid=<?php echo base64_encode("ui/recoverPassword.php") ?>">Recuperar Clave</a>
-							<br>
-							<a href="index.php?pid=<?php echo base64_encode("ui/cliente/insertCliente.php") ?>">CREAR USUARIO</a>
-
-						</div>
-						<div class="form-group">
 							<button type="submit" class="btn btn-info" name="logIn">Autenticar</button>
 							
 						</div>
+						<div class="form-group">
+				<!-- <a href="index.php?pid= <?php //echo base64_encode("ui/recoverPassword.php") ?>">Recuperar Clave</a> -->		
+							<br>
+							
+
+							<button id="googleLogin" onClick=google() class="btn btn-outline-dark" href="/users/googleauth" role="button" style="text-transform:none">
+							<img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+							Registrate con  Google
+							</button>
+
+						</div>
+						
 					</form>
 				</div>
 			</div>

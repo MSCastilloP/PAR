@@ -418,7 +418,7 @@
 			 	}
 			 	 return (otra.match(regex));
 			 }else{
-			 	alert("no entra");
+			 	
 
 			 	return (string.match(regex));
 			 }  

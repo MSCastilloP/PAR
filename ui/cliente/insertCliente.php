@@ -1,8 +1,21 @@
 <!-- Se usa -->
+
+
+
 <?php
 $processed=false;
 $email=false;
 $nombre="";
+if(isset($_GET['email'])){
+	$emailgoogle=$_GET['email'];
+	$c= new Cliente("", "", "", $emailgoogle);
+	if($c->consultarCorreo()>0){
+		echo "algo";
+		header("Location: index.php?error=1");
+
+	}
+	
+}
 if(isset($_POST['nombre'])){
 	$nombre=$_POST['nombre'];
 }
@@ -30,6 +43,7 @@ $state="";
 if(isset($_POST['state'])){
 	$state=$_POST['state'];
 }
+
 if(isset($_POST['insert'])){
 
 	$newCliente = new Cliente("", $nombre, $apellido, $correo, $clave, "", $telefono, $direccion);
@@ -38,30 +52,11 @@ if(isset($_POST['insert'])){
 
 		$newCliente -> insert();
 
-	$user_ip = getenv('REMOTE_ADDR');
-	$agent = $_SERVER["HTTP_USER_AGENT"];
-	$browser = "-";
-	if( preg_match('/MSIE (\d+\.\d+);/', $agent) ) {
-		$browser = "Internet Explorer";
-	} else if (preg_match('/Chrome[\/\s](\d+\.\d+)/', $agent) ) {
-		$browser = "Chrome";
-	} else if (preg_match('/Edge\/\d+/', $agent) ) {
-		$browser = "Edge";
-	} else if ( preg_match('/Firefox[\/\s](\d+\.\d+)/', $agent) ) {
-		$browser = "Firefox";
-	} else if ( preg_match('/OPR[\/\s](\d+\.\d+)/', $agent) ) {
-		$browser = "Opera";
-	} else if (preg_match('/Safari[\/\s](\d+\.\d+)/', $agent) ) {
-		$browser = "Safari";
-	}
-	
-		$logCliente = new LogCliente("","Crear Cliente", "Nombre: " . $nombre . "; Apellido: " . $apellido . "; Correo: " . $correo . "; Clave: " . $clave . "; Telefono: " . $telefono . "; Direccion: " . $direccion . "; State: " . $state, date("Y-m-d"), date("H:i:s"), $user_ip, PHP_OS, $browser, $_SESSION['id']);
-		$logCliente -> insert();
 	
 	
 	$processed=true;
 	
-	header("Location: index.php");
+	header("Location: index.php?error=2");
 
 	}else{
 		$email=true;
@@ -100,11 +95,20 @@ if(isset($_POST['insert'])){
 						<div class="form-group">
 							<label>Apellido*</label>
 							<input type="text" class="form-control" name="apellido" value="<?php echo $apellido ?>" required />
+						</div>	
+						<?php if(isset($_GET['email'])){ ?>
+							<div class="form-group">
+							<label>Correo*</label>
+							<input  class="form-control"  readonly value="<?php echo $emailgoogle ?>"  required />
+							<input type="email" class="form-control" name="correo" style ="visibility: hidden" value="<?php echo $emailgoogle ?>"  required />
 						</div>
+					<?php } else {?>
 						<div class="form-group">
 							<label>Correo*</label>
-							<input type="email" class="form-control" name="correo" value="<?php echo $correo ?>"  required />
+							<h1> <?php echo $correo ?></h1>
+							<input type="email" class="form-control" name="correo" style ="visibility: hidden" value="<?php echo $correo ?>"  required />
 						</div>
+						<?php } ?>
 						<div class="form-group">
 							<label>Clave*</label>
 							<input type="password" class="form-control" name="clave" value="<?php echo $clave ?>" required />
