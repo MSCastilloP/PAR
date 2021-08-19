@@ -27,6 +27,7 @@ $webPagesNoAuthentication = array(
 $webPages = array(
 	'ui/sessionAdministrador.php',
 	'ui/administrador/insertAdministrador.php',
+	'ui/administrador/consultarVentas.php',
 	'ui/administrador/updateAdministrador.php',
 	'ui/administrador/selectAllAdministrador.php',
 	'ui/administrador/searchAdministrador.php',
@@ -140,6 +141,7 @@ if(isset($_GET['logOut'])){
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
+		
 
 		<link href="styles.css"  rel="stylesheet" >
 		
@@ -150,6 +152,7 @@ if(isset($_GET['logOut'])){
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+		<script src="https://www.gstatic.com/charts/loader.js"> </script>
 
 		<script charset="utf-8">
 			$(function () { 

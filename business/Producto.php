@@ -174,5 +174,25 @@ function cambiarEstado($estado){
 	$this -> connection -> close();
 }
 
+function consultarVentasP($fecha1,$fecha2){
+	$this -> connection -> open();
+	$this -> connection -> run($this -> productoDAO -> consultarVentasP($fecha1,$fecha2));
+	$productos = array();
+	while ($result = $this -> connection -> fetchRow()){
+		array_push($productos, array($result[0], $result[1], $result[2],$result[3]));
+	}
+	$this -> connection -> close();
+	return $productos;
+}
+function consultarVentasD($fecha1,$fecha2){
+	$this -> connection -> open();
+	$this -> connection -> run($this -> productoDAO -> consultarVentasD($fecha1,$fecha2));
+	$productos = array();
+	while ($result = $this -> connection -> fetchRow()){
+		array_push($productos,array($result[0], $result[1],$result[2],$result[3]));
+	}
+	$this -> connection -> close();
+	return $productos;
+}
 }
 ?>

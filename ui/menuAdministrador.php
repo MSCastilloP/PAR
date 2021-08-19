@@ -54,6 +54,11 @@ $administrador -> select();
 					<a class="dropdown-item" href="index.php?pid=<?php echo base64_encode("ui/logCajero/searchLogCajero.php") ?>">Log Cajero</a>
 				</div>
 			</li>
+			<li >
+				<a class="nav-link " href="index.php?pid=<?php echo base64_encode("ui/administrador/consultarVentas.php") ?>">Consultar Ventas</a>
+				
+			</li>
+
 		</ul>
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown">

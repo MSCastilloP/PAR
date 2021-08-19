@@ -85,5 +85,17 @@ class ProductoDAO{
 				where idProducto = '" . $this -> idProducto . "'";
 	}
 
+	function consultarVentasP($fecha1, $fecha2){
+		return "select sum(cantidad) as cantidad, idProducto, nombre, pr.precio
+		from pedido as p, pedidopro as pro, producto as pr 
+		where pr.idProducto = pro.producto_idProducto and p.idPedido= pro.pedido_idPedido and p.fecha>='".$fecha1."' and p.fecha<='".$fecha2."' group by idProducto";
+	}
+
+	function consultarVentasD($fecha1, $fecha2){
+		return "select sum(cantidad) as cantidad, idProducto, nombre, pr.precio
+		from domicilio as d, prodom as dom, producto as pr
+		 where pr.idProducto = dom.producto_idProducto and d.idDomicilio= dom.domicilio_idDomicilio and d.fecha>='".$fecha1."' and d.fecha<='".$fecha2."'  group by nombre";
+	}
+
 }
 ?>

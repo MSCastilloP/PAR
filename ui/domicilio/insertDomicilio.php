@@ -73,6 +73,7 @@
 		}
 		if(isset($_GET['limpiar'])){
 			$direccion = $_GET["direccion"];
+			echo $direccion;
 			$fecha= date("Y-m-d ");
 			$hora = date("H:i:s");	
 			$precio=$_GET['limpiar'];
@@ -87,9 +88,10 @@
 			if($descripcion!=""){
 			$crearDomicilio = new domicilio("",$direccion,$fecha,$hora,$precio,$descripcion,1,"",$_SESSION['id']);
 
+			
 
-
-			$crearDomicilio->insert();	
+			$crearDomicilio->insert();
+		
 			$crearDomicilio->buscarDomicilio();
 
 			$firebase = "";
